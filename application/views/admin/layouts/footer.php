@@ -60,13 +60,13 @@ if ($this->session->flashdata('login_success')) {
     <?php
 }
 
-if ($this->session->flashdata('add_act_success')) {
+if ($this->session->flashdata('act_success')) {
     ?>
     <script>
         $(document).ready(function () {
             $.gritter.add({
                 title:	'Thông báo',
-                text:	'<?php echo $this->session->flashdata('add_act_success');?>',
+                text:	'<?php echo $this->session->flashdata('act_success');?>',
                 image: 	'',
                 sticky: false
             });
@@ -75,73 +75,13 @@ if ($this->session->flashdata('add_act_success')) {
     <?php
 }
 
-if ($this->session->flashdata('add_act_fail')) {
+if ($this->session->flashdata('act_fail')) {
     ?>
     <script>
         $(document).ready(function () {
             $.gritter.add({
                 title:	'Lỗi',
-                text:	'<?php echo $this->session->flashdata('add_act_fail');?>',
-                image: 	'',
-                sticky: false
-            });
-        })
-    </script>
-    <?php
-}
-
-if ($this->session->flashdata('edit_act_success')) {
-    ?>
-    <script>
-        $(document).ready(function () {
-            $.gritter.add({
-                title:	'Thông báo',
-                text:	'<?php echo $this->session->flashdata('edit_act_success');?>',
-                image: 	'',
-                sticky: false
-            });
-        })
-    </script>
-    <?php
-}
-
-if ($this->session->flashdata('edit_act_fail')) {
-    ?>
-    <script>
-        $(document).ready(function () {
-            $.gritter.add({
-                title:	'Lỗi',
-                text:	'<?php echo $this->session->flashdata('edit_act_fail');?>',
-                image: 	'',
-                sticky: false
-            });
-        })
-    </script>
-    <?php
-}
-
-if ($this->session->flashdata('del_act_success')) {
-    ?>
-    <script>
-        $(document).ready(function () {
-            $.gritter.add({
-                title:	'Thông báo',
-                text:	'<?php echo $this->session->flashdata('del_act_success');?>',
-                image: 	'',
-                sticky: false
-            });
-        })
-    </script>
-    <?php
-}
-
-if ($this->session->flashdata('del_act_fail')) {
-    ?>
-    <script>
-        $(document).ready(function () {
-            $.gritter.add({
-                title:	'Lỗi',
-                text:	'<?php echo $this->session->flashdata('del_act_fail');?>',
+                text:	'<?php echo $this->session->flashdata('act_fail');?>',
                 image: 	'',
                 sticky: false
             });

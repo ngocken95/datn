@@ -28,103 +28,105 @@ class Account extends MY_Controller {
     public function addgroup(){
 	    $code_group=isset($_POST['code_group'])?$_POST['code_group']:'';
 	    $name_group=isset($_POST['name_group'])?$_POST['name_group']:'';
+	    if($code_group=='' || $name_group==''){
+            $this->session->set_flashdata('act_fail','Thêm không thành công');
+	        redirect('admin/account/add');
+        }
 	    $model=new Account_Model();
         $rs=$model->add_group($code_group,$name_group);
         if($rs){
-            $this->session->set_flashdata('add_act_success','Thêm thành công');
+            $this->session->set_flashdata('act_success','Thêm thành công');
             redirect('admin/account/add');
         }
         else{
-            $this->session->set_flashdata('add_act_fail','Thêm không thành công');
+            $this->session->set_flashdata('act_fail','Thêm không thành công');
             redirect('admin/account/add');
         }
     }
 
     public function check_group_exist_none(){
+        $id=isset($_POST['id'])?$_POST['id']:'';
         $code_group=isset($_POST['code_group'])?$_POST['code_group']:'';
+        $code_group_old=isset($_POST['code_old'])?$_POST['code_old']:'';
         $model=new Account_Model();
-        $model->check_code_group($code_group);
+        $model->check_code_group($id,$code_group,$code_group_old);
     }
 
-
-
+    public function check_username_exist_none(){
+        $username=isset($_POST['username'])?$_POST['username']:'';
+        $model=new Account_Model();
+        $model->check_username($username);
+    }
 
     public function addAction(){
-        $model=new Module_Model();
-        $code=isset($_POST['code'])?trim($_POST['code']):'';
-        $name=isset($_POST['name'])?trim($_POST['name']):'';
-        $location=isset($_POST['location'])?trim($_POST['location']):'';
-        $rs=$model->add($code,$name,$location);
+        $username=isset($_POST['username'])?$_POST['username']:'';
+        $password=isset($_POST['password'])?$_POST['password']:'';
+        $name=isset($_POST['name'])?$_POST['name']:'';
+        $email=isset($_POST['email'])?$_POST['email']:'';
+        $phone=isset($_POST['phone'])?$_POST['phone']:'';
+        $group=isset($_POST['group'])?$_POST['group']:'';
+        if($username=='' || $password=='' || $email=='' || $name=='' || $phone=='' || $group==''){
+            $this->session->set_flashdata('act_fail','Thêm không thành công');
+            redirect('admin/account/add');
+        }
+        $model=new Account_Model();
+        $rs=$model->add_account($username,$password,$name,$email,$phone,$group);
         if($rs){
-            $this->session->set_flashdata('add_act_success','Thêm thành công');
-            redirect('admin/module');
+            $this->session->set_flashdata('act_success','Thêm thành công');
+            redirect('admin/account');
         }
         else{
-            $this->session->set_flashdata('add_act_fail','Thêm không thành công');
-            redirect('admin/module/add');
+            $this->session->set_flashdata('act_fail','Thêm không thành công');
+            redirect('admin/account/add');
         }
     }
 
-    public function edit(){
-        $this->data['action']='edit';
-        $id=$this->input->get('id')?$this->input->get('id'):0;
-        $model=new Module_Model();
-        $rs=$model->check_exist($id);
+    public function getItemById($id=''){
+        if($id==''){
+            $id=isset($_POST['id'])?$_POST['id']:'';
+        }
+        $model=new Account_Model();
+        $model->get_item_by_id($id);
+    }
+
+    public function editGroup(){
+        $code_group=isset($_POST['code_group'])?$_POST['code_group']:'';
+        $name_group=isset($_POST['name_group'])?$_POST['name_group']:'';
+        $id=isset($_POST['id'])?$_POST['id']:'';
+        if($code_group=='' || $name_group=='' || $id==''){
+            $this->session->set_flashdata('act_fail','Sửa không thành công');
+            redirect('admin/account');
+        }
+        $model=new Account_Model();
+        $rs=$model->edit_group($id,$code_group,$name_group);
         if($rs){
-            $this->data['item']=$rs;
-            $this->load->view('admin/module/add',$this->data);
+            $this->session->set_flashdata('act_success','Sửa thành công');
+            redirect('admin/account');
         }
         else{
-            $this->session->set_flashdata('id_not_exist','Mã không tồn tại');
-            redirect('admin/module');
+            $this->session->set_flashdata('act_fail','Sửa không thành công');
+            redirect('admin/account');
         }
     }
 
-    public function editAction(){
-        $model=new Module_Model();
-        $id=isset($_POST['id'])?trim($_POST['id']):'';
-        $name=isset($_POST['name'])?trim($_POST['name']):'';
-        $location=isset($_POST['location'])?trim($_POST['location']):'';
-        $rs=$model->edit($id,$name,$location);
-        if($rs){
-            $this->session->set_flashdata('edit_act_success','Sửa thành công');
-            redirect('admin/module');
+    public function checkListByGroupId(){
+        $id_group=isset($_POST['id'])?$_POST['id']:'';
+        if($id_group==''){
+            $this->session->set_flashdata('act_fail','Xóa không thành công');
+            redirect('admin/account');
         }
-        else{
-            $this->session->set_flashdata('edit_act_fail','Sửa không thành công');
-            redirect('admin/module');
-        }
+        $model=new Account_Model();
+        $model->check_list_by_group_id($id_group);
     }
 
-    public function checkExist(){
-	    $model=new Module_Model();
-	    $code=isset($_POST['code'])?trim($_POST['code']):'';
-	    $location=isset($_POST['location'])?($_POST['location']):'';
-	    if($code=='' || $location==''){
-	        redirect('admin/login');
+    public function delById(){
+        $id=isset($_POST['id'])?$_POST['id']:'';
+        if($id==''){
+            $this->session->set_flashdata('act_fail','Xóa không thành công');
+            redirect('admin/account');
         }
-	    $rs=$model->check_code($code,$location);
-	    echo json_encode($rs);
+        $model=new Account_Model();
+        $model->delete($id);
     }
 
-    public function delete(){
-        $model=new Module_Model();
-        $id=$this->input->get('id')?$this->input->get('id'):0;
-        $rs=$rs=$model->check_exist($id);
-        if($rs){
-            $del=$model->delete($rs['id']);
-            if($del){
-                $this->session->set_flashdata('del_act_success','Xóa thành công');
-                redirect('admin/module');
-            }
-            else{
-                $this->session->set_flashdata('del_act_fail','Xóa không thành công');
-                redirect('admin/module');
-            }
-        }
-        else{
-            $this->session->set_flashdata('id_not_exist','Mã không tồn tại');
-            redirect('admin/module');
-        }
-    }
 }

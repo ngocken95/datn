@@ -11,24 +11,30 @@
                         <h5>Thêm mới</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/module/addaction';?>" name="information_account" id="information_account" novalidate="novalidate">
+                        <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/account/addaction';?>" name="information_account" id="information_account" novalidate="novalidate">
                             <div class="control-group">
                                 <label class="control-label">Tên đăng nhập</label>
                                 <div class="controls">
                                     <input type="text" name="username" id="username">
-                                    <input type="text" name="username_confirm" id="username_confirm">
+                                    <input type="hidden" name="username_confirm" id="username_confirm">
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Mật khẩu</label>
                                 <div class="controls">
-                                    <input type="text" name="password" id="password">
+                                    <input type="password" name="password" id="password">
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Nhập lại mật khẩu</label>
                                 <div class="controls">
-                                    <input type="text" name="re_password" id="re_password">
+                                    <input type="password" name="re_password" id="re_password">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Họ tên</label>
+                                <div class="controls">
+                                    <input type="text" name="name" id="name">
                                 </div>
                             </div>
                             <div class="control-group">
@@ -107,6 +113,21 @@
 <?php $this->load->view('admin/layouts/footer'); ?>
 <script>
     $(document).ready(function () {
+        $('#code_group').on('keyup',function(){
+            if($('#code_group').val()!==''){
+                $('#code_group_confirm').val($('#code_group').val());
+                $.ajax({
+                    url: "<?php echo base_url().'admin/account/check_group_exist_none';?>",
+                    type: "post",
+                    data: {'code_group':$('#code_group').val()},
+                    success:function(response){
+                        var data=JSON.parse(response);
+                        $('#code_group_confirm').val(data);
+                    }
+                });
+            }
+        });
+
         $("#add_group").validate({
             rules:{
                 code_group:{
@@ -137,16 +158,16 @@
             }
         });
 
-        $('#code_group').on('keyup',function(){
-            if($('#code_group').val()!==''){
-                $('#code_group_confirm').val($('#code_group').val());
+        $('#username').on('keyup',function(){
+            if($('#username').val()!==''){
+                $('#username_confirm').val($('#username').val());
                 $.ajax({
-                    url: "<?php echo base_url().'admin/account/check_group_exist_none';?>",
+                    url: "<?php echo base_url().'admin/account/check_username_exist_none';?>",
                     type: "post",
-                    data: {'code_group':$('#code_group').val()},
+                    data: {'username':$('#username').val()},
                     success:function(response){
                         var data=JSON.parse(response);
-                        $('#code_group_confirm').val(data);
+                        $('#username_confirm').val(data);
                     }
                 });
             }
@@ -164,6 +185,9 @@
                 re_password:{
                     required:true,
                     equalTo:"#password"
+                },
+                name:{
+                    required:true
                 },
                 email:{
                     required:true,
@@ -186,6 +210,9 @@
                     required:'Không được để trống',
                     equalTo:"Mật khẩu không trùng nhau"
                 },
+                name:{
+                    required:'Tên người dùng không được để trống'
+                },
                 email:{
                     required:"Không được để trống",
                     email:"Không đúng định dạng"
@@ -206,20 +233,6 @@
             }
         });
 
-        $('#code_group').on('keyup',function(){
-            if($('#code_group').val()!==''){
-                $('#code_group_confirm').val($('#code_group').val());
-                $.ajax({
-                    url: "<?php echo base_url().'admin/account/check_group_exist_none';?>",
-                    type: "post",
-                    data: {'code_group':$('#code_group').val()},
-                    success:function(response){
-                        var data=JSON.parse(response);
-                        $('#code_group_confirm').val(data);
-                    }
-                });
-            }
-        });
     });
 
 </script>

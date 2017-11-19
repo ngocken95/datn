@@ -22,8 +22,6 @@
                                 <th>Tên người dùng</th>
                                 <th>Email</th>
                                 <th>Điện thoại</th>
-                                <th>Ảnh đại diện</th>
-                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -38,4 +36,195 @@
             </div>
         </div>
     </div>
+
+    <div id="editGroup" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sửa nhóm</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/account/editgroup';?>" name="edit_group" id="edit_group" novalidate="novalidate">
+                        <div class="control-group">
+                            <label class="control-label">Mã nhóm</label>
+                            <div class="controls">
+                                <input type="text" name="code_group" id="code_group">
+                                <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="code_group_confirm" id="code_group_confirm">
+                                <input type="hidden" name="code_group_old" id="code_group_old">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Tên nhóm</label>
+                            <div class="controls">
+                                <input type="text" name="name_group" id="name_group">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input type="submit" value="Sửa" class="btn btn-success">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="delGroup" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Thông báo</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 style="display: inline-block">Bạn có muốn xóa nhóm <h3 style="display: inline-block;padding-left: 5px" id="name_del"></h3></h4>
+                    <br>
+                    <input type="hidden" name="id_del" id="id_del">
+                    <button type="button" class="btn btn-warning btn-small" name="yes">Có</button>
+                    <button type="button" class="btn btn-info btn-small" name="no" data-dismiss="modal">Không</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="Alert" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Thông báo</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 id="alert_text"></h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 <?php $this->load->view('admin/layouts/footer'); ?>
+
+<script>
+    $(document).ready(function(){
+        $('button[name=btnEdit]').click(function(){
+            var id=$(this).prev().val();
+            $.ajax({
+                url: "<?php echo base_url().'admin/account/getItemById';?>",
+                type: "post",
+                data: {'id':id},
+                success:function(response){
+                    var data=JSON.parse(response);
+                    $('#id').val(data.id);
+                    $('#code_group').val(data.username);
+                    $('#code_group_confirm').val(data.username);
+                    $('#code_group_old').val(data.username);
+                    $('#name_group').val(data.name);
+                }
+            });
+        });
+
+        $('button[name=btnDel]').click(function(){
+            var id=$(this).prev().prev().val();
+            $.ajax({
+                url: "<?php echo base_url().'admin/account/getItemById';?>",
+                type: "post",
+                data: {'id':id},
+                success:function(response){
+                    var data=JSON.parse(response);
+                    $('#id_del').val(data.id);
+                    $('#name_del').html(data.name);
+                }
+            });
+        });
+
+        $('button[name=yes]').click(function(){
+            var id=$(this).prev().val();
+            $.ajax({
+                url:"<?php echo base_url().'admin/account/checkListByGroupId';?>",
+                type: "post",
+                data: {'id':id},
+                success:function(response){
+                    var data=JSON.parse(response);
+                    console.log(data);
+                    if(!data){
+                        $('#alert_text').html('Không thể xóa nhóm này. <br> Có tài khoản đang tồn tại trong nhóm!');
+                        $('#delGroup').modal('hide');
+                        $('#Alert').modal('show');
+                    }
+                    else{
+                        $.ajax({
+                            url:"<?php echo base_url().'admin/account/delById';?>",
+                            type: "post",
+                            data: {'id':data},
+                            success:function(response) {
+                                $('#alert_text').html('Xóa thành công!');
+                                $('#delGroup').modal('hide');
+                                $('#Alert').modal('show');
+                                setTimeout(function(){
+                                    window.location.reload(1);
+                                }, 1000);
+                            }
+                        });
+                    }
+                }
+            })
+        })
+
+        $("#edit_group").validate({
+            rules:{
+                code_group:{
+                    required:true,
+                    equalTo:"#code_group_confirm"
+                },
+                name_group:{
+                    required:true
+                }
+            },
+            messages:{
+                code_group:{
+                    required:'Không được để trống',
+                    equalTo:"Mã đã tồn tại"
+                },
+                name_group:{
+                    required:'Không được để trống'
+                }
+            },
+            errorClass: "help-inline",
+            errorElement: "span",
+            highlight:function(element, errorClass, validClass) {
+                $(element).parents('.control-group').addClass('error');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+        });
+
+        $('#code_group').on('keyup',function(){
+            if($('#code_group').val()!==''){
+                $('#code_group_confirm').val($('#code_group').val());
+                $.ajax({
+                    url: "<?php echo base_url().'admin/account/check_group_exist_none';?>",
+                    type: "post",
+                    data: {'id':$('#id').val(),'code_group':$('#code_group').val(),'code_old':$('#code_group_old').val()},
+                    success:function(response){
+                        var data=JSON.parse(response);
+                        $('#code_group_confirm').val(data);
+                    }
+                });
+            }
+        });
+
+    })
+</script>

@@ -17,7 +17,11 @@ if ( ! function_exists('showTable'))
 
                 if($parent_id==0){
                     echo '<tr>';
-                    echo '<td style="background: #27a9e3 !important;font-size:15px;text-transform: uppercase;" colspan="8">' . $item['name'].'<td>';
+                    echo '<td style="background: #27a9e3 !important;font-size:15px;text-transform: uppercase;" colspan="7">' . $item['name'].'</td>';
+                    echo '<td><input type="hidden" value="'.$item['id'].'">
+                            <button type="button" class="btn btn-info btn-small" name="btnEdit" data-toggle="modal" data-target="#editGroup">Sửa</button>
+                            <button type="button" class="btn btn-info btn-small" name="btnDel" data-toggle="modal" data-target="#delGroup">Xóa</button>
+                            </td>';
                     echo '</tr>';
                 }
                 else{
@@ -30,7 +34,10 @@ if ( ! function_exists('showTable'))
                     echo '<td>' . $item['name'].'</td>';
                     echo '<td>' . $item['email'].'</td>';
                     echo '<td>' . $item['phone'].'</td>';
-                    echo '<td>' . $item['img'].'</td>';
+                    echo '<td>
+                            <a href="'.base_url().'admin/account/edit/'.$item['id'].'"><i class="icon icon-pencil"></i></a>
+                            <a href="'.base_url().'admin/account/delete/'.$item['id'].'"><i class="icon icon-trash"></i></a>
+                            </td>';
                     echo '</tr>';
                 }
 

@@ -27,8 +27,19 @@ class Account_Model extends CI_Model {
         }
     }
 
-    public function check_code_group($code){
-        $sql='SELECT * FROM account WHERE username=\''.$code.'\' and group_account_id=0 and is_show=1';
+    public function check_code_group($id,$code,$code_old){
+        if($id==''){
+            $cond=' and username=\''.$code.'\'';
+        }
+        else{
+            if($code==$code_old){
+                $cond=' and username=\''.$code.'\' and id<>'.$id;
+            }
+            else{
+                $cond=' and username=\''.$code.'\'';
+            }
+        }
+        $sql='SELECT * FROM account WHERE group_account_id=0 and is_show=1'.$cond;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             echo json_encode($code.true);
@@ -52,58 +63,72 @@ class Account_Model extends CI_Model {
         return $add;
     }
 
-
-
-    public function check_code($code,$location){
-        $sql='SELECT * FROM module WHERE is_show=1 and code=\''.$code.'\' and location=\''.$location.'\'';
+    public function check_username($username){
+        $sql='SELECT * FROM account WHERE username=\''.$username.'\' and group_account_id<>0 and is_show=1';
         $rs=$this->db->query($sql);
-        if($rs->num_rows()>0){
-            return null;
+        if($rs->num_rows()==1){
+            echo json_encode($username.true);
         }
         else{
-            return $code;
+            echo json_encode($username.false);
         }
     }
 
-    public function add($code,$name,$location){
+    public function add_account($username,$password,$name,$email,$phone,$group){
         $data=array(
-            'code'=>$code,
+            'username'=>$username,
+            'password'=>$password,
             'name'=>$name,
-            'location'=>$location,
+            'email'=>$email,
+            'phone'=>$phone,
+            'group_account_id'=>$group,
+            'created'=>getdate()[0],
             'is_show'=>1
         );
         $this->db->trans_start();
-        $add=$this->db->insert('module',$data);
+        $add=$this->db->insert('account',$data);
         $this->db->trans_complete();
         return $add;
     }
 
-    public function check_exist($id){
-        $sql='SELECT * FROM module WHERE is_show=1 and id='.$id;
+    public function get_item_by_id($id){
+        $sql='SELECT * FROM account WHERE is_show=1 and id='.$id;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
-            return $rs->row_array();
+            echo json_encode($rs->row_array());
+            return true;
         }
         else{
-            return null;
+            echo json_encode($id);
+            return false;
         }
     }
 
-    public function edit($id,$name,$location){
+    public function edit_group($id,$code_group,$name_group){
         $data=array(
-            'name'=>$name,
-            'location'=>$location,
-            'is_show'=>1
+            'username'=>$code_group,
+            'name'=>$name_group,
+            'created'=>getdate()[0]
         );
         $this->db->trans_start();
-        $update=$this->db->update('module', $data, "id = $id");
+        $update=$this->db->update('account', $data, "id = $id");
         $this->db->trans_complete();
-        return $update;
+    }
+
+    public function check_list_by_group_id($group_id){
+        $sql='SELECT * FROM account WHERE group_account_id='.$group_id;
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            echo json_encode(false);
+        }
+        else{
+            echo json_encode($group_id);
+        }
     }
 
     public function delete($id){
         $this->db->trans_start();
-        $delete=$this->db->delete('module', "id = $id");
+        $delete=$this->db->delete('account', "id = $id");
         $this->db->trans_complete();
         return $delete;
     }
