@@ -32,6 +32,8 @@
 </div>
 
 <div id="search">
-    <input type="text" placeholder="Search here..."/>
-    <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+    <form action="">
+    <input type="text" name="find" placeholder="Tìm kiếm..." value="<?php echo isset($find)?$find:'';?>"/>
+    <button type="submit" class="tip-bottom" title="Tìm kiếm"><i class="icon-search icon-white"></i></button>
+    </form>
 </div>

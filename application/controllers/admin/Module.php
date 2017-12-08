@@ -13,91 +13,90 @@ class Module extends MY_Controller {
     public function index(){
         $this->data['action']='list';
         $model=new Module_Model();
-        $this->data['items']=$model->get_list();
-	    $this->load->view('admin/module/list',$this->data);
-	}
+        $find=isset($_GET['find'])?$_GET['find']:'';
+        $this->data['items']=$model->get_list($find);
+        $this->load->view('admin/module/list',$this->data);
+    }
 
-	public function add(){
+    public function add(){
         $this->data['action']='add';
         $this->load->view('admin/module/add',$this->data);
     }
 
-    public function addAction(){
+    public function check_code_exist_none(){
+        $code=isset($_POST['code'])?$_POST['code']:'';
+        $location=isset($_POST['location'])?$_POST['location']:'';
         $model=new Module_Model();
-        $code=isset($_POST['code'])?trim($_POST['code']):'';
-        $name=isset($_POST['name'])?trim($_POST['name']):'';
-        $location=isset($_POST['location'])?trim($_POST['location']):'';
-        $rs=$model->add($code,$name,$location);
+        $rs=$model->check_code($code,$location);
+        echo json_encode($rs);
+    }
+
+    public function addAction(){
+        $code=isset($_POST['code'])?$_POST['code']:'';
+        $name=isset($_POST['name'])?$_POST['name']:'';
+        $location=isset($_POST['location'])?$_POST['location']:'';
+        if($code=='' || $name==''){
+            $this->session->set_flashdata('act_fail','Thêm không thành công');
+            redirect('admin/module/add');
+        }
+        $model=new Module_Model();
+        $rs=$model->add_module($code,$name,$location);
         if($rs){
-            $this->session->set_flashdata('add_act_success','Thêm thành công');
+            $controller='<?php 
+defined(\'BASEPATH\') OR exit(\'No direct script access allowed\');
+    
+class '.ucfirst($code).' extends MY_Controller {
+
+    private $data=array();
+    
+     function __construct(){
+        $this->data=parent::__construct();
+        $this->load->model(\'admin/'.$code.'_model\');
+    }
+    
+    public function index(){
+      
+    }
+}
+            ';
+            $model='<?php
+defined(\'BASEPATH\') OR exit(\'No direct script access allowed\');
+
+class '.ucfirst($code).'_Model extends CI_Model {
+
+}
+            ';
+            if($location=='backend'){
+                $ctrl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/controllers/admin/'.ucfirst($code).'.php','w');
+                $mdl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/models/admin/'.ucfirst($code.'_Model').'.php','w');
+                $view=$_SERVER['DOCUMENT_ROOT'].'/final/application/views/admin/'.$code;
+            }
+            else{
+                $ctrl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/controllers/'.ucfirst($code.'_Adm').'.php','w');
+                $mdl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/models/'.ucfirst($code.'_Model').'.php','w');
+                $view=$_SERVER['DOCUMENT_ROOT'].'/final/application/views/page/'.$code;
+            }
+
+            fwrite($ctrl, $controller);
+            fwrite($mdl, $model);
+            mkdir($view);
+            $this->session->set_flashdata('act_success','Thêm thành công');
             redirect('admin/module');
         }
         else{
-            $this->session->set_flashdata('add_act_fail','Thêm không thành công');
+            $this->session->set_flashdata('act_fail','Thêm không thành công');
             redirect('admin/module/add');
         }
     }
 
-    public function edit(){
-        $this->data['action']='edit';
-        $id=$this->input->get('id')?$this->input->get('id'):0;
-        $model=new Module_Model();
-        $rs=$model->check_exist($id);
-        if($rs){
-            $this->data['item']=$rs;
-            $this->load->view('admin/module/add',$this->data);
-        }
-        else{
-            $this->session->set_flashdata('id_not_exist','Mã không tồn tại');
+    public function delById(){
+        $id=isset($_POST['id'])?$_POST['id']:'';
+        if($id==''){
+            $this->session->set_flashdata('act_fail','Xóa không thành công');
             redirect('admin/module');
         }
+        $model=new Account_Model();
+        $model->delete($id);
     }
 
-    public function editAction(){
-        $model=new Module_Model();
-        $id=isset($_POST['id'])?trim($_POST['id']):'';
-        $name=isset($_POST['name'])?trim($_POST['name']):'';
-        $location=isset($_POST['location'])?trim($_POST['location']):'';
-        $rs=$model->edit($id,$name,$location);
-        if($rs){
-            $this->session->set_flashdata('edit_act_success','Sửa thành công');
-            redirect('admin/module');
-        }
-        else{
-            $this->session->set_flashdata('edit_act_fail','Sửa không thành công');
-            redirect('admin/module');
-        }
-    }
-
-    public function checkExist(){
-	    $model=new Module_Model();
-	    $code=isset($_POST['code'])?trim($_POST['code']):'';
-	    $location=isset($_POST['location'])?($_POST['location']):'';
-	    if($code=='' || $location==''){
-	        redirect('admin/login');
-        }
-	    $rs=$model->check_code($code,$location);
-	    echo json_encode($rs);
-    }
-
-    public function delete(){
-        $model=new Module_Model();
-        $id=$this->input->get('id')?$this->input->get('id'):0;
-        $rs=$rs=$model->check_exist($id);
-        if($rs){
-            $del=$model->delete($rs['id']);
-            if($del){
-                $this->session->set_flashdata('del_act_success','Xóa thành công');
-                redirect('admin/module');
-            }
-            else{
-                $this->session->set_flashdata('del_act_fail','Xóa không thành công');
-                redirect('admin/module');
-            }
-        }
-        else{
-            $this->session->set_flashdata('id_not_exist','Mã không tồn tại');
-            redirect('admin/module');
-        }
-    }
 }

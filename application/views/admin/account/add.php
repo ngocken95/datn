@@ -15,7 +15,7 @@
                             <div class="control-group">
                                 <label class="control-label">Tên đăng nhập</label>
                                 <div class="controls">
-                                    <input type="text" name="username" id="username">
+                                    <input type="text" name="username" id="username" autofocus>
                                     <input type="hidden" name="username_confirm" id="username_confirm">
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
                     equalTo:"Mật khẩu không trùng nhau"
                 },
                 name:{
-                    required:'Tên người dùng không được để trống'
+                    required:'Không được để trống'
                 },
                 email:{
                     required:"Không được để trống",

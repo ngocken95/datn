@@ -7,14 +7,14 @@ class Account extends MY_Controller {
 
     function __construct(){
         $this->data=parent::__construct();
-        $this->load->helper('dequy');
         $this->load->model('admin/account_model');
     }
 
     public function index(){
         $this->data['action']='list';
         $model=new Account_Model();
-        $this->data['items']=$model->get_list();
+        $find=isset($_GET['find'])?$_GET['find']:'';
+        $this->data['items']=$model->get_list($find);
 	    $this->load->view('admin/account/list',$this->data);
 	}
 
@@ -23,6 +23,30 @@ class Account extends MY_Controller {
         $model=new Account_Model();
         $this->data['group']=$model->get_group();
         $this->load->view('admin/account/add',$this->data);
+    }
+
+    public function edit(){
+        $this->data['action']='edit';
+        $model=new Account_Model();
+        $id=$this->uri->segment(4);
+        if($id==''){
+            $this->data['heading']='Lỗi';
+            $this->data['message']='Không tìm thấy dữ liệu';
+            $this->load->view('errors/html/error_404',$this->data);
+        }
+        else{
+            $this->data['group']=$model->get_group();
+            $item=$model->get_item_by_id($id);
+            if($item){
+                $this->data['item']=$item;
+                $this->load->view('admin/account/edit',$this->data);
+            }
+            else{
+                $this->data['heading']='Lỗi';
+                $this->data['message']='Không tìm thấy dữ liệu';
+                $this->load->view('errors/html/error_404',$this->data);
+            }
+        }
     }
 
     public function addgroup(){
@@ -49,13 +73,15 @@ class Account extends MY_Controller {
         $code_group=isset($_POST['code_group'])?$_POST['code_group']:'';
         $code_group_old=isset($_POST['code_old'])?$_POST['code_old']:'';
         $model=new Account_Model();
-        $model->check_code_group($id,$code_group,$code_group_old);
+        $rs=$model->check_code_group($id,$code_group,$code_group_old);
+        echo json_encode($rs);
     }
 
     public function check_username_exist_none(){
         $username=isset($_POST['username'])?$_POST['username']:'';
         $model=new Account_Model();
-        $model->check_username($username);
+        $rs=$model->check_username($username);
+        echo json_encode($rs);
     }
 
     public function addAction(){
@@ -81,12 +107,41 @@ class Account extends MY_Controller {
         }
     }
 
+    public function editAction(){
+        $id=isset($_POST['id'])?$_POST['id']:'';
+        $username=isset($_POST['username'])?$_POST['username']:'';
+        $password=isset($_POST['password'])?$_POST['password']:'';
+        $name=isset($_POST['name'])?$_POST['name']:'';
+        $email=isset($_POST['email'])?$_POST['email']:'';
+        $phone=isset($_POST['phone'])?$_POST['phone']:'';
+        $group=isset($_POST['group'])?$_POST['group']:'';
+        if($id=='' || $username=='' || $password=='' || $email=='' || $name=='' || $phone=='' || $group==''){
+            $this->session->set_flashdata('act_fail','Sửa không thành công');
+            redirect('admin/account/edit/'.$id);
+        }
+        $model=new Account_Model();
+        $rs=$model->edit_account($id,$username,$password,$name,$email,$phone,$group);
+        if($rs){
+            if($this->session->userdata['user']['id']==$id){
+                $item=$model->get_item_by_id($id);
+                $this->session->set_userdata('user',$item);
+            }
+            $this->session->set_flashdata('act_success','Sửa thành công');
+            redirect('admin/account');
+        }
+        else{
+            $this->session->set_flashdata('act_fail','Sửa không thành công');
+            redirect('admin/account/edit/'.$id);
+        }
+    }
+
     public function getItemById($id=''){
         if($id==''){
             $id=isset($_POST['id'])?$_POST['id']:'';
         }
         $model=new Account_Model();
-        $model->get_item_by_id($id);
+        $rs=$model->get_item_by_id($id);
+        echo json_encode($rs);
     }
 
     public function editGroup(){
@@ -116,17 +171,26 @@ class Account extends MY_Controller {
             redirect('admin/account');
         }
         $model=new Account_Model();
-        $model->check_list_by_group_id($id_group);
+        $rs=$model->check_list_by_group_id($id_group);
+        echo json_encode($rs);
     }
 
-    public function delById(){
-        $id=isset($_POST['id'])?$_POST['id']:'';
-        if($id==''){
-            $this->session->set_flashdata('act_fail','Xóa không thành công');
-            redirect('admin/account');
-        }
+    public function delete(){
+        echo $this->uri->segment(4);
+        $id=$this->uri->segment(4);
         $model=new Account_Model();
-        $model->delete($id);
+        $rs=$model->get_item_by_id($id);
+        if($rs){
+            $check=$model->check_delete($id);
+            if($check){
+                $model->delete($id);
+                $this->session->set_flashdata('act_success','Xóa thành công');
+                redirect('admin/account');
+            }
+            else{
+                $this->session->set_flashdata('act_fail','Xóa không thành công');
+                redirect('admin/account');
+            }
+        }
     }
-
 }

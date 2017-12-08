@@ -3,10 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Module_Model extends CI_Model {
 
-    public function get_list(){
-        $this->db->select('*');
-        $this->db->where('is_show','1');
-        $sql='SELECT * FROM module WHERE is_show=1';
+    public function get_list($find){
+        $cond='is_show=1';
+        if($find!=''){
+            $cond.=' and (code like \'%'.$find.'%\' or name_vi like \'%'.$find.'%\')';
+        }
+        $sql='SELECT * FROM module WHERE '.$cond.' ORDER BY location';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->result_array();
@@ -17,56 +19,52 @@ class Module_Model extends CI_Model {
     }
 
     public function check_code($code,$location){
-        $sql='SELECT * FROM module WHERE is_show=1 and code=\''.$code.'\' and location=\''.$location.'\'';
+        $sql='SELECT * FROM module WHERE code=\''.$code.'\' and location=\''.$location.'\' and is_show=1';
         $rs=$this->db->query($sql);
-        if($rs->num_rows()>0){
-            return null;
+        if($rs->num_rows()==1){
+            return$code.true;
         }
         else{
-            return $code;
+            return$code.false;
         }
     }
 
-    public function add($code,$name,$location){
+    public function add_module($code,$name,$location){
         $data=array(
             'code'=>$code,
             'name'=>$name,
+            'name_vi'=>convert_vi_to_en($name),
             'location'=>$location,
+            'created'=>getdate()[0],
             'is_show'=>1
         );
         $this->db->trans_start();
-        $add=$this->db->insert('module',$data);
+        $this->db->insert('module',$data);
+        $id=$this->db->insert_id();
+        //thêm cho tài khoản admin
+        $data_adm=array(
+            'account_id'=>1,
+            'module_id'=>$id,
+            'view_act'=>1,
+            'delete_act'=>1,
+            'add_act'=>1,
+            'edit_act'=>1,
+            'is_show'=>1
+        );
+        $this->db->insert('access',$data_adm);
         $this->db->trans_complete();
-        return $add;
+        return $id;
     }
 
-    public function check_exist($id){
+    public function get_item_by_id($id){
         $sql='SELECT * FROM module WHERE is_show=1 and id='.$id;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->row_array();
         }
         else{
-            return null;
+            return false;
         }
     }
 
-    public function edit($id,$name,$location){
-        $data=array(
-            'name'=>$name,
-            'location'=>$location,
-            'is_show'=>1
-        );
-        $this->db->trans_start();
-        $update=$this->db->update('module', $data, "id = $id");
-        $this->db->trans_complete();
-        return $update;
-    }
-
-    public function delete($id){
-        $this->db->trans_start();
-        $delete=$this->db->delete('module', "id = $id");
-        $this->db->trans_complete();
-        return $delete;
-    }
 }

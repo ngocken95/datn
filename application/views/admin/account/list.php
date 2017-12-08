@@ -9,13 +9,19 @@
                 <div class="widget-box">
                     <div class="widget-title"><span class="icon"> <i class="icon-th"></i> </span>
                         <h5>Danh sách</h5>
-                        <a class="label label-info" href="<?php echo base_url(); ?>admin/account/add">Thêm mới</a>
+                        <?php
+                            if($act['add_act']==1){
+                                ?>
+                                <a class="label label-info" href="<?php echo base_url('admin/account/add'); ?>">Thêm mới</a>
+                                <?php
+                            }
+                        ?>
                     </div>
                     <div class="widget-content">
                         <table class="table table-bordered table-striped with-check">
                             <thead>
                             <tr>
-                                <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox"/></th>
+<!--                                <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox"/></th>-->
                                 <th>#</th>
                                 <th>Tên tài khoản</th>
                                 <th>Mật khẩu</th>
@@ -26,7 +32,7 @@
                             </thead>
                             <tbody>
                             <?php if ($items) {
-                                showTableAccount($items);
+                                showTableAccount($items,$act);
                             }
                             ?>
                             </tbody>
@@ -45,7 +51,7 @@
                     <h4 class="modal-title">Sửa nhóm</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/account/editgroup';?>" name="edit_group" id="edit_group" novalidate="novalidate">
+                    <form class="form-horizontal" method="post" action="<?php echo base_url('admin/account/editgroup');?>" name="edit_group" id="edit_group" novalidate="novalidate">
                         <div class="control-group">
                             <label class="control-label">Mã nhóm</label>
                             <div class="controls">
@@ -74,45 +80,6 @@
         </div>
     </div>
 
-    <div id="delGroup" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Thông báo</h4>
-                </div>
-                <div class="modal-body">
-                    <h4 style="display: inline-block">Bạn có muốn xóa nhóm <h3 style="display: inline-block;padding-left: 5px" id="name_del"></h3></h4>
-                    <br>
-                    <input type="hidden" name="id_del" id="id_del">
-                    <button type="button" class="btn btn-warning btn-small" name="yes">Có</button>
-                    <button type="button" class="btn btn-info btn-small" name="no" data-dismiss="modal">Không</button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="Alert" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Thông báo</h4>
-                </div>
-                <div class="modal-body">
-                    <h4 id="alert_text"></h4>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
 <?php $this->load->view('admin/layouts/footer'); ?>
 
 <script>
@@ -133,53 +100,6 @@
                 }
             });
         });
-
-        $('button[name=btnDel]').click(function(){
-            var id=$(this).prev().prev().val();
-            $.ajax({
-                url: "<?php echo base_url().'admin/account/getItemById';?>",
-                type: "post",
-                data: {'id':id},
-                success:function(response){
-                    var data=JSON.parse(response);
-                    $('#id_del').val(data.id);
-                    $('#name_del').html(data.name);
-                }
-            });
-        });
-
-        $('button[name=yes]').click(function(){
-            var id=$(this).prev().val();
-            $.ajax({
-                url:"<?php echo base_url().'admin/account/checkListByGroupId';?>",
-                type: "post",
-                data: {'id':id},
-                success:function(response){
-                    var data=JSON.parse(response);
-                    console.log(data);
-                    if(!data){
-                        $('#alert_text').html('Không thể xóa nhóm này. <br> Có tài khoản đang tồn tại trong nhóm!');
-                        $('#delGroup').modal('hide');
-                        $('#Alert').modal('show');
-                    }
-                    else{
-                        $.ajax({
-                            url:"<?php echo base_url().'admin/account/delById';?>",
-                            type: "post",
-                            data: {'id':data},
-                            success:function(response) {
-                                $('#alert_text').html('Xóa thành công!');
-                                $('#delGroup').modal('hide');
-                                $('#Alert').modal('show');
-                                setTimeout(function(){
-                                    window.location.reload(1);
-                                }, 1000);
-                            }
-                        });
-                    }
-                }
-            })
-        })
 
         $("#edit_group").validate({
             rules:{

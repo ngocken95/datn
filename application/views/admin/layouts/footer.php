@@ -15,7 +15,8 @@
 
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.validate.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.form_validation.js"></script>
-
+<script src="<?php echo base_url(); ?>template/backend/ckeditor/ckeditor.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/ckeditor/adapters/jquery.js"></script>
 
 
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.dataTables.min.js"></script>
@@ -36,12 +37,14 @@
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.wizard.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/excanvas.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.popover.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/js/bootstrap-datepicker.js"></script>
 
 <script>
     $(document).ready(function(){
         $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 
         $('select').select2();
+
     })
 </script>
 <?php

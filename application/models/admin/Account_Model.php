@@ -3,10 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Account_Model extends CI_Model {
 
-    public function get_list(){
-        $this->db->select('*');
-        $this->db->where('is_show','1');
-        $sql='SELECT * FROM account WHERE is_show=1 ORDER BY group_account_id ASC';
+    public function get_list($find){
+        $cond='is_show=1';
+        if($find!=''){
+            $cond.=' and (username like \'%'.$find.'%\' or name_vi like \'%'.$find.'%\')';
+        }
+        $sql='SELECT * FROM account WHERE '.$cond.'
+        UNION
+        SELECT * FROM account WHERE group_account_id=0 
+        ORDER BY group_account_id ASC 
+        ';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->result_array();
@@ -42,10 +48,10 @@ class Account_Model extends CI_Model {
         $sql='SELECT * FROM account WHERE group_account_id=0 and is_show=1'.$cond;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
-            echo json_encode($code.true);
+            return $code.true;
         }
         else{
-            echo json_encode($code.false);
+            return $code.false;
         }
     }
 
@@ -53,12 +59,14 @@ class Account_Model extends CI_Model {
         $data=array(
             'username'=>$code,
             'name'=>$name,
+            'name_vi'=>convert_vi_to_en($name),
             'group_account_id'=>0,
             'created'=>getdate()[0],
             'is_show'=>1
         );
         $this->db->trans_start();
-        $add=$this->db->insert('account',$data);
+        $this->db->insert('account',$data);
+        $add=$this->db->insert_id();
         $this->db->trans_complete();
         return $add;
     }
@@ -67,10 +75,10 @@ class Account_Model extends CI_Model {
         $sql='SELECT * FROM account WHERE username=\''.$username.'\' and group_account_id<>0 and is_show=1';
         $rs=$this->db->query($sql);
         if($rs->num_rows()==1){
-            echo json_encode($username.true);
+            return $username.true;
         }
         else{
-            echo json_encode($username.false);
+            return $username.false;
         }
     }
 
@@ -79,6 +87,7 @@ class Account_Model extends CI_Model {
             'username'=>$username,
             'password'=>$password,
             'name'=>$name,
+            'name_vi'=>convert_vi_to_en($name),
             'email'=>$email,
             'phone'=>$phone,
             'group_account_id'=>$group,
@@ -86,7 +95,26 @@ class Account_Model extends CI_Model {
             'is_show'=>1
         );
         $this->db->trans_start();
-        $add=$this->db->insert('account',$data);
+        $this->db->insert('account',$data);
+        $add=$this->db->insert_id();
+        $this->db->trans_complete();
+        return $add;
+    }
+
+    public function edit_account($id,$username,$password,$name,$email,$phone,$group){
+        $data=array(
+            'username'=>$username,
+            'password'=>$password,
+            'name'=>$name,
+            'name_vi'=>convert_vi_to_en($name),
+            'email'=>$email,
+            'phone'=>$phone,
+            'group_account_id'=>$group,
+            'created'=>getdate()[0],
+            'is_show'=>1
+        );
+        $this->db->trans_start();
+        $add=$this->db->update('account',$data,"id=".$id);
         $this->db->trans_complete();
         return $add;
     }
@@ -95,11 +123,9 @@ class Account_Model extends CI_Model {
         $sql='SELECT * FROM account WHERE is_show=1 and id='.$id;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
-            echo json_encode($rs->row_array());
-            return true;
+            return $rs->row_array();
         }
         else{
-            echo json_encode($id);
             return false;
         }
     }
@@ -108,28 +134,56 @@ class Account_Model extends CI_Model {
         $data=array(
             'username'=>$code_group,
             'name'=>$name_group,
+            'name_vi'=>convert_vi_to_en($name_group),
             'created'=>getdate()[0]
         );
         $this->db->trans_start();
         $update=$this->db->update('account', $data, "id = $id");
         $this->db->trans_complete();
+        return $update;
     }
 
     public function check_list_by_group_id($group_id){
         $sql='SELECT * FROM account WHERE group_account_id='.$group_id;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
-            echo json_encode(false);
+            return false;
         }
         else{
-            echo json_encode($group_id);
+            return $group_id;
+        }
+    }
+
+    public function check_delete($id){
+        //kiểm tra có phải là nhóm tài khoản không?
+        $sql='SELECT * FROM account WHERE group_account_id=0 and is_show=1 and id='.$id;
+        $rs_check_group=$this->db->query($sql);
+        if($rs_check_group->num_rows()>0){
+            //nếu là nhóm tài khoản kiểm tra xem có tài khoản nào trong nhóm không?
+            $sql_check_account='SELECT * FROM account WHERE group_account_id='.$id.' and is_show=1';
+            $rs_check_account=$this->db->query($sql_check_account);
+            if($rs_check_account->num_rows()>0){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        else{
+            //không phải nhóm tài khoản thì kiểm tra có đơn hàng nào đang được xử lý bằng tài khoản này không?
+            return true;
         }
     }
 
     public function delete($id){
+        $data=array(
+            'is_show'=>0,
+            'created'=>getdate()[0]
+        );
         $this->db->trans_start();
-        $delete=$this->db->delete('account', "id = $id");
+        $delete=$this->db->update('account', $data, "id = $id");
         $this->db->trans_complete();
         return $delete;
     }
+
 }

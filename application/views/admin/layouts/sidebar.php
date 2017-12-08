@@ -1,37 +1,62 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
     <ul>
         <li class="<?php echo ($active['code'] == 'homepage') ? 'active' : ''; ?>"><a
-                href="<?php echo base_url(); ?>admin/homepage"><i class="icon icon-home"></i>
+                    href="<?php echo base_url('admin/homepage'); ?>"><i class="icon icon-home"></i>
                 <span>Bảng điều khiển</span></a></li>
-        <li><a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a></li>
-        <li><a href="widgets.html"><i class="icon icon-inbox"></i> <span>Widgets</span></a></li>
-        <li><a href="tables.html"><i class="icon icon-th"></i> <span>Tables</span></a></li>
-        <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
-        <li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span
-                    class="label label-important">3</span></a>
+        <li class="submenu <?php echo ($active['code'] == 'module' || $active['code'] == 'account' || $active['code'] == 'access') ? 'active' : ''; ?>">
+            <a href="#"><i
+                        class="icon icon-info-sign"></i> <span>Hệ thống</span></a>
             <ul>
-                <li><a href="form-common.html">Basic Form</a></li>
-                <li><a href="form-validation.html">Form with Validation</a></li>
-                <li><a href="form-wizard.html">Form with Wizard</a></li>
+                <?php
+                foreach ($access as $act) {
+                    if ($act['code'] == 'module' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'module') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/module'); ?>">Module</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'account' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'account') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/account'); ?>">Tài khoản</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'access' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'access') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/access'); ?>">Quyền truy cập</a></li>
+                        <?php
+                    }
+                }
+                ?>
             </ul>
         </li>
-        <li><a href="buttons.html"><i class="icon icon-tint"></i> <span>Buttons &amp; icons</span></a></li>
-        <li><a href="interface.html"><i class="icon icon-pencil"></i> <span>Eelements</span></a></li>
-        <li class="submenu"><a href="#"><i class="icon icon-file"></i> <span>Addons</span> <span
-                    class="label label-important">5</span></a>
+        <li class="submenu <?php echo ($active['code'] == 'product' || $active['code'] == 'color' || $active['code'] == 'importwh') ? 'active' : ''; ?>">
+            <a href="#"><i
+                        class="icon icon-truck"></i> <span>Kho</span></a>
             <ul>
-                <li><a href="index2.html">Dashboard2</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="invoice.html">Invoice</a></li>
-                <li><a href="chat.html">Chat option</a></li>
-            </ul>
-        </li>
-        <li class="submenu <?php echo ($active['code'] == 'module' || $active['code'] == 'account') ? 'active' : ''; ?>"><a href="#"><i
-                    class="icon icon-info-sign"></i> <span>Hệ thống</span></a>
-            <ul>
-                <li class="<?php echo ($active['code'] == 'module') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>admin/module">Module</a></li>
-                <li class="<?php echo ($active['code'] == 'account') ? 'active' : ''; ?>"><a href="<?php echo base_url(); ?>admin/account">Tài khoản</a></li>
+                <?php
+                foreach ($access as $act) {
+                    if ($act['code'] == 'product' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'product') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/product'); ?>">Sản phẩm</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'color' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'color') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/color'); ?>">Màu son</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'importwh' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'importwh') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/importwh'); ?>">Nhập kho</a></li>
+                        <?php
+                    }
+                }
+                ?>
             </ul>
         </li>
     </ul>
