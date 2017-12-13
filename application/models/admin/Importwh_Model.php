@@ -15,7 +15,16 @@ class Importwh_Model extends CI_Model {
     }
 
     public function get_list($find){
-        $sql='SELECT * FROM bill WHERE is_show=1 and code LIKE \'%'.$find.'%\' and type=\'IMPORT\'';
+        if($find!=''){
+            $cond='and code LIKE \'%'.$find.'%\'';
+        }
+        else{
+            $cond='';
+        }
+        $sql='SELECT bill.*,account.name as name
+FROM bill 
+JOIN account ON bill.account_id=account.id
+WHERE bill.is_show=1 and account.is_show=1 and type=\'IMPORT\''.$cond;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->result_array();
@@ -90,6 +99,47 @@ class Importwh_Model extends CI_Model {
         $this->db->update('bill',$data_bill,' id='.$id);
         $this->db->trans_complete();
         return $add;
+    }
+
+    public function check_id($id){
+        $sql='SELECT * FROM bill WHERE is_show=1 and id='.$id;
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function get_detail_bill_by_id($id_bill){
+        $sql='SELECT detail_bill.*,product.name as name,color.name as color 
+FROM detail_bill
+ JOIN product_color ON detail_bill.product_color_id=product_color.id
+ JOIN product ON product.id=product_color.product_id
+ JOIN color ON color.id=product_color.color_id
+ WHERE detail_bill.is_show=1 and product_color.is_show=1 and product.is_show=1 and color.is_show=1 and bill_id='.$id_bill;
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return $rs->result_array();
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function get_bill_by_id($id){
+        $sql='SELECT bill.*,account.name as name 
+FROM bill
+ JOIN account ON bill.account_id=account.id
+ WHERE bill.is_show=1 and account.is_show=1 and bill.id='.$id;
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return $rs->row_array();
+        }
+        else{
+            return null;
+        }
     }
 }
             

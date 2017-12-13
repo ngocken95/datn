@@ -42,7 +42,15 @@ class Module extends MY_Controller {
         $model=new Module_Model();
         $rs=$model->add_module($code,$name,$location);
         if($rs){
-            $controller='<?php 
+            $model='<?php
+defined(\'BASEPATH\') OR exit(\'No direct script access allowed\');
+
+class '.ucfirst($code).'_Model extends CI_Model {
+
+}
+            ';
+            if($location=='backend'){
+                $controller='<?php 
 defined(\'BASEPATH\') OR exit(\'No direct script access allowed\');
     
 class '.ucfirst($code).' extends MY_Controller {
@@ -59,22 +67,31 @@ class '.ucfirst($code).' extends MY_Controller {
     }
 }
             ';
-            $model='<?php
-defined(\'BASEPATH\') OR exit(\'No direct script access allowed\');
-
-class '.ucfirst($code).'_Model extends CI_Model {
-
-}
-            ';
-            if($location=='backend'){
                 $ctrl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/controllers/admin/'.ucfirst($code).'.php','w');
                 $mdl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/models/admin/'.ucfirst($code.'_Model').'.php','w');
                 $view=$_SERVER['DOCUMENT_ROOT'].'/final/application/views/admin/'.$code;
             }
             else{
-                $ctrl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/controllers/'.ucfirst($code.'_Adm').'.php','w');
-                $mdl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/models/'.ucfirst($code.'_Model').'.php','w');
-                $view=$_SERVER['DOCUMENT_ROOT'].'/final/application/views/page/'.$code;
+                $controller='<?php 
+defined(\'BASEPATH\') OR exit(\'No direct script access allowed\');
+    
+class '.ucfirst($code).' extends MY_Controller {
+
+    private $data=array();
+    
+     function __construct(){
+        $this->data=parent::__construct();
+        $this->load->model(\'site/'.$code.'_model\');
+    }
+    
+    public function index(){
+      
+    }
+}
+            ';
+                $ctrl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/controllers/site/'.ucfirst($code).'.php','w');
+                $mdl =@fopen($_SERVER['DOCUMENT_ROOT'].'/final/application/models/site/'.ucfirst($code.'_Model').'.php','w');
+                $view=$_SERVER['DOCUMENT_ROOT'].'/final/application/views/site/'.$code;
             }
 
             fwrite($ctrl, $controller);
@@ -87,16 +104,6 @@ class '.ucfirst($code).'_Model extends CI_Model {
             $this->session->set_flashdata('act_fail','Thêm không thành công');
             redirect('admin/module/add');
         }
-    }
-
-    public function delById(){
-        $id=isset($_POST['id'])?$_POST['id']:'';
-        if($id==''){
-            $this->session->set_flashdata('act_fail','Xóa không thành công');
-            redirect('admin/module');
-        }
-        $model=new Account_Model();
-        $model->delete($id);
     }
 
 }

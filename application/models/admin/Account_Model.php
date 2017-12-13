@@ -175,6 +175,17 @@ class Account_Model extends CI_Model {
         }
     }
 
+    public function check_id($id){
+        $sql='SELECT * FROM account WHERE is_show=1 and id='.$id;
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public function delete($id){
         $data=array(
             'is_show'=>0,

@@ -17,7 +17,7 @@
                                     <div class="controls">
                                         <select name="account" id="account" class="span4">
                                         <?php
-                                        showSelectAccount($list_account);
+                                        showSelectAccount($list_account,$acc);
                                         ?>
                                         </select>
                                     </div>
@@ -29,7 +29,6 @@
                             <table class="table table-bordered table-striped with-check">
                                 <thead>
                                 <tr>
-    <!--                                <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox"/></th>-->
                                     <th>#</th>
                                     <th>Tên module</th>
                                     <th>Location</th>
@@ -37,6 +36,7 @@
                                     <th>Sửa</th>
                                     <th>Xóa</th>
                                     <th>Thêm</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -52,6 +52,7 @@
                                             <td style="text-align: center"><input type="checkbox" name="edit[]" value="<?php echo $item['id'];?>" <?php echo ($item['edit']==1)?'checked':'';?>></td>
                                             <td style="text-align: center"><input type="checkbox" name="delete[]" value="<?php echo $item['id'];?>" <?php echo ($item['delete']==1)?'checked':'';?>></td>
                                             <td style="text-align: center"><input type="checkbox" name="add[]" value="<?php echo $item['id'];?>" <?php echo ($item['add']==1)?'checked':'';?>></td>
+                                            <td style="text-align: center"><input type="checkbox" name="all"></td>
                                         </tr>
                                         <?php
                                         $stt++;
@@ -74,6 +75,20 @@
         $('#account').on('change',function(){
             console.log($('#account').val());
             $('#information_access').submit();
+        });
+
+        $('input[name=all]').change(function(){
+            var checkedStatus = this.checked;
+            var checkbox = $(this).parents('tr').find('input:checkbox');
+            checkbox.each(function() {
+                this.checked = checkedStatus;
+                if (checkedStatus == this.checked) {
+                    $(this).closest('.checker > span').removeClass('checked');
+                }
+                if (this.checked) {
+                    $(this).closest('.checker > span').addClass('checked');
+                }
+            });
         })
     })
 </script>

@@ -13,4 +13,11 @@ class Login_Model extends CI_Model {
             return false;
         }
     }
+
+    public function update_status($id,$stt){
+        $data=array('status'=>$stt);
+        $this->db->trans_start();
+        $this->db->update('account',$data,"id=".$id);
+        $this->db->trans_complete();
+    }
 }

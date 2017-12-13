@@ -25,6 +25,7 @@
                         <tbody>
                         <?php
                         $stt=1;
+                        if(!empty($items)){
                         foreach ($items as $item){
                             ?>
                             <tr>
@@ -36,6 +37,7 @@
                             </tr>
                             <?php
                             $stt++;
+                        }
                         }
                         ?>
                         </tbody>

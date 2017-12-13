@@ -270,6 +270,10 @@
 
         $("#information_product").validate({
             rules:{
+                code_product:{
+                    required:true,
+                    equalTo:"#code_product_confirm"
+                },
                 name_product:{
                     required:true
                 },
@@ -278,6 +282,10 @@
                 }
             },
             messages:{
+                code_product:{
+                    required:"Không được để trống",
+                    equalTo:"Mã đã tồn tại"
+                },
                 name_product:{
                     required:'Không được để trống'
                 },

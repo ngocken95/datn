@@ -1,9 +1,10 @@
 <div class="row-fluid">
-    <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a>
+    <div id="footer" class="span12"> 2017 &copy; Đồ án tốt nghiệp
     </div>
 </div>
-<?php echo $this->session->flashdata('login_success'); ?>
-
+<?php
+print_r($this->session->userdata('user'));
+?>
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.ui.custom.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/bootstrap.min.js"></script>
@@ -42,9 +43,7 @@
 <script>
     $(document).ready(function(){
         $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-
         $('select').select2();
-
     })
 </script>
 <?php

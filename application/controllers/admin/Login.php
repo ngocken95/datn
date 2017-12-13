@@ -25,6 +25,7 @@ class Login extends MY_Controller {
         $model=new Login_Model();
         $rs=$model->checkLogin($user,$pass);
         if($rs){
+            $model->update_status($rs['id'],1);
             $this->session->set_userdata('user',$rs);
             $this->session->set_flashdata('login_success','Đăng nhập thành công');
             redirect('admin/homepage');
@@ -36,6 +37,8 @@ class Login extends MY_Controller {
     }
 
     public function logout(){
+	    $model=new Login_Model();
+        $model->update_status($this->session->userdata('user')['id'],0);
 	    $this->session->unset_userdata('user');
 	    redirect('admin/login');
     }

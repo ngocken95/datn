@@ -29,7 +29,8 @@ class Account extends MY_Controller {
         $this->data['action']='edit';
         $model=new Account_Model();
         $id=$this->uri->segment(4);
-        if($id==''){
+        $check=$model->check_id($id);
+        if(!$check){
             $this->data['heading']='Lỗi';
             $this->data['message']='Không tìm thấy dữ liệu';
             $this->load->view('errors/html/error_404',$this->data);
@@ -176,10 +177,9 @@ class Account extends MY_Controller {
     }
 
     public function delete(){
-        echo $this->uri->segment(4);
         $id=$this->uri->segment(4);
         $model=new Account_Model();
-        $rs=$model->get_item_by_id($id);
+        $rs=$model->check_id($id);
         if($rs){
             $check=$model->check_delete($id);
             if($check){

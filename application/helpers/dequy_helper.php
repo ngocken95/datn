@@ -60,9 +60,9 @@ if (!function_exists('showTableAccount')) {
 }
 
 if (!function_exists('showSelectAccount')) {
-    function showSelectAccount($categories, $parent_id = 0, $char = '')
+    function showSelectAccount($categories,$check_account=1, $parent_id = 0, $char = '')
     {
-        $check = isset($_POST['account']) ? $_POST['account'] : 1;
+        $check = isset($_POST['account']) ? $_POST['account'] :$check_account;
         foreach ($categories as $key => $item) {
             if ($item['group_account_id'] == $parent_id) {
                 if ($parent_id == 0) {
@@ -74,7 +74,7 @@ if (!function_exists('showSelectAccount')) {
                     echo $char . $item['name'];
                     echo '</option>';
                     unset($categories[$key]);
-                    showSelectAccount($categories, $item['id'], $char . '|---');
+                    showSelectAccount($categories,$check_account, $item['id'], $char . '|---');
                 } else {
                     if ($item['id'] == $check) {
                         echo '<option value="' . $item['id'] . '" selected=\'selected\'>';
@@ -84,7 +84,7 @@ if (!function_exists('showSelectAccount')) {
                     echo $char . $item['username'] . ' - ' . $item['name'];
                     echo '</option>';
                     unset($categories[$key]);
-                    showSelectAccount($categories, $item['id'], $char . '|---');
+                    showSelectAccount($categories,$check_account, $item['id'], $char . '|---');
                 }
             }
         }

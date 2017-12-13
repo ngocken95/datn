@@ -15,27 +15,28 @@
                     <table class="table table-bordered table-striped with-check">
                         <thead>
                         <tr>
-                            <!--                            <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox"/></th>-->
                             <th>#</th>
-                            <th>Mã</th>
-                            <th>Tên màu</th>
-                            <th>Màu</th>
+                            <th>Mã phiếu</th>
+                            <th>Ngày nhập</th>
+                            <th>Tổng tiền</th>
+                            <th>Người nhập</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
                         if (!empty($items)) {
-                            foreach ($items as $key => $item) {
+                            $stt=1;
+                            foreach ($items as $item) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $key + 1; ?></td>
-                                    <td><?php echo $item['code']; ?></td>
+                                    <td><?php echo $stt; ?></td>
+                                    <td><a href="<?php echo base_url('admin/importwh/detail/'.$item['id']);?>"><?php echo $item['code']; ?></a></td>
+                                    <td><?php echo date('d/m/Y',$item['created']); ?></td>
+                                    <td><?php echo number_format($item['total']); ?></td>
                                     <td><?php echo $item['name']; ?></td>
-                                    <td>
-                                        <span style="background-color: #<?php echo $item['code']; ?>;width: 100px;height: 20px;display: inline-block"></span>
-                                    </td>
                                 </tr>
                                 <?php
+                                $stt++;
                             }
                         }
                         ?>

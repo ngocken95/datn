@@ -52,3 +52,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = '';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+$route['homepage']='site/homepage';
+$route['homepage/like/(:num)']='site/homepage/like/$1';
+
+$route['intro']='site/intro';
+$route['news']='site/news';
+$route['news/detail/(:num)']='site/news/detail/$1';
+
+$route['category']='site/category';
+$route['category/type/(:num)']='site/category/type';
+$route['category/brand/(:num)']='site/category/brand';
+
+$route['register']='site/register';
+$route['register/register']='site/register/register';
+$route['register/check_user']='site/register/check_user';
+
+$route['login']='site/login';
+$route['login/login']='site/login/login';
+$route['login/logout']='site/login/logout';
+
+$route['library']='site/library';
+$route['library/video']='site/library/video';
+$route['library/image']='site/library/image';
+
+$route['cart']='site/cart';
+$route['cart/additem']='site/cart/additem';
+$route['cart/updatecart']='site/cart/updatecart';
+$route['cart/delete/(:any)']='site/cart/delete/$1';
+
+$route['contact']='site/contact';
+$route['contact/add']='site/contact/add';
+
+$route['search']='site/search';
+
+$route['product_detail/(:num)']='site/product_detail';
+//=====================================
+$route['admin']='admin/login';

@@ -48,7 +48,7 @@ class Access_Model extends CI_Model {
         return $list;
     }
 
-    public function save($account,$view,$edit,$delete,$add,$restore){
+    public function save($account,$view,$edit,$delete,$add){
         $this->db->trans_start();
         $this->db->delete('access', "account_id = $account");
         $sql_module='SELECT * FROM module WHERE is_show=1';

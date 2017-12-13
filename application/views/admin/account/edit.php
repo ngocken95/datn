@@ -57,7 +57,7 @@
                                         if(count($group)>0){
                                             foreach ($group as $key=>$val){
                                                 ?>
-                                                <option value="<?php echo $val['id'];?>"><?php echo $val['name'];?></option>
+                                                <option value="<?php echo $val['id'];?>" <?php echo ($item['group_account_id']==$val['id'])?'selected':'';?>><?php echo $val['name'];?></option>
                                                 <?php
                                             }
                                         }
@@ -97,9 +97,6 @@
                                                 <input type="submit" value="Thêm mới" class="btn btn-success">
                                             </div>
                                         </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
                                     </div>
                                 </div>
 

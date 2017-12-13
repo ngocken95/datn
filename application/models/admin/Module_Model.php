@@ -41,17 +41,30 @@ class Module_Model extends CI_Model {
         $this->db->trans_start();
         $this->db->insert('module',$data);
         $id=$this->db->insert_id();
-        //thêm cho tài khoản admin
-        $data_adm=array(
-            'account_id'=>1,
-            'module_id'=>$id,
-            'view_act'=>1,
-            'delete_act'=>1,
-            'add_act'=>1,
-            'edit_act'=>1,
-            'is_show'=>1
-        );
-        $this->db->insert('access',$data_adm);
+        if($location=='backend'){
+            //thêm cho tài khoản admin
+            $data_adm=array(
+                'account_id'=>1,
+                'module_id'=>$id,
+                'view_act'=>1,
+                'delete_act'=>1,
+                'add_act'=>1,
+                'edit_act'=>1,
+                'is_show'=>1
+            );
+            $this->db->insert('access',$data_adm);
+            //thêm cho nhóm admin
+            $data_group_adm=array(
+                'account_id'=>3,
+                'module_id'=>$id,
+                'view_act'=>1,
+                'delete_act'=>1,
+                'add_act'=>1,
+                'edit_act'=>1,
+                'is_show'=>1
+            );
+            $this->db->insert('access',$data_group_adm);
+        }
         $this->db->trans_complete();
         return $id;
     }

@@ -33,14 +33,14 @@ class Importwh extends MY_Controller {
         $product=isset($_POST['product'])?$_POST['product']:'';
         $quantity=isset($_POST['quantity'])?$_POST['quantity']:'';
         $price=isset($_POST['price'])?$_POST['price']:'';
-        $d=new DateTime($date);
+        $d=DateTime::createFromFormat('d/m/Y',$date);
         $timestamp=$d->getTimestamp();
         if($code=='' || $timestamp=='' || empty($product) || empty($quantity) || empty($price)){
             $this->session->set_flashdata('act_fail','Thêm không thành công');
             redirect('admin/importwh/add');
         }
         $model=new Importwh_Model();
-        $rs=$model->add_bill($code,$date);
+        $rs=$model->add_bill($code,$timestamp);
         if($rs){
             $rs_detail=$model->add_detail_bill($rs,$product,$quantity,$price);
             if($rs_detail){
@@ -55,6 +55,22 @@ class Importwh extends MY_Controller {
         else{
             $this->session->set_flashdata('act_fail','Thêm không thành công');
             redirect('admin/color/add');
+        }
+    }
+
+    public function detail(){
+        $id=$this->uri->segment(4);
+        $model=new Importwh_Model();
+        $check=$model->check_id($id);
+        if($check){
+            $this->data['bill']=$model->get_bill_by_id($id);
+            $this->data['items']=$model->get_detail_bill_by_id($id);
+            $this->load->view('admin/importwh/detail',$this->data);
+        }
+        else{
+            $this->data['heading']='Lỗi';
+            $this->data['message']='Không tìm thấy dữ liệu';
+            $this->load->view('errors/html/error_404',$this->data);
         }
     }
 }
