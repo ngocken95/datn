@@ -80,6 +80,7 @@ $route['library/image']='site/library/image';
 $route['cart']='site/cart';
 $route['cart/additem']='site/cart/additem';
 $route['cart/updatecart']='site/cart/updatecart';
+$route['cart/addorder']='site/cart/addorder';
 $route['cart/delete/(:any)']='site/cart/delete/$1';
 
 $route['contact']='site/contact';

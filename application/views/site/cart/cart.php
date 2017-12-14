@@ -57,27 +57,30 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <h3>Thông tin đặt hàng</h3>
                     <h4>Vui lòng để lại thông tin để chúng tôi giao hàng!</h4>
-                    <form class="custom-form form-horizontal" role="form" action="http://mantan081.webmantan.com/saveOrderProduct_addOrder" method="post" name="infoUser" onsubmit="checkInfoUser();">
-                        <input type="hidden" name="userId" value="">
-                        <input type="hidden" name="totalMoney" value="0">
-                        <div class="form-group">
-                            <label for="fullname" class="col-sm-2 control-label" >Tên đầy đủ<span class="form-require"> (*)</span></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="fullname" required name="fullname" placeholder="Tên đầy đủ" value="">
+                    <form class="custom-form form-horizontal" role="form" action="<?php echo base_url('cart/addorder');?>" method="post" name="infoUser">
+                        <?php if(!$this->session->userdata('user')['id']){
+                            ?>
+                            <div class="form-group">
+                                <label for="fullname" class="col-sm-2 control-label" >Tên đầy đủ<span class="form-require"> (*)</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" required name="name" placeholder="Tên đầy đủ" value="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">Email</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="">
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone" class="col-sm-2 control-label">Điện thoại<span class="form-require"> (*)</span></label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" required="" id="phone" name="phone" placeholder="Điện thoại" value="">
+                            <div class="form-group">
+                                <label for="phone" class="col-sm-2 control-label">Điện thoại<span class="form-require"> (*)</span></label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" required="" id="phone" name="phone" placeholder="Điện thoại" value="">
+                                </div>
                             </div>
-                        </div>
+                            <?php
+                        }
+                        ?>
                         <div class="form-group">
                             <label for="address" class="col-sm-2 control-label">Địa chỉ<span class="form-require"> (*)</span></label>
                             <div class="col-sm-10">
@@ -92,7 +95,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class=" btn btn-danger custom-btn">Gửi đơn hàng</button>
+                                <?php
+                                if($this->cart->total_items()>0){
+                                    ?>
+                                    <button type="submit" class=" btn btn-danger custom-btn">Gửi đơn hàng</button>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </form>
@@ -107,6 +116,14 @@ if($this->session->flashdata('update_success')){
         alert('<?php echo $this->session->flashdata('update_success');?>');
     </script>
     <?php
+}
+
+if($this->session->flashdata('order_success')){
+    ?>
+    <script>
+        alert('<?php echo $this->session->flashdata('order_success');?>');
+    </script>
+<?php
 }
 ?>
 <?php $this->load->view('site/layouts/footer'); ?>

@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row header-top">
             <div class="col-md-3 logo">
-                <a href="index.php"><img src="<?php echo base_url('template/frontend/images/logo.png') ;?>"
+                <a href="<?php echo base_url('homepage');?>"><img src="<?php echo base_url('template/frontend/images/logo.png') ;?>"
                                          class="img-responsive"
                                          title="" alt=""></a>
             </div>
@@ -42,7 +42,7 @@
                     <ul class="list-inline">
                         <li><a href="<?php echo base_url('register');?>"><i class="fa fa-plus" aria-hidden="true"></i> Đăng
                                 kí</a></li>
-                        <li><a href="index.php?c=account&a=login"><i class="fa fa-key" aria-hidden="true"></i> Đăng nhập</a>
+                        <li><a href="<?php echo base_url('login');?>"><i class="fa fa-key" aria-hidden="true"></i> Đăng nhập</a>
                         </li>
                     </ul>
                     <?php

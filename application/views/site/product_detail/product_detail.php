@@ -61,7 +61,7 @@
                             </a>
                             <?php
                             foreach ($item['img'] as $img) {
-                                if($img!=''){
+                                if ($img != '') {
                                     ?>
                                     <a style="padding-right: 10px" data-zoom-id="Zoom-1"
                                        href="<?php echo base_url('upload/' . $img); ?>"
@@ -108,29 +108,33 @@
                                 <span
                                         class="text_color"><?php echo $item['product_view']; ?></span></p>
                         </div>
-                        <form action="<?php echo base_url('cart/additem');?>" name="information_cart" id="information_cart" method="POST">
+                        <form action="<?php echo base_url('cart/additem'); ?>" name="information_cart"
+                              id="information_cart" method="POST">
                             <input type="hidden" name="color_pick" id="color_pick" value="0">
-                            <input type="hidden" name="price" id="price" value="<?php echo $item['price'] * (100 - $item['discount']);?>">
+                            <input type="hidden" name="price" id="price"
+                                   value="<?php echo $item['price'] * (100 - $item['discount']); ?>">
                             <div class="p_code">
                                 <h3>Danh sách màu</h3>
                                 <div id="list_color">
                                     <?php
-                                    foreach ($list_color as $color) {
-                                        ?>
-                                        <label class="<?php echo $color['color']; ?>">
-                                            <input type="radio" name="color" value="<?php echo $color['id']; ?>">
-                                            <div class="button"><span></span></div>
-                                        </label>
-                                        <style>
-                                            .<?php echo $color['color'];?> .button span {
-                                                background: #<?php echo $color['color_code'];?>;
-                                            }
+                                    if (!empty($list_color)) {
+                                        foreach ($list_color as $color) {
+                                            ?>
+                                            <label class="<?php echo $color['color']; ?>">
+                                                <input type="radio" name="color" value="<?php echo $color['id']; ?>">
+                                                <div class="button"><span></span></div>
+                                            </label>
+                                            <style>
+                                                .<?php echo $color['color'];?> .button span {
+                                                    background: #<?php echo $color['color_code'];?>;
+                                                }
 
-                                            .<?php echo $color['color'];?> input:checked ~ .button {
-                                                background: #<?php echo $color['color_code'];?>;
-                                            }
-                                        </style>
-                                        <?php
+                                                .<?php echo $color['color'];?> input:checked ~ .button {
+                                                    background: #<?php echo $color['color_code'];?>;
+                                                }
+                                            </style>
+                                            <?php
+                                        }
                                     }
                                     ?>
                                 </div>
@@ -142,16 +146,18 @@
                             <div class="p_set">
                                 <button type="button" id="add_cart" class="p_set1">Đặt mua</button>
                                 <?php
-                                $check=false;
-                                if(!empty($this->session->userdata('product')['like'])){
-                                    foreach ($this->session->userdata('product')['like'] as $like){
-                                        if($like==$item['id']){
-                                            $check=true;
+                                $check = false;
+                                if (!empty($this->session->userdata('product')['like'])) {
+                                    foreach ($this->session->userdata('product')['like'] as $like) {
+                                        if ($like == $item['id']) {
+                                            $check = true;
                                         }
                                     }
                                 }
                                 ?>
-                                <a href="<?php echo base_url('homepage/like/'.$item['id']);?>" class="p_set2 "><i class="fa <?php echo $check?'fa-heart':'fa-heart-o';?>" aria-hidden="true"></i>Yêu thích</a>
+                                <a href="<?php echo base_url('homepage/like/' . $item['id']); ?>" class="p_set2 "><i
+                                            class="fa <?php echo $check ? 'fa-heart' : 'fa-heart-o'; ?>"
+                                            aria-hidden="true"></i>Yêu thích</a>
                             </div>
                         </form>
                     </div>
@@ -162,8 +168,8 @@
                     <h2>Mô tả sản phẩm</h2>
                 </div>
                 <div class="col-sm-12">
-                    <p><strong><?php echo $item['name'];?></strong> <br>
-                    <p><?php echo $item['description'];?></p>
+                    <p><strong><?php echo $item['name']; ?></strong> <br>
+                    <p><?php echo $item['description']; ?></p>
                 </div>
             </div>
 
@@ -173,22 +179,25 @@
                 ?>
                 <h3>Sản phẩm tương tự</h3>
                 <?php
-                if(!empty($list_product)){
-                    foreach ($list_product as $product){
+                if (!empty($list_product)) {
+                    foreach ($list_product as $product) {
                         ?>
                         <div class=" c_item">
                             <div class="product-item">
                                 <div class="product-image">
                                     <figure>
-                                        <a href="<?php echo base_url('product_detail/'.$product['id']);?>"> <img src="<?php echo base_url('upload/'.$product['img_cover']);?>" alt="" title=""
-                                                                          class="img-responsive"></a>
+                                        <a href="<?php echo base_url('product_detail/' . $product['id']); ?>"> <img
+                                                    src="<?php echo base_url('upload/' . $product['img_cover']); ?>"
+                                                    alt="" title=""
+                                                    class="img-responsive"></a>
                                     </figure>
                                 </div>
                                 <div class="product-name">
-                                    <a href="<?php echo base_url('product_detail/'.$product['id']);?>"><h4><?php echo $product['name'];?></h4></a>
+                                    <a href="<?php echo base_url('product_detail/' . $product['id']); ?>">
+                                        <h4><?php echo $product['name']; ?></h4></a>
                                 </div>
                                 <div class="product-price">
-                                    <div class="text-color new-price"><?php echo number_format($product['price']*(100-$product['discount']));?></div>
+                                    <div class="text-color new-price"><?php echo number_format($product['price'] * (100 - $product['discount'])); ?></div>
                                 </div>
                             </div>
                         </div>
@@ -206,22 +215,22 @@
     $(document).ready(function () {
         $('input[type=radio]').click(function () {
             $('#color_pick').val($(this).val());
-            $('#list_color').css('border','none');
+            $('#list_color').css('border', 'none');
         })
 
-        $('#add_cart').click(function(){
+        $('#add_cart').click(function () {
             var color = $('#color_pick').val();
-            var quantity=$('#quantity').val();
-            if(color==0){
+            var quantity = $('#quantity').val();
+            if (color == 0) {
                 alert('Chọn màu');
-                $('#list_color').css('border','1px solid green');
+                $('#list_color').css('border', '1px solid green');
             }
-            else{
-                if(quantity<=0){
+            else {
+                if (quantity <= 0) {
                     alert('Số lượng phải là số dương');
                     $('#quantity').focus();
                 }
-                else{
+                else {
                     $('#information_cart').submit();
                 }
 

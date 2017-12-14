@@ -35,7 +35,8 @@ class Login extends MY_Controller {
     }
 
     public function logout(){
-
+        $this->session->unset_userdata('user');
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }
             

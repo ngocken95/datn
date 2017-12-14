@@ -31,7 +31,23 @@
                 ?>
             </ul>
         </li>
-        <li class="submenu <?php echo ($active['code'] == 'product' || $active['code'] == 'color' || $active['code'] == 'importwh') ? 'active' : ''; ?>">
+        <li class="submenu <?php echo ($active['code'] == 'order') ? 'active' : ''; ?>">
+            <a href="#"><i
+                        class="icon icon-truck"></i> <span>Cửa hàng</span></a>
+            <ul>
+                <?php
+                foreach ($access as $act) {
+                    if ($act['code'] == 'order' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'order') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/order'); ?>">Đơn hàng</a></li>
+                        <?php
+                    }
+                }
+                ?>
+            </ul>
+        </li>
+        <li class="submenu <?php echo ($active['code'] == 'product' || $active['code'] == 'color' || $active['code'] == 'importwh' || $active['code'] == 'exportwh') ? 'active' : ''; ?>">
             <a href="#"><i
                         class="icon icon-truck"></i> <span>Kho</span></a>
             <ul>
@@ -53,6 +69,12 @@
                         ?>
                         <li class="<?php echo ($active['code'] == 'importwh') ? 'active' : ''; ?>"><a
                                     href="<?php echo base_url('admin/importwh'); ?>">Nhập kho</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'exportwh' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'exportwh') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/exportwh'); ?>">Xuất kho</a></li>
                         <?php
                     }
                 }

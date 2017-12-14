@@ -68,5 +68,44 @@ class Cart extends MY_Controller {
             return false;
         }
     }
+
+    public function addorder(){
+        $model=new Cart_Model();
+        if(!$this->session->userdata('user')['id']){
+            $name=isset($_POST['name'])?$_POST['name']:'';
+            $email=isset($_POST['email'])?$_POST['email']:'';
+            $phone=isset($_POST['phone'])?$_POST['phone']:'';
+        }
+        else{
+            $name=$this->session->userdata('user')['name'];
+            $email=$this->session->userdata('user')['email'];
+            $phone=$this->session->userdata('user')['phone'];
+        }
+        $address=isset($_POST['address'])?$_POST['address']:'';
+        $note=isset($_POST['note'])?$_POST['note']:'';
+        $code='DH-'.($model->get_code_order()+1);
+        $total=$this->cart->total();
+        if($name=='' || $email=='' || $phone=='' || $address=='' || $note==''){
+            redirect('cart');
+        }
+        echo $name;
+        $rs=$model->add_order($name,$email,$phone,$address,$note,$code,$total);
+        if($rs){
+            $detail=$model->add_detail($rs);
+            if($detail){
+                $this->session->set_flashdata('order_success','Gửi đơn hàng thành công');
+                $this->cart->destroy();
+                redirect('cart');
+            }
+            else{
+                $this->session->set_flashdata('order_success','Lỗi trong việc gửi đơn hàng');
+                redirect('cart');
+            }
+        }
+        else{
+            $this->session->set_flashdata('order_success','Lỗi trong việc gửi đơn hàng');
+            redirect('cart');
+        }
+    }
 }
             

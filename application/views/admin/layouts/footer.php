@@ -2,9 +2,6 @@
     <div id="footer" class="span12"> 2017 &copy; Đồ án tốt nghiệp
     </div>
 </div>
-<?php
-print_r($this->session->userdata('user'));
-?>
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.ui.custom.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/bootstrap.min.js"></script>

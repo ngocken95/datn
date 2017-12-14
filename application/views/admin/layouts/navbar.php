@@ -14,7 +14,7 @@
         </li>
         <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages"
                                                    class="dropdown-toggle"><i class="icon icon-envelope"></i> <span
-                    class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+                    class="text">Thông báo</span><b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
                 <li class="divider"></li>
@@ -25,7 +25,6 @@
                 <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
             </ul>
         </li>
-        <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
         <li class=""><a title="" href="<?php echo base_url(); ?>admin/login/logout"><i class="icon icon-share-alt"></i>
                 <span class="text">Đăng xuất</span></a></li>
     </ul>
