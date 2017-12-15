@@ -13,9 +13,9 @@ class Homepage extends MY_Controller {
     public function index()
     {
         $model=new Homepage_Model();
-        $this->data['list_product_buy']=$model->get_list_product('product_buy',3);
-        $this->data['list_product_new']=$model->get_list_product('created',3);
-        $this->data['list_product_like']=$model->get_list_product('product_like',3);
+        $this->data['list_product_buy']=$model->get_list_product('product_buy',4);
+        $this->data['list_product_new']=$model->get_list_product('created',4);
+        $this->data['list_product_like']=$model->get_list_product('product_like',4);
         $this->load->view('site/homepage/homepage',$this->data);
     }
 

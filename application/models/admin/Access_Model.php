@@ -15,7 +15,7 @@ class Access_Model extends CI_Model {
     }
 
     public function get_access_by_account($find,$account){
-        $sql_module='SELECT * FROM module WHERE is_show=1 and name_vi like \'%'.convert_vi_to_en($find).'%\'';
+        $sql_module='SELECT * FROM module WHERE is_show=1 and location=\'backend\' and name_vi like \'%'.convert_vi_to_en($find).'%\'';
         $list_module=$this->db->query($sql_module)->result_array();
         $sql_access='SELECT * FROM access WHERE is_show=1 and account_id='.$account;
         if($this->db->query($sql_access)->num_rows()>0){
@@ -51,7 +51,7 @@ class Access_Model extends CI_Model {
     public function save($account,$view,$edit,$delete,$add){
         $this->db->trans_start();
         $this->db->delete('access', "account_id = $account");
-        $sql_module='SELECT * FROM module WHERE is_show=1';
+        $sql_module='SELECT * FROM module WHERE is_show=1 and location=\'backend\'';
         $module=$this->db->query($sql_module)->result_array();
         foreach ($module as $mod){
             $data[$mod['id']]=array(
@@ -95,6 +95,17 @@ class Access_Model extends CI_Model {
         foreach ($data as $item) {
             $this->db->insert('access',$item);
         }
+        $sql='SELECT * FROM account WHERE id='.$account;
+        $rs_log=$this->db->query($sql);
+        $acc_name=$rs_log->row_array()['username'];
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'CHANGE',
+            'is_show'=>1,
+            'content'=>'Thay đổi quyền thao tác<br>Tài khoản bị thay đổi: '.$acc_name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
     }
 }

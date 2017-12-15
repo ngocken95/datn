@@ -36,7 +36,7 @@ class Importwh extends MY_Controller {
         $d=DateTime::createFromFormat('d/m/Y',$date);
         $timestamp=$d->getTimestamp();
         if($code=='' || $timestamp=='' || empty($product) || empty($quantity) || empty($price)){
-            $this->session->set_flashdata('act_fail','Thêm không thành công');
+            $this->session->set_flashdata('act_fail','Thêm phiếu nhập không thành công');
             redirect('admin/importwh/add');
         }
         $model=new Importwh_Model();
@@ -44,16 +44,16 @@ class Importwh extends MY_Controller {
         if($rs){
             $rs_detail=$model->add_detail_bill($rs,$product,$quantity,$price);
             if($rs_detail){
-                $this->session->set_flashdata('act_success','Thêm thành công');
+                $this->session->set_flashdata('act_success','Thêm phiếu nhập thành công');
                 redirect('admin/importwh');
             }
             else{
-                $this->session->set_flashdata('act_fail','Thêm không thành công');
+                $this->session->set_flashdata('act_fail','Thêm phiếu nhập không thành công');
                 redirect('admin/color/add');
             }
         }
         else{
-            $this->session->set_flashdata('act_fail','Thêm không thành công');
+            $this->session->set_flashdata('act_fail','Thêm phiếu nhập không thành công');
             redirect('admin/color/add');
         }
     }

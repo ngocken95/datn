@@ -11,18 +11,33 @@
                         <h5>Sửa</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="<?php echo base_url('admin/product/editaction');?>" name="information_product" id="information_product" novalidate="novalidate">
+                        <form class="form-horizontal" method="post" enctype="multipart/form-data" enctype="multipart/form-data" action="<?php echo base_url('admin/product/editaction');?>" name="information_product" id="information_product" novalidate="novalidate">
                             <div class="control-group">
                                 <label class="control-label">Mã sản phẩm</label>
                                 <div class="controls">
                                     <input type="text" name="code" id="code" value="<?php echo $item['code'];?>" readonly>
                                     <input type="hidden" name="id" id="id" value="<?php echo $item['id'];?>">
+                                    <input type="hidden" name="img_cover_old" id="img_cover_old" value="<?php echo $item['img_cover'];?>">
+                                    <input type="hidden" name="img_list_old" id="img_list_old" value="<?php echo $item['img_list'];?>">
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Tên sản phẩm</label>
                                 <div class="controls">
-                                    <input type="text" name="name" id="name" value="<?php echo $item['name'];?>">
+                                    <input type="text" name="name" id="name" value="<?php echo $item['name'];?>" <?php echo $check?'readonly':'';?>>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Giá</label>
+                                <div class="controls">
+                                    <input type="text" name="price_show" id="price_show" value="<?php echo $item['price'];?>">
+                                    <input type="hidden" name="price" id="price" value="<?php echo $item['price'];?>">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Giảm giá</label>
+                                <div class="controls">
+                                    <input type="text" name="discount" id="discount" value="<?php echo $item['discount'];?>">%
                                 </div>
                             </div>
                             <div class="control-group">
@@ -50,7 +65,7 @@
                                         if(!empty($brand)){
                                             foreach ($brand as $key=>$val){
                                                 ?>
-                                                <option value="<?php echo $val['id'];?> <?php echo ($val['id']==$item['brand_id'])?'selected':'';?>"><?php echo $val['name'];?></option>
+                                                <option value="<?php echo $val['id'];?>" <?php echo ($val['id']==$item['brand_id'])?'selected':'';?>><?php echo $val['name'];?></option>
                                                 <?php
                                             }
                                         }
@@ -59,6 +74,13 @@
                                     <button type="button" class="btn btn-info btn-small" data-toggle="modal" data-target="#addBrand">Thêm thương hiệu</button>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <label class="control-label">Thay đổi ảnh</label>
+                                <div class="controls">
+                                    <input type="checkbox" value="1" name="change_img" id="change_img">
+                                </div>
+                            </div>
+                            <div id="img-box">
                             <div class="control-group">
                                 <label class="control-label">Ảnh đại diện</label>
                                 <div class="controls">
@@ -72,10 +94,11 @@
                                     <button type="button" id="add_img">+</button>
                                 </div>
                             </div>
+                            </div>
                             <div class="control-group">
                                 <label class="control-label">Mô tả</label>
                                 <div class="controls">
-                                    <textarea class="span8" rows="10" name="description" id="description"></textarea>
+                                    <textarea class="span8" rows="10" name="description" id="description"><?php echo $item['description'];?></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -316,6 +339,27 @@
             }
         });
 
+        $('#price_show').priceFormat({
+            prefix: '',
+            centsSeparator: ',',
+            thousandsSeparator: '.',
+            centsLimit: 0
+        });
+
+        $('#price_show').change(function(){
+            $('#price').val($(this).unmask());
+        })
+
+        $('#img-box').css('display','none');
+
+        $('#change_img').on('change',function(){
+            if(this.checked){
+                $('#img-box').css('display','block');
+            }
+            else{
+                $('#img-box').css('display','none');
+            }
+        })
     });
 
 </script>

@@ -41,10 +41,18 @@ class Module_Model extends CI_Model {
         $this->db->trans_start();
         $this->db->insert('module',$data);
         $id=$this->db->insert_id();
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'ADD',
+            'is_show'=>1,
+            'content'=>'Thêm module<br>Module thêm mới: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         if($location=='backend'){
             //thêm cho tài khoản admin
             $data_adm=array(
-                'account_id'=>1,
+                'account_id'=>2,
                 'module_id'=>$id,
                 'view_act'=>1,
                 'delete_act'=>1,
@@ -55,7 +63,7 @@ class Module_Model extends CI_Model {
             $this->db->insert('access',$data_adm);
             //thêm cho nhóm admin
             $data_group_adm=array(
-                'account_id'=>3,
+                'account_id'=>1,
                 'module_id'=>$id,
                 'view_act'=>1,
                 'delete_act'=>1,

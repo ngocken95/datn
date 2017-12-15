@@ -78,7 +78,7 @@
                                     <a href=""><h4><?php echo $item['name']; ?></h4></a>
                                 </div>
                                 <div class="product-price">
-                                    <div class="text-color new-price"><?php echo number_format($item['price'] *(100- $item['discount'])) . ' VNĐ'; ?></div>
+                                    <div class="text-color new-price"><?php echo number_format($item['price'] *(100- $item['discount'])/100) . ' VNĐ'; ?></div>
                                 </div>
                             </div>
                         </div>

@@ -8,7 +8,7 @@
         <div class="row-fluid">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"> <i class="icon-th"></i> </span>
-                    <h5>Danh sách</h5>
+                    <h5>Danh sách hóa đơn</h5>
                     <a class="label label-info" href="<?php echo base_url('admin/importwh/add'); ?>">Thêm mới hóa đơn nhập</a>
                 </div>
                 <div class="widget-content">

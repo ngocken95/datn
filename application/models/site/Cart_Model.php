@@ -54,13 +54,15 @@ class Cart_Model extends CI_Model {
             'code'=>$code,
             'is_show'=>1,
             'created'=>getdate()[0],
+            'account_id'=>0,
             'cus_name'=>$name,
             'cus_email'=>$email,
             'cus_phone'=>$phone,
             'cus_address'=>$address,
             'cus_note'=>$note,
             'total'=>$total,
-            'status'=>'ORDER'
+            'status'=>'ORDER',
+            'cus_name_vi'=>convert_vi_to_en($name)
         );
         $this->db->trans_start();
         $this->db->insert('customer_order',$data);

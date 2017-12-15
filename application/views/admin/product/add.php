@@ -28,6 +28,19 @@
                                 </div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">Giá</label>
+                                <div class="controls">
+                                    <input type="text" name="price_show" id="price_show">
+                                    <input type="hidden" name="price" id="price">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Giảm giá</label>
+                                <div class="controls">
+                                    <input type="text" name="discount" id="discount">%
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">Loại</label>
                                 <div class="controls">
                                     <select name="product_type" id="product_type" class="span3">
@@ -75,6 +88,12 @@
                                 </div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">Hiển thị trên website</label>
+                                <div class="controls">
+                                    <input type="checkbox" value="1" name="hide" id="hide">
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">Mô tả</label>
                                 <div class="controls">
                                     <textarea class="span8" rows="10" name="description" id="description"></textarea>
@@ -113,7 +132,7 @@
                             <div class="control-group">
                                 <label class="control-label">Mô tả</label>
                                 <div class="controls">
-                                    <input type="text" name="description_type" id="description_type">
+                                    <textarea name="description_type" id="description_type"></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -279,6 +298,14 @@
                 },
                 description:{
                     required:true
+                },
+                price:{
+                    required:true,
+                    number:true
+                },
+                discount:{
+                    required:true,
+                    number:true
                 }
             },
             messages:{
@@ -291,6 +318,14 @@
                 },
                 description:{
                     required:"Không được để trống"
+                },
+                price:{
+                    required:"Không được để trống",
+                    number:"Giá trị nhập vào phải là số"
+                },
+                discount:{
+                    required:"Không được để trống",
+                    number:"Giá trị nhập vào phải là số"
                 }
             },
             errorClass: "help-inline",
@@ -318,6 +353,17 @@
                 });
             }
         });
+
+        $('#price_show').priceFormat({
+            prefix: '',
+            centsSeparator: ',',
+            thousandsSeparator: '.',
+            centsLimit: 0
+        });
+
+        $('#price_show').change(function(){
+            $('#price').val($(this).unmask());
+        })
     });
 
 </script>

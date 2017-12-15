@@ -54,17 +54,17 @@ class Account extends MY_Controller {
 	    $code_group=isset($_POST['code_group'])?$_POST['code_group']:'';
 	    $name_group=isset($_POST['name_group'])?$_POST['name_group']:'';
 	    if($code_group=='' || $name_group==''){
-            $this->session->set_flashdata('act_fail','Thêm không thành công');
+            $this->session->set_flashdata('act_fail','Thêm nhóm không thành công');
 	        redirect('admin/account/add');
         }
 	    $model=new Account_Model();
         $rs=$model->add_group($code_group,$name_group);
         if($rs){
-            $this->session->set_flashdata('act_success','Thêm thành công');
+            $this->session->set_flashdata('act_success','Thêm nhóm thành công');
             redirect('admin/account/add');
         }
         else{
-            $this->session->set_flashdata('act_fail','Thêm không thành công');
+            $this->session->set_flashdata('act_fail','Thêm nhóm không thành công');
             redirect('admin/account/add');
         }
     }
@@ -179,6 +179,10 @@ class Account extends MY_Controller {
     public function delete(){
         $id=$this->uri->segment(4);
         $model=new Account_Model();
+        if($id==''){
+            $this->session->set_flashdata('act_fail','Tài khoản không tồn tại');
+            redirect('admin/account');
+        }
         $rs=$model->check_id($id);
         if($rs){
             $check=$model->check_delete($id);
@@ -191,6 +195,10 @@ class Account extends MY_Controller {
                 $this->session->set_flashdata('act_fail','Xóa không thành công');
                 redirect('admin/account');
             }
+        }
+        else{
+            $this->session->set_flashdata('act_fail','Tài khoản không tồn tại');
+            redirect('admin/account');
         }
     }
 }

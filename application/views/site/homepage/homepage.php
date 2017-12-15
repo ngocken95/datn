@@ -64,7 +64,7 @@
                                     <a href=""><h4><?php echo $product_buy['name']; ?></h4></a>
                                 </div>
                                 <div class="product-price">
-                                    <div class="text-color new-price"><?php echo number_format($product_buy['price'] * (100-$product_buy['discount'])) . ' VNĐ'; ?></div>
+                                    <div class="text-color new-price"><?php echo number_format($product_buy['price'] * (100-$product_buy['discount'])/100) . ' VNĐ'; ?></div>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                     <a href=""><h4><?php echo $product_new['name']; ?></h4></a>
                                 </div>
                                 <div class="product-price">
-                                    <div class="text-color new-price"><?php echo number_format($product_new['price'] * (100-$product_new['discount'])) . ' VNĐ'; ?></div>
+                                    <div class="text-color new-price"><?php echo number_format($product_new['price'] * (100-$product_new['discount'])/100 ). ' VNĐ'; ?></div>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +214,7 @@
                                     <a href=""><h4><?php echo $product_like['name']; ?></h4></a>
                                 </div>
                                 <div class="product-price">
-                                    <div class="text-color new-price"><?php echo number_format($product_like['price'] * (100-$product_like['discount'])) . ' VNĐ'; ?></div>
+                                    <div class="text-color new-price"><?php echo number_format($product_like['price'] * (100-$product_like['discount'])/100) . ' VNĐ'; ?></div>
                                 </div>
                             </div>
                         </div>

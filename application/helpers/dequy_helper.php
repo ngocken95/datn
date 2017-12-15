@@ -38,7 +38,7 @@ if (!function_exists('showTableAccount')) {
                     echo '<td>' . $item['phone'] . '</td>';
                     echo '<td>
                             <input type="hidden" value="' . $item['id'] . '">';
-                    if ($item['id'] != 1) {
+                    if ($item['id'] != 2) {
                         if ($act['edit_act'] == 1) {
                             echo '<a href="' . base_url('admin/account/edit/' . $item['id']) . '" class="btn btn-link"><i class="icon icon-pencil"></i></a>';
                         }

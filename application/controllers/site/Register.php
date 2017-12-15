@@ -32,7 +32,13 @@ class Register extends MY_Controller {
         }
         else{
             $this->session->set_flashdata('alert','Tạo tài khoản không thành công');
-            redirect('register');
+            echo $name.'<br>';
+            echo $email.'<br>';
+            echo $phone.'<br>';
+            echo $address.'<br>';
+            echo $user.'<br>';
+            echo $pass.'<br>';
+//            redirect('register');
         }
     }
 

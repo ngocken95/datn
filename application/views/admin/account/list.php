@@ -55,7 +55,7 @@
                         <div class="control-group">
                             <label class="control-label">Mã nhóm</label>
                             <div class="controls">
-                                <input type="text" name="code_group" id="code_group">
+                                <input type="text" name="code_group" id="code_group" readonly>
                                 <input type="hidden" name="id" id="id">
                                 <input type="hidden" name="code_group_confirm" id="code_group_confirm">
                                 <input type="hidden" name="code_group_old" id="code_group_old">
@@ -71,9 +71,6 @@
                             <input type="submit" value="Sửa" class="btn btn-success">
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
 

@@ -11,7 +11,7 @@
                     <h5>Thêm mới</h5>
                 </div>
                 <div class="widget-content nopadding">
-                    <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/exportwh/addaction';?>" name="information_color" id="information_color" novalidate="novalidate">
+                    <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/exportwh/addaction';?>" name="export" id="export" novalidate="novalidate">
                         <div class="control-group">
                             <label class="control-label">Mã hóa đơn xuất</label>
                             <div class="controls">
@@ -37,17 +37,27 @@
                                 <th>Đơn hàng</th>
                                 <th>Sản phẩm</th>
                                 <th>Số lượng</th>
+                                <th>Kiểm tra</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
+                            $hidden=true;
                             if(!empty($list_order)){
                                 foreach ($list_order as $key=>$order){
                                     $code=explode('/',$key);
+                                    $check=false;
+                                    if($this->session->flashdata('check_wh')){
+                                        foreach ($this->session->flashdata('check_wh') as $k=>$check_wh){
+                                            if($k==$code[1]){
+                                                $check=true;
+                                            }
+                                        }
+                                    }
                                     ?>
                                     <tr>
-                                        <td><input type="checkbox" name="code_order[]" value="<?php echo $code[1];?>"></td>
-                                        <td colspan="3"><?php echo $code[0];?></td>
+                                        <td><input type="checkbox" name="code_order[]" value="<?php echo $code[1];?>" <?php echo $check?'checked':'';?>></td>
+                                        <td colspan="4"><?php echo $code[0];?></td>
                                     </tr>
                                     <?php
                                     foreach ($order as $product) {
@@ -57,6 +67,28 @@
                                             <td></td>
                                             <td><?php echo $product['product'];?></td>
                                             <td><?php echo $product['quantity'];?></td>
+                                            <td>
+                                                <?php
+                                                if($this->session->flashdata('check_wh')){
+                                                    foreach ($this->session->flashdata('check_wh') as $k=>$check_wh){
+                                                        if($k==$code[1]){
+                                                            foreach ($this->session->flashdata('check_wh')[$k] as $pro){
+                                                                if($product['product_id']==$pro['product_color_id']){
+                                                                    if($pro['check']==1){
+                                                                        echo 'Còn hàng';
+                                                                        $hidden=false;
+                                                                    }
+                                                                    else{
+                                                                        echo 'Hết hàng';
+                                                                        $hidden=true;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
@@ -67,7 +99,13 @@
                         </table>
                         <div class="form-actions">
                             <input type="submit" value="Kiểm tra kho" name="check_wh" class="btn btn-warning">
-                            <input type="submit" value="Thêm mới" name="add" class="btn btn-success">
+                            <?php
+                            if(!$hidden){
+                            ?>
+                            <input type="submit" value="Tạo hóa đơn" name="add" class="btn btn-success">
+                            <?php
+                            }
+                            ?>
                         </div>
                     </form>
                 </div>
@@ -80,10 +118,9 @@
     $(document).ready(function () {
         $("#date").datepicker();
 
-        $('#check_wh').click(function(){
-            var list_order=$('input[name=code_order]').val();
-            console.log(list_order);
-        })
+        $('input[type=checkbox]').change(function(){
+            $('#export').submit();
+        });
     });
 
 </script>

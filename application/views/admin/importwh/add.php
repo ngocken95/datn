@@ -62,6 +62,20 @@
 
         $("#date").datepicker();
 
+        $(document).on('keyup','input[type=text]',function(){
+            $(this).priceFormat({
+                prefix: '',
+                centsSeparator: ',',
+                thousandsSeparator: '.',
+                centsLimit: 0
+            });
+        })
+
+        $(document).on('change','input[type=text]',function(){
+            $(this).next().val($(this).unmask());
+        });
+
+
         $('#add_detail').click(function(){
             $('#detail tr:last').prev().after('<tr>' +
                     '<td></td>'+
@@ -72,8 +86,8 @@
                         }
                     }
                     ?></select></td>' +
-                '<td style="width: 20%"><input type="number" name="quantity[]"></td>' +
-                '<td style="width: 20%"><input type="number" name="price[]"></td>' +
+                '<td style="width: 20%"><input type="text"><input type="hidden" name="quantity[]"></td>' +
+                '<td style="width: 20%"><input type="text"><input type="hidden" name="price[]"></td>' +
                 '<td><button type="button" name="remove">&times;</button></td>' +
                 '</tr>');
         });
@@ -89,6 +103,7 @@
                 $(this).val(0);
             }
         })
+
     });
 
 </script>

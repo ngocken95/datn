@@ -43,15 +43,13 @@ class Product_detail_Model extends CI_Model {
     }
 
     public function get_list_product($id){
-        $rs=$this->db->query('SELECT product_id FROM product_color WHERE id='.$id);
-        $product_id=$rs->row_array()['product_id'];
-        $rs1=$this->db->query('SELECT brand_id FROM product JOIN product_color ON product.id=product_color.product_id WHERE product_color.id='.$id);
+        $rs1=$this->db->query('SELECT brand_id FROM product WHERE id='.$id);
         $brand=$rs1->row_array()['brand_id'];
-        $rs2=$this->db->query('SELECT product_type_id FROM product JOIN product_color ON product.id=product_color.product_id WHERE product_color.id='.$id);
+        $rs2=$this->db->query('SELECT product_type_id FROM product WHERE id='.$id);
         $type=$rs2->row_array()['product_type_id'];
         $sql='SELECT * 
         FROM product 
-        WHERE id<>'.$product_id.' AND 
+        WHERE id<>'.$id.' AND 
          product.brand_id='.$brand.' AND 
          product.product_type_id='.$type.'
          ORDER BY product_view DESC LIMIT 0,4';
@@ -60,7 +58,7 @@ class Product_detail_Model extends CI_Model {
             return $rs->result_array();
         }
         else{
-            return false;
+            return null;
         }
     }
 

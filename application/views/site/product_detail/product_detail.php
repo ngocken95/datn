@@ -98,7 +98,7 @@
                         </div>
                         <div class="pd_Price">
                             <h3><?php echo $item['brand']; ?></h3>
-                            <span class="npd_price"><?php echo number_format($item['price'] * (100 - $item['discount'])) . ' VNĐ'; ?></span>
+                            <span class="npd_price"><?php echo number_format($item['price'] * (100 - $item['discount'])/100) . ' VNĐ'; ?></span>
                             <span class="opd_price"><?php echo number_format($item['price']) . ' VNĐ'; ?></span>
                             <span class="pc_sale">-<?php echo $item['discount']; ?>%</span>
                         </div>
@@ -112,7 +112,7 @@
                               id="information_cart" method="POST">
                             <input type="hidden" name="color_pick" id="color_pick" value="0">
                             <input type="hidden" name="price" id="price"
-                                   value="<?php echo $item['price'] * (100 - $item['discount']); ?>">
+                                   value="<?php echo $item['price'] * (100 - $item['discount'])/100; ?>">
                             <div class="p_code">
                                 <h3>Danh sách màu</h3>
                                 <div id="list_color">
@@ -174,9 +174,6 @@
             </div>
 
             <div class="c_box">
-                <?php
-                print_r($list_product);
-                ?>
                 <h3>Sản phẩm tương tự</h3>
                 <?php
                 if (!empty($list_product)) {
@@ -197,7 +194,7 @@
                                         <h4><?php echo $product['name']; ?></h4></a>
                                 </div>
                                 <div class="product-price">
-                                    <div class="text-color new-price"><?php echo number_format($product['price'] * (100 - $product['discount'])); ?></div>
+                                    <div class="text-color new-price"><?php echo number_format($product['price'] * (100 - $product['discount'])/100); ?></div>
                                 </div>
                             </div>
                         </div>

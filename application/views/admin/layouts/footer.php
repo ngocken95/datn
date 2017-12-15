@@ -19,6 +19,7 @@
 
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.tables.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/price_format/jquery.priceformat.min.js"></script>
 
 <!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/jquery.flot.min.js"></script>-->
 <!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/jquery.flot.resize.min.js"></script>-->

@@ -62,6 +62,14 @@ WHERE bill.is_show=1 and account.is_show=1 and type=\'IMPORT\''.$cond;
         $this->db->trans_start();
         $this->db->insert('bill',$data);
         $add=$this->db->insert_id();
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'ADD',
+            'is_show'=>1,
+            'content'=>'Thêm hóa đơn nhập<br>Mã hóa đơn nhập: '.$code,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $add;
     }

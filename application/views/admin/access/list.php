@@ -31,7 +31,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Tên module</th>
-                                    <th>Location</th>
                                     <th>Xem</th>
                                     <th>Sửa</th>
                                     <th>Xóa</th>
@@ -47,7 +46,6 @@
                                         <tr>
                                             <td><?php echo $stt;?></td>
                                             <td><?php echo $item['name'];?></td>
-                                            <td><?php echo $item['location'];?></td>
                                             <td style="text-align: center"><input type="checkbox" name="view[]" value="<?php echo $item['id'];?>" <?php echo ($item['view']==1)?'checked':'';?>></td>
                                             <td style="text-align: center"><input type="checkbox" name="edit[]" value="<?php echo $item['id'];?>" <?php echo ($item['edit']==1)?'checked':'';?>></td>
                                             <td style="text-align: center"><input type="checkbox" name="delete[]" value="<?php echo $item['id'];?>" <?php echo ($item['delete']==1)?'checked':'';?>></td>

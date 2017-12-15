@@ -15,7 +15,7 @@ class Color_Model extends CI_Model {
     }
 
     public function check_code($code){
-        $sql='SELECT * FROM color WHERE code=\''.$code.'\' and is_show=1';
+        $sql='SELECT * FROM color WHERE code=\''.$code.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()==1){
             return $code.true;
@@ -36,6 +36,14 @@ class Color_Model extends CI_Model {
         $this->db->trans_start();
         $this->db->insert('color',$data);
         $add=$this->db->insert_id();
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'ADD',
+            'is_show'=>1,
+            'content'=>'Thêm màu son<br>Màu son thêm: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $add;
     }
@@ -72,14 +80,19 @@ class Color_Model extends CI_Model {
         );
         $this->db->trans_start();
         $update=$this->db->update('color',$data," id=".$id);
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'CHANGE',
+            'is_show'=>1,
+            'content'=>'Sửa màu son<br>Màu son sửa: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $update;
     }
 
-    public function delete_color($id_color){
-        $data=array(
-            'is_show'=>0
-        );
+    public function check_color($id_color){
         //check xem có sản phẩm nào có màu này không
         $sql_list_product='SELECT * FROM product_color WHERE is_show=1 and color_id='.$id_color;
         $rs=$this->db->query($sql_list_product);
@@ -101,20 +114,33 @@ class Color_Model extends CI_Model {
                     return false;
                 }
             }
-            //thực hiện xóa
-            $this->db->trans_start();
-            $update=$this->db->update('color',$data," id=".$id_color);
-            $this->db->update('product_color',$data," color_id=".$id_color);
-            $this->db->trans_complete();
-            return $update;
+            return true;
         }
         else{
-            $this->db->trans_start();
-            $update=$this->db->update('color',$data," id=".$id_color);
-            $this->db->update('product_color',$data," color_id=".$id_color);
-            $this->db->trans_complete();
-            return $update;
+            return true;
         }
+    }
+
+    public function delete_color($id_color){
+        $data=array(
+            'is_show'=>0
+        );
+        $this->db->trans_start();
+        $update=$this->db->update('color',$data," id=".$id_color);
+        $this->db->update('product_color',$data," color_id=".$id_color);
+        $sql='SELECT * FROM color WHERE id='.$id_color;
+        $rs=$this->db->query($sql);
+        $name=$rs->row_array()['name'];
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'DELETE',
+            'is_show'=>1,
+            'content'=>'Xóa màu son<br>Màu son bị xóa: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
+        $this->db->trans_complete();
+        return $update;
     }
 }
             

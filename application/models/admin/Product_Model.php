@@ -26,12 +26,20 @@ class Product_Model extends CI_Model {
         $this->db->trans_start();
         $this->db->insert('product_type',$data);
         $add=$this->db->insert_id();
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'ADD',
+            'is_show'=>1,
+            'content'=>'Thêm loại sản phẩm<br>Loại sản phẩm thêm: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $add;
     }
 
     public function check_code_brand($id,$code,$code_old){
-        $sql='SELECT * FROM brand WHERE code=\''.strtolower($code).'\' and is_show=1';
+        $sql='SELECT * FROM brand WHERE code=\''.strtolower($code).'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $code.true;
@@ -52,12 +60,20 @@ class Product_Model extends CI_Model {
         $this->db->trans_start();
         $this->db->insert('brand',$data);
         $add=$this->db->insert_id();
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'ADD',
+            'is_show'=>1,
+            'content'=>'Thêm thương hiệu<br>Thương hiệu thêm: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $add;
     }
 
     public function check_code_product($id,$code,$code_old){
-        $sql='SELECT * FROM product WHERE code=\''.strtolower($code).'\' and is_show=1';
+        $sql='SELECT * FROM product WHERE code=\''.strtolower($code).'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $code.true;
@@ -67,10 +83,12 @@ class Product_Model extends CI_Model {
         }
     }
 
-    public function add_product($code,$name,$product_type,$brand,$cover,$img_list,$description){
+    public function add_product($code,$name,$price,$discount,$product_type,$brand,$cover,$img_list,$description,$hide){
         $data=array(
             'code'=>strtolower($code),
             'name'=>$name,
+            'price'=>$price,
+            'discount'=>$discount,
             'name_vi'=>convert_vi_to_en($name),
             'brand_id'=>$brand,
             'product_type_id'=>$product_type,
@@ -78,11 +96,20 @@ class Product_Model extends CI_Model {
             'img_list'=>$img_list,
             'description'=>$description,
             'created'=>getdate()[0],
-            'is_show'=>1
+            'is_show'=>1,
+            'hide'=>$hide
         );
         $this->db->trans_start();
         $this->db->insert('product',$data);
         $add=$this->db->insert_id();
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'ADD',
+            'is_show'=>1,
+            'content'=>'Thêm sản phẩm<br>Sản phẩm thêm: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $add;
     }
@@ -143,6 +170,14 @@ class Product_Model extends CI_Model {
         );
         $this->db->trans_start();
         $edit=$this->db->update('product',$data,"id=".$id);
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'CHANGE',
+            'is_show'=>1,
+            'content'=>'Sửa sản phẩm<br>Sản phẩm sửa: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $edit;
     }
@@ -197,6 +232,8 @@ class Product_Model extends CI_Model {
 
     public function save_color($id_product,$list_color){
         $this->db->trans_start();
+        $sql=$this->db->query('SELECT * FROM product WHERE is_show=1 and id='.$id_product);
+        $product_name=$sql->row_array()['name'];
         $data=array(
             'product_id'=>$id_product,
             'is_show'=>1,
@@ -209,6 +246,16 @@ class Product_Model extends CI_Model {
                 $data['color_id']=$id_color;
                 $this->db->insert('product_color',$data);
                 $add=$this->db->insert_id();
+                $sql=$this->db->query('SELECT * FROM color WHERE is_show=1 and id='.$id_color);
+                $color_name=$sql->row_array()['name'];
+                $data_log=array(
+                    'user'=>$this->session->userdata('user')['username'],
+                    'type'=>'ADD',
+                    'is_show'=>1,
+                    'content'=>'Thêm màu son cho sản phẩm<br>Màu son thêm: '.$color_name.'<br>Sản phẩm thêm: '.$product_name,
+                    'created'=>getdate()[0]
+                );
+                $this->db->insert('log',$data_log);
             }
         }
         $this->db->trans_complete();
@@ -217,12 +264,49 @@ class Product_Model extends CI_Model {
 
     public function delete($id){
         $data=array(
-            'is_show'=>1,
+            'is_show'=>0,
             'created'=>getdate()[0]
         );
         $this->db->trans_start();
-        $delete=$this->db->update('account', $data, "id = $id");
+        $delete=$this->db->update('product', $data, "id = $id");
+        //xóa sản phẩm trong bảng product_color
+        $this->db->update('product_color',$data,"product_id=$id");
+        $sql='SELECT * FROM product WHERE id='.$id;
+        $rs=$this->db->query($sql);
+        $name=$rs->row_array()['name'];
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'DELETE',
+            'is_show'=>1,
+            'content'=>'Xóa sản phẩm<br>Sản phẩm xóa: '.$name,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
         $this->db->trans_complete();
         return $delete;
+    }
+
+    public function check_name($product_id){
+        //kiểm tra trong order
+        $sql='SELECT * FROM product 
+JOIN product_color ON product.id=product_color.product_id
+JOIN  detail_order ON product_color.id=detail_order.product_color_id
+WHERE product.is_show=1 and product.id=
+'.$product_id;
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        //kiểm tra trong bill
+        $sql='SELECT * FROM product 
+JOIN product_color ON product.id=product_color.product_id
+JOIN  detail_bill ON product_color.id=detail_bill.product_color_id
+WHERE product.is_show=1 and product.id=
+'.$product_id;
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        return false;
     }
 }

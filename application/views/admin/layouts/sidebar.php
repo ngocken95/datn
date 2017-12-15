@@ -3,7 +3,7 @@
         <li class="<?php echo ($active['code'] == 'homepage') ? 'active' : ''; ?>"><a
                     href="<?php echo base_url('admin/homepage'); ?>"><i class="icon icon-home"></i>
                 <span>Bảng điều khiển</span></a></li>
-        <li class="submenu <?php echo ($active['code'] == 'module' || $active['code'] == 'account' || $active['code'] == 'access') ? 'active' : ''; ?>">
+        <li class="submenu <?php echo ($active['code'] == 'module' || $active['code'] == 'account' || $active['code'] == 'access' || $active['code'] == 'log') ? 'active' : ''; ?>">
             <a href="#"><i
                         class="icon icon-info-sign"></i> <span>Hệ thống</span></a>
             <ul>
@@ -25,6 +25,12 @@
                         ?>
                         <li class="<?php echo ($active['code'] == 'access') ? 'active' : ''; ?>"><a
                                     href="<?php echo base_url('admin/access'); ?>">Quyền truy cập</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'log' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'log') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/log'); ?>">Log thao tác</a></li>
                         <?php
                     }
                 }

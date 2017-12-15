@@ -92,10 +92,17 @@ class Color extends MY_Controller {
         $model=new Color_Model();
         $check=$model->check_id($id);
         if($check){
-            $rs=$model->delete_color($id);
-            if($rs){
-                $this->session->set_flashdata('act_success','Xóa thành công');
-                redirect('admin/color');
+            $check_color=$model->check_color($id);
+            if($check_color){
+               $rs= $model->delete_color($id);
+                if($rs){
+                    $this->session->set_flashdata('act_success','Xóa thành công');
+                    redirect('admin/color');
+                }
+                else{
+                    $this->session->set_flashdata('act_fail','Xóa không thành công');
+                    redirect('admin/color');
+                }
             }
             else{
                 $this->session->set_flashdata('act_fail','Xóa không thành công');
