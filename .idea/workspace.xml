@@ -7,58 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="f0ef30fa-26ac-4237-9152-f64e70059829" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/10-3-test1-san-pham-1-cover.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/23376574_1479040692176034_3405443347651009209_n.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/23376574_1479040692176034_3405443347651009209_n1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/23376574_1479040692176034_3405443347651009209_n2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/23376574_1479040692176034_3405443347651009209_n3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/23376574_1479040692176034_3405443347651009209_n4.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/23376574_1479040692176034_3405443347651009209_n5.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/358df37ed4c81e38a57bf6ec92143b10_tn.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/6-1-tesst-tesst-cover.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/6-1-tesst-tesst-cover1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/6-1-tesst-tesst-cover2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/6-1-test-aaa-cover.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/7-1-test2-San-pham-2-cover.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/8-2-test-San-pham-1-cover.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/ef3e74c4d3bd4d47c5ee6b4770c4441d_tn.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/upload/hayday_full.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/config/database.php" afterPath="$PROJECT_DIR$/application/config/database.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/Access.php" afterPath="$PROJECT_DIR$/application/controllers/admin/Access.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/Account.php" afterPath="$PROJECT_DIR$/application/controllers/admin/Account.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/Color.php" afterPath="$PROJECT_DIR$/application/controllers/admin/Color.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/Exportwh.php" afterPath="$PROJECT_DIR$/application/controllers/admin/Exportwh.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/Importwh.php" afterPath="$PROJECT_DIR$/application/controllers/admin/Importwh.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/Product.php" afterPath="$PROJECT_DIR$/application/controllers/admin/Product.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/site/Homepage.php" afterPath="$PROJECT_DIR$/application/controllers/site/Homepage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/site/Register.php" afterPath="$PROJECT_DIR$/application/controllers/site/Register.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/helpers/dequy_helper.php" afterPath="$PROJECT_DIR$/application/helpers/dequy_helper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/admin/Access_Model.php" afterPath="$PROJECT_DIR$/application/models/admin/Access_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/admin/Account_Model.php" afterPath="$PROJECT_DIR$/application/models/admin/Account_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/admin/Color_Model.php" afterPath="$PROJECT_DIR$/application/models/admin/Color_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/admin/Exportwh_Model.php" afterPath="$PROJECT_DIR$/application/models/admin/Exportwh_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/admin/Importwh_Model.php" afterPath="$PROJECT_DIR$/application/models/admin/Importwh_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/admin/Module_Model.php" afterPath="$PROJECT_DIR$/application/models/admin/Module_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/admin/Product_Model.php" afterPath="$PROJECT_DIR$/application/models/admin/Product_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/site/Cart_Model.php" afterPath="$PROJECT_DIR$/application/models/site/Cart_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/site/Product_detail_Model.php" afterPath="$PROJECT_DIR$/application/models/site/Product_detail_Model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/access/list.php" afterPath="$PROJECT_DIR$/application/views/admin/access/list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/account/add.php" afterPath="$PROJECT_DIR$/application/views/admin/account/add.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/account/list.php" afterPath="$PROJECT_DIR$/application/views/admin/account/list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/exportwh/add.php" afterPath="$PROJECT_DIR$/application/views/admin/exportwh/add.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/exportwh/list.php" afterPath="$PROJECT_DIR$/application/views/admin/exportwh/list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/homepage/homepage.php" afterPath="$PROJECT_DIR$/application/views/admin/homepage/homepage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/importwh/add.php" afterPath="$PROJECT_DIR$/application/views/admin/importwh/add.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/importwh/list.php" afterPath="$PROJECT_DIR$/application/views/admin/importwh/list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/layouts/footer.php" afterPath="$PROJECT_DIR$/application/views/admin/layouts/footer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/layouts/sidebar.php" afterPath="$PROJECT_DIR$/application/views/admin/layouts/sidebar.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/product/add.php" afterPath="$PROJECT_DIR$/application/views/admin/product/add.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/product/edit.php" afterPath="$PROJECT_DIR$/application/views/admin/product/edit.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/site/category/category.php" afterPath="$PROJECT_DIR$/application/views/site/category/category.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/site/homepage/homepage.php" afterPath="$PROJECT_DIR$/application/views/site/homepage/homepage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/site/product_detail/product_detail.php" afterPath="$PROJECT_DIR$/application/views/site/product_detail/product_detail.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -168,7 +117,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="260" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -397,15 +346,15 @@
       <workItem from="1512867406625" duration="21266000" />
       <workItem from="1513015552131" duration="218000" />
       <workItem from="1513040326399" duration="32329000" />
-      <workItem from="1513209275717" duration="64785000" />
+      <workItem from="1513209275717" duration="65577000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="310185000" />
+    <option name="totallyTimeSpent" value="310977000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1703125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
