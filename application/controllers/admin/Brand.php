@@ -1,28 +1,28 @@
-<?php
+<?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Type_product extends MY_Controller {
+    
+class Brand extends MY_Controller {
 
     private $data=array();
-
-    function __construct(){
+    
+     function __construct(){
         $this->data=parent::__construct();
-        $this->load->model('admin/type_product_model');
+        $this->load->model('admin/brand_model');
     }
-
+    
     public function index(){
-        $model=new Type_product_Model();
-        $this->data['action']='list';
-        $this->data['items']=$model->get_list($this->data['find']);
-        $this->load->view('admin/type_product/list',$this->data);
+         $model=new Brand_Model();
+         $this->data['action']='list';
+         $this->data['items']=$model->get_list($this->data['find']);
+        $this->load->view('admin/brand/list',$this->data);
     }
 
     public function edit(){
         $md5=$this->uri->segment(4);
         $this->data['action']='edit';
-        $model=new Type_product_Model();
-        $check_md5=$model->check_md5($md5);
-        if($check_md5){
+        $model=new Brand_Model();
+        $check=$model->check_md5($md5);
+        if($check){
             $this->data['item']=$model->get_brand_by_md5($md5);
             $this->load->view('admin/brand/edit',$this->data);
         }
@@ -54,7 +54,7 @@ class Type_product extends MY_Controller {
 
     public function delete(){
         $md5=$this->uri->segment(4);
-        $model=new Type_product_Model();
+        $model=new Brand_Model();
         $check_id=$model->check_md5($md5);
         if($check_id){
             $check_product=$model->check_product($md5);
@@ -74,11 +74,11 @@ class Type_product extends MY_Controller {
                 }
             }
         }
-        else{
-            $this->data['heading'] = 'Lỗi';
-            $this->data['message'] = 'Không tìm thấy dữ liệu';
-            $this->load->view('errors/html/error_404', $this->data);
-        }
+       else{
+           $this->data['heading'] = 'Lỗi';
+           $this->data['message'] = 'Không tìm thấy dữ liệu';
+           $this->load->view('errors/html/error_404', $this->data);
+       }
     }
 
     public function add(){
@@ -88,7 +88,7 @@ class Type_product extends MY_Controller {
 
     public function check_code(){
         $code=isset($_POST['code'])?$_POST['code']:'';
-        $model=new Type_product_Model();
+        $model=new Brand_Model();
         $rs=$model->check_code($code);
         echo json_encode($rs);
     }
@@ -118,10 +118,10 @@ class Type_product extends MY_Controller {
             $this->session->set_flashdata('act_fail','Nhập đầy đủ thông tin');
             redirect('admin/brand/add');
         }
-        $model=new Type_product_Model();
+        $model=new Brand_Model();
         $rs=$model->add_brand($code,$name,$img);
         if($rs){
-            $this->session->set_flashdata('act_success','Thêm thương hiệu thành công');
+            $this->session->set_flashdata('act_success','Thêm thương thành công');
             redirect('admin/brand');
         }
         else{

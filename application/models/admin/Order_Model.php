@@ -58,7 +58,8 @@ WHERE detail_order.order_id=
     public function update_user($id){
         $data=array(
             'account_id'=>$this->session->userdata('user')['id'],
-            'status'=>'WH'
+            'status'=>'WH',
+            'time'=>getdate()[0]
         );
         $this->db->trans_start();
         $add=$this->db->update('customer_order',$data,"id=".$id);

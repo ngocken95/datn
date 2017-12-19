@@ -10,9 +10,9 @@
                 <div class="widget-title"><span class="icon"> <i class="icon-th"></i> </span>
                     <h5>Danh sách</h5>
                     <?php
-                    if($act['add_act']==1){
+                    if ($act['add_act'] == 1) {
                         ?>
-                        <a class="label label-info" href="<?php echo base_url('admin/color/add'); ?>">Thêm mới</a>
+                        <a class="label label-info" href="<?php echo base_url('admin/brand/add'); ?>">Thêm mới</a>
                         <?php
                     }
                     ?>
@@ -22,32 +22,36 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Mã</th>
-                            <th>Tên màu</th>
-                            <th>Màu</th>
+                            <th>Mã thương hiệu</th>
+                            <th>Tên thương hiệu</th>
+                            <th>Ảnh</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
-                        $stt=1;
                         if (!empty($items)) {
-                            foreach ($items as $item) {
+                            $stt = 1;
+                            foreach ($items as $brand) {
                                 ?>
                                 <tr>
                                     <td><?php echo $stt; ?></td>
-                                    <td><?php echo $item['code']; ?></td>
-                                    <td><?php echo $item['name']; ?></td>
-                                    <td>
-                                        <span style="background-color: #<?php echo $item['code']; ?>;width: 100px;height: 20px;display: inline-block"></span>
-                                    </td>
+                                    <td><?php echo $brand['code']; ?></td>
+                                    <td><?php echo $brand['name']; ?></td>
+                                    <td><img src="<?php echo base_url('upload/') . $brand['logo']; ?>" width="150"
+                                             height="50" alt=""></td>
                                     <td>
                                         <?php
-                                        if ($act['edit_act'] == 1) {
-                                            echo '<a href="' . base_url('admin/color/edit/' . $item['md5']) . '" class="btn btn-link"><i class="icon icon-pencil"></i></a>';
+                                        if ($act['edit_act'] == 1) { ?>
+                                            <a href="<?php echo base_url('admin/brand/edit/' . $brand['md5']); ?>"
+                                               class="btn btn-link"><i class="icon icon-pencil"></i></a>
+                                            <?php
                                         }
                                         if ($act['delete_act'] == 1) {
-                                            echo '<a href="'. base_url('admin/color/delete/'.$item['md5']) .'" class="btn btn-link" onclick="return confirm(\'Bạn có muốn xóa màu son này?\');"><i class="icon icon-trash"></i></a>';
+                                            ?>
+                                            <a href="<?php echo base_url('admin/brand/delete/' . $brand['md5']); ?>"
+                                               onclick="return confirm('Bạn có muốn xóa thương hiệu này?');" class="btn btn-link"><i class="icon icon-trash"></i></a>
+                                            <?php
                                         }
                                         ?>
                                     </td>
@@ -66,3 +70,4 @@
 </div>
 
 <?php $this->load->view('admin/layouts/footer'); ?>
+

@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Type_product_Model extends CI_Model {
+class Brand_Model extends CI_Model {
 
     public function get_list($find){
         $cond='is_show=1';
         if($find!=''){
-            $cond.=' and (code LIKE \'%'.$find.'%\' or name_vi LIKE\'%'.$find.'%\')';
+            $cond.=' and (code LIKE \'%'.$find.'%\' or name LIKE\'%'.$find.'%\')';
         }
-        $sql='SELECT * FROM product_type WHERE '.$cond;
+        $sql='SELECT * FROM brand WHERE '.$cond;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->result_array();
@@ -19,7 +19,7 @@ class Type_product_Model extends CI_Model {
     }
 
     public function check_md5($md5){
-        $sql='SELECT * FROM product_type WHERE md5=\''.$md5.'\'';
+        $sql='SELECT * FROM brand WHERE md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return true;
@@ -31,7 +31,7 @@ class Type_product_Model extends CI_Model {
 
 
     public function get_brand_by_md5($md5){
-        $sql='SELECT * FROM product_type WHERE is_show=1 and md5=\''.$md5.'\'';
+        $sql='SELECT * FROM brand WHERE is_show=1 and md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->row_array();

@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Product_Model extends CI_Model {
 
-    public function check_code_product_type($id,$code,$code_old){
+    public function check_code_product_type($code){
         $sql='SELECT * FROM product_type WHERE code=\''.strtolower($code).'\' and is_show=1';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
@@ -23,14 +23,27 @@ class Product_Model extends CI_Model {
             'created'=>getdate()[0],
             'is_show'=>1
         );
+        $content='
+<h4>Thêm loại son</h4>
+<table>
+<thead>
+<tr><th>Thông tin loại son</th></tr>
+</thead>
+<tbody>
+<tr><td>'.$code.'</td></tr>
+<tr><td>'.$name.'</td></tr>
+<tr><td>'.$description.'</td></tr>
+</tbody>
+</table>';
         $this->db->trans_start();
         $this->db->insert('product_type',$data);
         $add=$this->db->insert_id();
+        $add=$this->db->update('product_type',array('md5'=>md5($add)),"id=$add");
         $data_log=array(
             'user'=>$this->session->userdata('user')['username'],
             'type'=>'ADD',
             'is_show'=>1,
-            'content'=>'Thêm loại sản phẩm<br>Loại sản phẩm thêm: '.$name,
+            'content'=>$content,
             'created'=>getdate()[0]
         );
         $this->db->insert('log',$data_log);
@@ -38,7 +51,7 @@ class Product_Model extends CI_Model {
         return $add;
     }
 
-    public function check_code_brand($id,$code,$code_old){
+    public function check_code_brand($code){
         $sql='SELECT * FROM brand WHERE code=\''.strtolower($code).'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
@@ -57,14 +70,27 @@ class Product_Model extends CI_Model {
             'created'=>getdate()[0],
             'is_show'=>1
         );
+        $content='
+<h4>Thêm thương hiệu</h4>
+<table>
+<thead>
+<tr><th>Thông tin thương hiệu</th></tr>
+</thead>
+<tbody>
+<tr><td>'.$code.'</td></tr>
+<tr><td>'.$name.'</td></tr>
+<tr><td>'.$logo.'</td></tr>
+</tbody>
+</table>';
         $this->db->trans_start();
         $this->db->insert('brand',$data);
         $add=$this->db->insert_id();
+        $add=$this->db->update('brand',array('md5'=>md5($add)),"id=$add");
         $data_log=array(
             'user'=>$this->session->userdata('user')['username'],
             'type'=>'ADD',
             'is_show'=>1,
-            'content'=>'Thêm thương hiệu<br>Thương hiệu thêm: '.$name,
+            'content'=>$content,
             'created'=>getdate()[0]
         );
         $this->db->insert('log',$data_log);
@@ -72,7 +98,7 @@ class Product_Model extends CI_Model {
         return $add;
     }
 
-    public function check_code_product($id,$code,$code_old){
+    public function check_code_product($code){
         $sql='SELECT * FROM product WHERE code=\''.strtolower($code).'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
@@ -99,14 +125,33 @@ class Product_Model extends CI_Model {
             'is_show'=>1,
             'hide'=>$hide
         );
+        $content='
+<h4>Thêm sản phẩm</h4>
+<table>
+<thead>
+<tr><th>Thông tin sản phẩm</th></tr>
+</thead>
+<tbody>
+<tr><td>'.$code.'</td></tr>
+<tr><td>'.$name.'</td></tr>
+<tr><td>'.$price.'</td></tr>
+<tr><td>'.$discount.'</td></tr>
+<tr><td>'.$product_type.'</td></tr>
+<tr><td>'.$brand.'</td></tr>
+<tr><td>'.$cover.'</td></tr>
+<tr><td>'.$img_list.'</td></tr>
+<tr><td>'.$description.'</td></tr>
+</tbody>
+</table>';
         $this->db->trans_start();
         $this->db->insert('product',$data);
         $add=$this->db->insert_id();
+        $add=$this->db->update('product',array('md5'=>md5($add)),"id=$add");
         $data_log=array(
             'user'=>$this->session->userdata('user')['username'],
             'type'=>'ADD',
             'is_show'=>1,
-            'content'=>'Thêm sản phẩm<br>Sản phẩm thêm: '.$name,
+            'content'=>$content,
             'created'=>getdate()[0]
         );
         $this->db->insert('log',$data_log);
@@ -129,7 +174,7 @@ class Product_Model extends CI_Model {
         if ($rs->num_rows() > 0) {
             return $rs->result_array();
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -155,7 +200,7 @@ class Product_Model extends CI_Model {
         }
     }
 
-    public function edit_product($id, $code, $name, $product_type, $brand, $cover, $img_list,$description){
+    public function edit_product($md5, $code, $name, $product_type, $brand, $cover, $img_list,$description){
         $data=array(
             'code'=>$code,
             'name'=>$name,
@@ -168,13 +213,30 @@ class Product_Model extends CI_Model {
             'created'=>getdate()[0],
             'is_show'=>1
         );
+        $product=self::get_item_by_md5($md5);
+        $content='
+<h4>Sửa sản phẩm</h4>
+<table>
+<thead>
+<tr><th>Sản phẩm cũ</th><th>Sản phẩm mới</th></tr>
+</thead>
+<tbody>
+<tr><td>'.$product['code'].'</td><td>'.$code.'</td></tr>
+<tr><td>'.$product['name'].'</td><td>'.$name.'</td></tr>
+<tr><td>'.$product['product_type_id'].'</td><td>'.$product_type.'</td></tr>
+<tr><td>'.$product['brand_id'].'</td><td>'.$brand.'</td></tr>
+<tr><td>'.$product['img_cover'].'</td><td>'.$cover.'</td></tr>
+<tr><td>'.$product['img_list'].'</td><td>'.$img_list.'</td></tr>
+<tr><td>'.$product['description'].'</td><td>'.$description.'</td></tr>
+</tbody>
+</table>';
         $this->db->trans_start();
-        $edit=$this->db->update('product',$data,"id=".$id);
+        $edit=$this->db->update('product',$data,"md5='$md5'");
         $data_log=array(
             'user'=>$this->session->userdata('user')['username'],
             'type'=>'CHANGE',
             'is_show'=>1,
-            'content'=>'Sửa sản phẩm<br>Sản phẩm sửa: '.$name,
+            'content'=>$content,
             'created'=>getdate()[0]
         );
         $this->db->insert('log',$data_log);
@@ -182,14 +244,14 @@ class Product_Model extends CI_Model {
         return $edit;
     }
 
-    public function get_item_by_id($id){
-        $sql='SELECT * FROM product WHERE is_show=1 and id='.$id;
+    public function get_item_by_md5($md5){
+        $sql='SELECT * FROM product WHERE is_show=1 and md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->row_array();
         }
         else{
-            return false;
+            return null;
         }
     }
 
@@ -197,7 +259,7 @@ class Product_Model extends CI_Model {
         $sql='SELECT product_color.*,color.name as color
         FROM product_color 
         JOIN color ON product_color.color_id=color.id
-        WHERE color.is_show=1 and product_color.is_show=1 and product_color.product_id='.$id
+        WHERE product_color.is_show=1 and product_color.is_show=1 and product_color.product_id=\''.$id.'\''
         ;
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
@@ -219,8 +281,128 @@ class Product_Model extends CI_Model {
         }
     }
 
-    public function check_color($id_product,$id_color){
+    public function check_color($id_product,$id_color,$index){
         $sql='SELECT * FROM product_color WHERE is_show=1 and product_id='.$id_product.' and color_id='.$id_color;
+        $rs=$this->db->query($sql);
+        $list=array('index'=>$index);
+        if($rs->num_rows()>0){
+            $list['id']=$rs->row_array()['id'];
+        }
+        else{
+            $list['id']=false;
+        }
+        return $list;
+    }
+
+    public function save_color($md5,$list_color){
+        $this->db->trans_start();
+        $product=self::get_item_by_md5($md5);
+        $data=array(
+            'product_id'=>$product['id'],
+            'is_show'=>1,
+            'created'=>getdate()[0],
+            'price_avg'=>0
+        );
+        $content='
+<h4>Thêm màu sản phẩm</h4>
+<table>
+<thead>
+<tr><th>Thông tin màu sản phẩm</th></tr>
+</thead>
+<tbody>
+<tr><td>'.$product['id'].'</td></tr>
+<tr><td>'.print_r($list_color).'</td></tr>
+</tbody>
+</table>';
+        if(!empty($list_color)){
+            foreach ($list_color as $id_color){
+                if($id_color>0){
+                    $data['color_id']=$id_color;
+                    $this->db->insert('product_color',$data);
+                    $add=$this->db->insert_id();
+                    $add=$this->db->update('product_color',array('md5'=>md5($add)),"id=$add");
+                }
+            }
+        }
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'ADD',
+            'is_show'=>1,
+            'content'=>$content,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
+        $this->db->trans_complete();
+        return $add;
+    }
+
+    public function delete($md5){
+        $data=array(
+            'is_show'=>0,
+            'created'=>getdate()[0]
+        );
+        $this->db->trans_start();
+        //xóa sản phẩm trong bảng product_color
+        $product=self::get_item_by_md5($md5);
+        $content='
+<h4>Xóa sản phẩm</h4>
+<table>
+<thead>
+<tr><th>Thông tin sản phẩm</th></tr>
+</thead>
+<tbody>
+<tr><td>'.$product['code'].'</td></tr>
+<tr><td>'.$product['name'].'</td></tr>
+<tr><td>'.$product['img_cover'].'</td></tr>
+<tr><td>'.$product['img_list'].'</td></tr>
+<tr><td>'.$product['description'].'</td></tr>
+<tr><td>'.$product['price'].'</td></tr>
+<tr><td>'.$product['discount'].'</td></tr>
+<tr><td>'.$product['product_type_id'].'</td></tr>
+<tr><td>'.$product['brand_id'].'</td></tr>
+</tbody>
+</table>';
+        $this->db->update('product_color',$data,"product_id=".$product['id']);
+        $delete=$this->db->update('product', $data, "md5 = '$md5'");
+        $data_log=array(
+            'user'=>$this->session->userdata('user')['username'],
+            'type'=>'DELETE',
+            'is_show'=>1,
+            'content'=>$content,
+            'created'=>getdate()[0]
+        );
+        $this->db->insert('log',$data_log);
+        $this->db->trans_complete();
+        return $delete;
+    }
+
+    public function check_name($md5){
+        //giá trị trả về =true không xóa,=false có thể xóa
+        //kiểm tra trong order
+        $sql='SELECT * FROM product 
+JOIN product_color ON product.id=product_color.product_id
+JOIN  detail_order ON product_color.id=detail_order.product_color_id
+WHERE product.is_show=1 and product.md5=\''.$md5.'\'
+';
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        //kiểm tra trong bill
+        $sql='SELECT * FROM product 
+JOIN product_color ON product.id=product_color.product_id
+JOIN  detail_bill ON product_color.id=detail_bill.product_color_id
+WHERE product.is_show=1 and product.md5=\''.$md5.'\'
+';
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        return false;
+    }
+
+    public function check_md5($md5){
+        $sql='SELECT * FROM product WHERE is_show=1 and md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return true;
@@ -230,55 +412,68 @@ class Product_Model extends CI_Model {
         }
     }
 
-    public function save_color($id_product,$list_color){
-        $this->db->trans_start();
-        $sql=$this->db->query('SELECT * FROM product WHERE is_show=1 and id='.$id_product);
-        $product_name=$sql->row_array()['name'];
-        $data=array(
-            'product_id'=>$id_product,
-            'is_show'=>1,
-            'created'=>getdate()[0],
-            'discount'=>0,
-            'price_avg'=>0
-        );
-        if(!empty($list_color)){
-            foreach ($list_color as $id_color){
-                $data['color_id']=$id_color;
-                $this->db->insert('product_color',$data);
-                $add=$this->db->insert_id();
-                $sql=$this->db->query('SELECT * FROM color WHERE is_show=1 and id='.$id_color);
-                $color_name=$sql->row_array()['name'];
-                $data_log=array(
-                    'user'=>$this->session->userdata('user')['username'],
-                    'type'=>'ADD',
-                    'is_show'=>1,
-                    'content'=>'Thêm màu son cho sản phẩm<br>Màu son thêm: '.$color_name.'<br>Sản phẩm thêm: '.$product_name,
-                    'created'=>getdate()[0]
-                );
-                $this->db->insert('log',$data_log);
-            }
+    public function check_md5_product_color($md5){
+        $sql='SELECT * FROM product_color WHERE is_show=1 and md5=\''.$md5.'\'';
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
         }
-        $this->db->trans_complete();
-        return $add;
+        else{
+            return false;
+        }
     }
 
-    public function delete($id){
-        $data=array(
-            'is_show'=>0,
-            'created'=>getdate()[0]
-        );
-        $this->db->trans_start();
-        $delete=$this->db->update('product', $data, "id = $id");
-        //xóa sản phẩm trong bảng product_color
-        $this->db->update('product_color',$data,"product_id=$id");
-        $sql='SELECT * FROM product WHERE id='.$id;
+    public function get_product_color_by_md5($md5){
+        $sql='SELECT * FROM product_color WHERE is_show=1 and md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
-        $name=$rs->row_array()['name'];
+        if($rs->num_rows()>0){
+            return $rs->row_array();
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function check_product_color_in_bill($md5){
+        //giá trị trả về =true không cho xóa,=false có thể xóa
+        $product_color=self::get_product_color_by_md5($md5);
+        if($product_color['quantity']>0){
+            return true;
+        }
+        $sql='SELECT * FROM product_color JOIN detail_bill ON product_color.id=detail_bill.product_color_id WHERE product_color.is_show=1 and product_color.md5=\''.$md5.'\'';
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        $sql='SELECT * FROM product_color JOIN detail_order ON product_color.id=detail_order.product_color_id WHERE product_color.is_show=1 and product_color.md5=\''.$md5.'\'';
+        $rs=$this->db->query($sql);
+        if($rs->num_rows()>0){
+            return true;
+        }
+        return false;
+    }
+
+    public function delete_product_color($md5){
+        $data=array('is_show'=>0);
+        $this->db->trans_start();
+        $product_color=self::get_product_color_by_md5($md5);
+        $content='
+<h4>Xóa màu son</h4>
+<table>
+<thead>
+<tr><th>Thông màu son</th></tr>
+</thead>
+<tbody>
+<tr><td>'.$product_color['product_id'].'</td></tr>
+<tr><td>'.$product_color['color_id'].'</td></tr>
+</tbody>
+</table>';
+        $delete= $this->db->update('product_color',$data,"md5='$md5'");
         $data_log=array(
             'user'=>$this->session->userdata('user')['username'],
             'type'=>'DELETE',
             'is_show'=>1,
-            'content'=>'Xóa sản phẩm<br>Sản phẩm xóa: '.$name,
+            'content'=>$content,
             'created'=>getdate()[0]
         );
         $this->db->insert('log',$data_log);
@@ -286,27 +481,14 @@ class Product_Model extends CI_Model {
         return $delete;
     }
 
-    public function check_name($product_id){
-        //kiểm tra trong order
-        $sql='SELECT * FROM product 
-JOIN product_color ON product.id=product_color.product_id
-JOIN  detail_order ON product_color.id=detail_order.product_color_id
-WHERE product.is_show=1 and product.id=
-'.$product_id;
+    public function get_product_by_md5_product_color($md5){
+        $sql='SELECT * FROM product_color JOIN product ON product_color.product_id=product.id WHERE product_color.md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
-            return true;
+            return $rs->row_array();
         }
-        //kiểm tra trong bill
-        $sql='SELECT * FROM product 
-JOIN product_color ON product.id=product_color.product_id
-JOIN  detail_bill ON product_color.id=detail_bill.product_color_id
-WHERE product.is_show=1 and product.id=
-'.$product_id;
-        $rs=$this->db->query($sql);
-        if($rs->num_rows()>0){
-            return true;
+        else{
+            return null;
         }
-        return false;
     }
 }

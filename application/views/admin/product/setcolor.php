@@ -15,6 +15,7 @@
                         <div class="control-group">
                             <label class="control-label">Tên sản phẩm</label>
                             <div class="controls">
+                                <input type="hidden" id="md5" name="md5" value="<?php echo $item['md5'];?>">
                                 <input type="hidden" id="id" name="id" value="<?php echo $item['id'];?>">
                                 <input type="text" name="name" id="name" readonly value="<?php echo $item['name'];?>">
                             </div>
@@ -40,6 +41,7 @@
                                         <label class="control-label"></label>
                                         <div class="controls">
                                             <input type="text" value="<?php echo $col['color'];?>" readonly>
+                                            <a href="<?php echo base_url('admin/product/delcolor/'.$col['md5']);?>"><i class="icon icon-trash btn btn-small"></i></a>
                                         </div>
                                     </div>
 
@@ -65,39 +67,45 @@
 <script>
     $(document).ready(function () {
         $('#add_color').click(function(){
+            var qty=$('select').length;
             $('#color tr:last').prev().after('<tr>' +
                     '<td></td>'+
-                '<td style="width: 100%"><select class="span4" name="list_color[]"><?php
+                '<td style="width: 100%"><select class="span4" id="'+qty+'" name="list_color[]"><option value="0">Chọn màu</option><?php
                     if(!empty($list_color)){
                         foreach ($list_color as $item){
                             ?><option value="<?php echo $item['id'];?>"><?php echo $item['name'];?></option><?php
                         }
                     }
-                    ?></select></td>' +
+                    ?></select><input type="hidden" value="'+qty+'"></td>' +
                 '<td><button type="button" name="remove">&times;</button></td>' +
                 '</tr>');
         });
 
         $(document).on('click','button[name=remove]',function(){
             $(this).parent().parent().remove();
-        })
+        });
 
         $(document).on('change','select',function(){
             var id_color=$(this).val();
+            var index=$(this).next().val();
             $.ajax({
                 url: "<?php echo base_url('admin/product/check_color_exist');?>",
                 type: "post",
-                data: {'id_product':$('#id').val(),'id_color':id_color},
-                success:function(response){
-                    var data=JSON.parse(response);
-                    console.log(data);
-                    if(data){
-                        alert('Màu đã tồn tại');
-                        $(this).parent().remove();
+                global: false,
+                data: {'id_product':$('#id').val(),'id_color':id_color,'index':index},
+                success:function(res){
+                    var data=JSON.parse(res);
+                    if(data.id===false){
+
+                    }
+                    else{
+                        $('#'+data.index).val(0);
+                        alert('Màu son đã tồn tại');
                     }
                 }
-            })
+            });
         })
+
     });
 
 </script>

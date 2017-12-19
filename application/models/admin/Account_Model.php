@@ -18,7 +18,7 @@ class Account_Model extends CI_Model {
             return $rs->result_array();
         }
         else{
-            return false;
+            return null;
         }
     }
 

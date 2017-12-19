@@ -119,7 +119,7 @@
                             <div class="control-group">
                                 <label class="control-label">Mã loại</label>
                                 <div class="controls">
-                                    <input type="text" name="code_product_type" id="code_product_type" autofocus>
+                                    <input type="text" name="code_product_type" id="code_product_type">
                                     <input type="hidden" name="code_product_type_confirm" id="code_product_type_confirm">
                                 </div>
                             </div>

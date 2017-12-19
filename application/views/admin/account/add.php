@@ -110,6 +110,7 @@
 <?php $this->load->view('admin/layouts/footer'); ?>
 <script>
     $(document).ready(function () {
+
         $('#code_group').on('keyup',function(){
             if($('#code_group').val()!==''){
                 $('#code_group_confirm').val($('#code_group').val());

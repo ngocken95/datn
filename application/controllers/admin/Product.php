@@ -33,11 +33,9 @@ class Product extends MY_Controller
 
     public function check_code_product_type_exist()
     {
-        $id = isset($_POST['id']) ? $_POST['id'] : '';
         $code_product_type = isset($_POST['code_product_type']) ? $_POST['code_product_type'] : '';
-        $code_group_old = isset($_POST['code_old']) ? $_POST['code_old'] : '';
         $model = new Product_Model();
-        $rs = $model->check_code_product_type($id, $code_product_type, $code_group_old);
+        $rs = $model->check_code_product_type( $code_product_type);
         echo json_encode($rs);
     }
 
@@ -47,7 +45,7 @@ class Product extends MY_Controller
         $name = isset($_POST['name_product_type']) ? $_POST['name_product_type'] : '';
         $description = isset($_POST['description_type']) ? $_POST['description_type'] : '';
         if ($code == '' || $name == '' || $description == '') {
-            $this->session->set_flashdata('act_fail', 'Thêm không thành công');
+            $this->session->set_flashdata('act_fail', 'Nhập đầy đủ thông tin');
             redirect('admin/product/add');
         }
         $model = new Product_Model();
@@ -56,18 +54,16 @@ class Product extends MY_Controller
             $this->session->set_flashdata('act_success', 'Thêm loại son thành công');
             redirect('admin/product/add');
         } else {
-            $this->session->set_flashdata('act_fail', 'Thêm loại son không thành công');
+            $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình xử lý');
             redirect('admin/product/add');
         }
     }
 
     public function check_code_brand_exist()
     {
-        $id = isset($_POST['id']) ? $_POST['id'] : '';
         $code_brand = isset($_POST['code_brand']) ? $_POST['code_brand'] : '';
-        $code_group_old = isset($_POST['code_old']) ? $_POST['code_old'] : '';
         $model = new Product_Model();
-        $rs = $model->check_code_brand($id, $code_brand, $code_group_old);
+        $rs = $model->check_code_brand($code_brand);
         echo json_encode($rs);
     }
 
@@ -85,15 +81,15 @@ class Product extends MY_Controller
                 $logo = $this->upload->data()['file_name'];
             } else {
                 $logo = '';
-                $this->session->set_flashdata('act_fail', 'Thêm thương hiệu không thành công');
+                $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình upload ảnh');
                 redirect('admin/product/add');
             }
         } else {
-            $this->session->set_flashdata('act_fail', 'Thêm thương hiệu không thành công');
+            $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình upload ảnh');
             redirect('admin/product/add');
         }
         if ($code_brand == '' || $name_brand == '' || $logo == '') {
-            $this->session->set_flashdata('act_fail', 'Thêm thương hiệu không thành công');
+            $this->session->set_flashdata('act_fail', 'Nhập đầy đủ thông tin');
             redirect('admin/product/add');
         }
         $model = new Product_Model();
@@ -102,18 +98,16 @@ class Product extends MY_Controller
             $this->session->set_flashdata('act_success', 'Thêm thương hiệu thành công');
             redirect('admin/product/add');
         } else {
-            $this->session->set_flashdata('act_fail', 'Thêm thương hiệu không thành công');
+            $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình xử lý');
             redirect('admin/product/add');
         }
     }
 
     public function check_code_product_exist()
     {
-        $id = isset($_POST['id']) ? $_POST['id'] : '';
         $code = isset($_POST['code']) ? $_POST['code'] : '';
-        $code_group_old = isset($_POST['code_old']) ? $_POST['code_old'] : '';
         $model = new Product_Model();
-        $rs = $model->check_code_product($id, $code, $code_group_old);
+        $rs = $model->check_code_product( $code);
         echo json_encode($rs);
     }
 
@@ -137,11 +131,11 @@ class Product extends MY_Controller
                 $cover = $this->upload->data()['file_name'];
             } else {
                 $cover = '';
-                $this->session->set_flashdata('act_fail', 'Thêm sản phẩm không thành công.<br>Upload ảnh cover lỗi');
+                $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình upload ảnh cover');
                 redirect('admin/product/add');
             }
         } else {
-            $this->session->set_flashdata('act_fail', 'Thêm sản phẩm không thành công.<br>Upload ảnh cover lỗi');
+            $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình upload ảnh cover');
             redirect('admin/product/add');
         }
 
@@ -166,7 +160,7 @@ class Product extends MY_Controller
                     $img_list_array[$i]= $this->upload->data()['file_name'];
                 }
                 else{
-                    $this->session->set_flashdata('act_fail','Thêm sản phẩm không thành công.<br>Upload ảnh lỗi');
+                    $this->session->set_flashdata('act_fail','Có lỗi trong quá tình upload ảnh');
                     redirect('admin/product/add');
                 }
             }
@@ -174,7 +168,7 @@ class Product extends MY_Controller
         }
         $description=isset($_POST['description'])?$_POST['description']:'';
         if($code=='' || $name=='' || $product_type=='' || $brand=='' || $cover=='' || $img_list=='' || $description=='' || $price=='' || $discount=='' || $hide==''){
-            $this->session->set_flashdata('act_fail','Thêm sản phẩm không thành công');
+            $this->session->set_flashdata('act_fail','Nhập đầy đủ thông tin');
             redirect('admin/account/add');
         }
         $model=new Product_Model();
@@ -184,7 +178,7 @@ class Product extends MY_Controller
             redirect('admin/product');
         }
         else{
-            $this->session->set_flashdata('act_fail','Thêm sản phẩm không thành công');
+            $this->session->set_flashdata('act_fail','Có lỗi trong quá trình xử lý');
             redirect('admin/product/add');
         }
     }
@@ -193,17 +187,14 @@ class Product extends MY_Controller
     {
         $this->data['action'] = 'edit';
         $model = new Product_Model();
-        $id = $this->uri->segment(4);
-        if ($id == '') {
-            $this->data['heading'] = 'Lỗi';
-            $this->data['message'] = 'Không tìm thấy dữ liệu';
-            $this->load->view('errors/html/error_404', $this->data);
-        } else {
+        $md5 = $this->uri->segment(4);
+        $check_md5=$model->check_md5($md5);
+        if($check_md5){
             $this->data['brand'] = $model->get_brand();
             $this->data['product_type'] = $model->get_product_type();
-            $item = $model->get_item_by_id($id);
+            $item = $model->get_item_by_md5($md5);
             if ($item) {
-                $this->data['check']=$model->check_name($id);
+                $this->data['check']=$model->check_name($item['md5']);
                 $this->data['item'] = $item;
                 $this->load->view('admin/product/edit', $this->data);
             } else {
@@ -212,11 +203,16 @@ class Product extends MY_Controller
                 $this->load->view('errors/html/error_404', $this->data);
             }
         }
+        else{
+            $this->data['heading'] = 'Lỗi';
+            $this->data['message'] = 'Không tìm thấy dữ liệu';
+            $this->load->view('errors/html/error_404', $this->data);
+        }
     }
 
     public function editAction()
     {
-        $id = isset($_POST['id']) ? $_POST['id'] : '';
+        $md5 = isset($_POST['md5']) ? $_POST['md5'] : '';
         $code = isset($_POST['code']) ? $_POST['code'] : '';
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         $product_type = isset($_POST['product_type']) ? $_POST['product_type'] : '';
@@ -247,12 +243,12 @@ class Product extends MY_Controller
                     $cover = $this->upload->data()['file_name'];
                 } else {
                     $cover = '';
-                    $this->session->set_flashdata('act_fail', 'Sửa sản phẩm không thành công.<br>Upload ảnh cover lỗi');
-                    redirect('admin/product/edit/'.$id);
+                    $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình upload ảnh cover');
+                    redirect('admin/product/edit/'.$md5);
                 }
             } else {
-                $this->session->set_flashdata('act_fail', 'Sửa sản phẩm không thành công.<br>Upload ảnh cover lỗi');
-                redirect('admin/product/edit/'.$id);
+                $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình upload ảnh cover');
+                redirect('admin/product/edit/'.$md5);
             }
             $file  = $_FILES['img_list'];
             $count = count($file['name']);
@@ -275,45 +271,76 @@ class Product extends MY_Controller
                         $img_list_array[$i]= $this->upload->data()['file_name'];
                     }
                     else{
-                        $this->session->set_flashdata('act_fail','Sửa sản phẩm không thành công.<br>Upload ảnh lỗi');
-                        redirect('admin/product/edit/'.$id);
+                        $this->session->set_flashdata('act_fail','Có lỗi trong quá trình upload ảnh');
+                        redirect('admin/product/edit/'.$md5);
                     }
                 }
                 $img_list=implode('/',$img_list_array);
             }
         }
-        if($id=='' || $code=='' || $name=='' || $product_type=='' || $brand=='' || $cover=='' || $img_list=='' || $description==''){
-            $this->session->set_flashdata('act_fail','Sửa 1sản phẩm không thành công');
-            redirect('admin/product/edit/' . $id);
+        if($md5=='' || $code=='' || $name=='' || $product_type=='' || $brand=='' || $cover=='' || $img_list=='' || $description==''){
+            $this->session->set_flashdata('act_fail','Nhập đầy đủ thông tin');
+            redirect('admin/product/edit/' . $md5);
         }
         $model=new Product_Model();
-        $rs = $model->edit_product($id, $code, $name, $product_type, $brand, $cover, $img_list,$description);
+        $rs = $model->edit_product($md5, $code, $name, $product_type, $brand, $cover, $img_list,$description);
         if ($rs) {
             $this->session->set_flashdata('act_success', 'Sửa sản phẩm thành công');
             redirect('admin/product');
         } else {
-            $this->session->set_flashdata('act_fail', 'Sửa 2sản phẩm không thành công');
-            redirect('admin/product/edit/' . $id);
+            $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình xử lý');
+            redirect('admin/product/edit/' . $md5);
         }
     }
 
     public function getItemById(){
         $id = isset($_POST['id']) ? $_POST['id'] : '';
         $model = new Product_Model();
-        $rs = $model->get_item_by_id($id);
+        $rs = $model->get_item_by_md5(md5($id));
         echo json_encode($rs);
     }
 
     public function setColor(){
         $model=new Product_Model();
-        $id=$this->uri->segment(4);
-        $item=$model->get_item_by_id($id);
-        $this->data['color_exist']=$model->get_product_color_by_id($id);
-        $this->data['list_color']=$model->get_list_color();
-        if ($item) {
-            $this->data['item'] = $item;
+        $md5=$this->uri->segment(4);
+        $check_md5=$model->check_md5($md5);
+        if($check_md5){
+            $this->data['item']=$model->get_item_by_md5($md5);
+            $this->data['color_exist']=$model->get_product_color_by_id($this->data['item']['id']);
+            $this->data['list_color']=$model->get_list_color();
             $this->load->view('admin/product/setcolor', $this->data);
-        } else {
+        }
+        else{
+            $this->data['heading'] = 'Lỗi';
+            $this->data['message'] = 'Không tìm thấy dữ liệu';
+            $this->load->view('errors/html/error_404', $this->data);
+        }
+    }
+
+    public function delcolor(){
+        $model=new Product_Model();
+        $md5=$this->uri->segment(4);
+        $product=$model->get_product_by_md5_product_color($md5);
+        $check_md5=$model->check_md5_product_color($md5);
+        if($check_md5){
+            $check_bill=$model->check_product_color_in_bill($md5);
+            if(!$check_bill){
+                $rs=$model->delete_product_color($md5);
+                if($rs){
+                    $this->session->set_flashdata('act_success','Xóa màu son thành công');
+                    redirect('admin/product/setcolor/'.$product['md5']);
+                }
+                else{
+                    $this->session->set_flashdata('act_fail','Có lỗi trong quá trình xử lý');
+                    redirect('admin/product/setcolor/'.$product['md5']);
+                }
+            }
+            else{
+                $this->session->set_flashdata('act_fail','Có đơn hàng chứa sản phẩm này');
+                redirect('admin/product/setcolor/'.$product['md5']);
+            }
+        }
+        else{
             $this->data['heading'] = 'Lỗi';
             $this->data['message'] = 'Không tìm thấy dữ liệu';
             $this->load->view('errors/html/error_404', $this->data);
@@ -323,39 +350,27 @@ class Product extends MY_Controller
     public function check_color_exist(){
         $id_product=isset($_POST['id_product'])?$_POST['id_product']:'';
         $id_color=isset($_POST['id_color'])?$_POST['id_color']:'';
+        $index=isset($_POST['index'])?$_POST['index']:"";
         $model=new Product_Model();
-        $rs=$model->check_color($id_product,$id_color);
+        $rs=$model->check_color($id_product,$id_color,$index);
         echo json_encode($rs);
     }
 
     public function savecolor(){
-        $id_product=isset($_POST['id'])?$_POST['id']:'';
+        $md5=isset($_POST['md5'])?$_POST['md5']:'';
+        echo $md5;
         $list_id_color=isset($_POST['list_color'])?$_POST['list_color']:'';
         $model=new Product_Model();
-        $add=$model->save_color($id_product,$list_id_color);
-        if($add){
-            $this->session->set_flashdata('act_success','Thêm màu son thành công');
-            redirect('admin/product/setcolor/'.$id_product);
-        }
-        else{
-            $this->session->set_flashdata('act_fail','Thêm màu son không thành công');
-            redirect('admin/product/setcolor/'.$id_product);
-        }
-    }
-
-    public function delById()
-    {
-        $id = isset($_POST['id']) ? $_POST['id'] : '';
-        if ($id == '') {
-            $this->session->set_flashdata('act_fail', 'Xóa sản phẩm không thành công');
-            redirect('admin/product');
-        }
-        $model = new Account_Model();
-        $check=$model->check_id($id);
-        if($check){
-            $check_name=$model->check_name($id);
-            if(!$check_name){
-                $model->delete($id);
+        $check_md5=$model->check_md5($md5);
+        if($check_md5){
+            $add=$model->save_color($md5,$list_id_color);
+            if($add){
+                $this->session->set_flashdata('act_success','Thêm màu son thành công');
+                redirect('admin/product/setcolor/'.$md5);
+            }
+            else{
+                $this->session->set_flashdata('act_fail','Có lỗi trong quá trình xử lý');
+                redirect('admin/product/setcolor/'.$md5);
             }
         }
         else{
@@ -363,6 +378,37 @@ class Product extends MY_Controller
             $this->data['message'] = 'Không tìm thấy dữ liệu';
             $this->load->view('errors/html/error_404', $this->data);
         }
+    }
+
+    public function delete()
+    {
+        $md5 = $this->uri->segment(4);
+        $model = new Product_Model();
+        $check_md5=$model->check_md5($md5);
+        if ($check_md5) {
+            $check_name=$model->check_name($md5);
+            if(!$check_name){
+                $rs=$model->delete($md5);
+                if($rs){
+                    $this->session->set_flashdata('act_sucess', 'Xóa sản phẩm thành công');
+                    redirect('admin/product');
+                }
+                else{
+                    $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình xử lý');
+                    redirect('admin/product');
+                }
+            }
+            else{
+                $this->session->set_flashdata('act_fail', 'Sản phẩm đã tồn tại trong đơn hàng');
+                redirect('admin/product');
+            }
+        }
+        else{
+            $this->data['heading'] = 'Lỗi';
+            $this->data['message'] = 'Không tìm thấy dữ liệu';
+            $this->load->view('errors/html/error_404', $this->data);
+        }
+
     }
 
 }

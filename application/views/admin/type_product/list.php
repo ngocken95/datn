@@ -12,7 +12,7 @@
                         <?php
                             if($act['add_act']==1){
                                 ?>
-                                <a class="label label-info" href="<?php echo base_url('admin/product/add'); ?>">Thêm mới</a>
+                                <a class="label label-info" href="<?php echo base_url('admin/type_product/add'); ?>">Thêm mới</a>
                                 <?php
                             }
                         ?>
@@ -22,36 +22,30 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Thương hiệu</th>
-                                <th>Loại sản phẩm</th>
-                                <th>Ảnh</th>
+                                <th>Mã loại</th>
+                                <th>Tên loại</th>
                                 <th>Mô tả</th>
-                                <th>Set màu</th>
-                                <th></th>
+                                <th width="10%"></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
                             if(!empty($items)){
                                 $stt=1;
-                                foreach ($items as $key=> $product){
+                                foreach ($items as $type_product){
                                     ?>
                                     <tr>
                                         <td><?php echo $stt;?></td>
-                                        <td><?php echo $product['name'];?></td>
-                                        <td><?php echo $product['brand'];?></td>
-                                        <td><?php echo $product['product_type'];?></td>
-                                        <td><img src="<?php echo base_url('upload/').$product['img_cover'];?>" width="150" height="50" alt=""></td>
-                                        <td><?php echo word_limiter($product['description'],30);?></td>
-                                        <td><a href="<?php echo base_url('admin/product/setcolor/' . $product['md5']);?>" class="btn btn-link"><i class="icon icon-plus-sign"></i></a></td>
+                                        <td><?php echo $type_product['code'];?></td>
+                                        <td><?php echo $type_product['name'];?></td>
+                                        <td><?php echo $type_product['description'];?></td>
                                         <td>
                                             <?php
                                             if ($act['edit_act'] == 1) {
-                                                echo '<a href="' . base_url('admin/product/edit/' . $product['md5']) . '" class="btn btn-link"><i class="icon icon-pencil"></i></a>';
+                                                echo '<a href="' . base_url('admin/type_product/edit/' . $type_product['md5']) . '" class="btn btn-link"><i class="icon icon-pencil"></i></a>';
                                             }
                                             if ($act['delete_act'] == 1) {
-                                                echo '<a href="' . base_url('admin/product/delete/' . $product['md5']) . '" onclick="return confirm(\'Bạn có muốn xóa sản phẩm này?\');" class="btn btn-link"><i class="icon icon-trash"></i></a>';
+                                                echo '<a href="' . base_url('admin/type_product/delete/' . $type_product['md5']) . '" class="btn btn-link"><i class="icon icon-trash"></i></a>';
                                             }
                                             ?>
                                         </td>

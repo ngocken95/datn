@@ -15,6 +15,38 @@ class Exportwh_Model extends CI_Model
         }
     }
 
+    public function get_list_order()
+    {
+        $sql = 'SELECT customer_order.*,CONCAT(product.name,\' - \',color.name) as product,product_color.id as product_id,detail_order.quantity as quantity FROM  customer_order
+    JOIN detail_order ON customer_order.id=detail_order.order_id
+    JOIN product_color ON product_color.id=detail_order.product_color_id
+    JOIN product ON product_color.product_id=product.id
+    JOIN color ON color.id=product_color.color_id
+    WHERE customer_order.is_show=1 and detail_order.is_show=1 and status=\'WH\'';
+        $rs = $this->db->query($sql);
+        if ($rs->num_rows() > 0) {
+            $list = array();
+            foreach ($rs->result_array() as $item) {
+                if(empty($list[$item['code'].'/'.$item['id']])){
+                    $list[$item['code'].'/'.$item['id']][0]['id']=$item['id'];
+                    $list[$item['code'].'/'.$item['id']][0]['product_id']=$item['product_id'];
+                    $list[$item['code'].'/'.$item['id']][0]['product']=$item['product'];
+                    $list[$item['code'].'/'.$item['id']][0]['quantity']=$item['quantity'];
+                }
+                else{
+                    $k=count($list[$item['code'].'/'.$item['id']]);
+                    $list[$item['code'].'/'.$item['id']][$k]['id']=$item['id'];
+                    $list[$item['code'].'/'.$item['id']][$k]['product_id']=$item['product_id'];
+                    $list[$item['code'].'/'.$item['id']][$k]['product']=$item['product'];
+                    $list[$item['code'].'/'.$item['id']][$k]['quantity']=$item['quantity'];
+                }
+            }
+            return $list;
+        } else {
+            return null;
+        }
+    }
+
     public function get_list_bill()
     {
         $sql = 'SELECT bill.*,account.name as name FROM bill JOIN account ON bill.account_id=account.id WHERE bill.is_show=1 and type=\'EXPORT\'';

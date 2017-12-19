@@ -117,7 +117,7 @@ class Account extends MY_Controller {
         $phone=isset($_POST['phone'])?$_POST['phone']:'';
         $group=isset($_POST['group'])?$_POST['group']:'';
         if($id=='' || $username=='' || $password=='' || $email=='' || $name=='' || $phone=='' || $group==''){
-            $this->session->set_flashdata('act_fail','Sửa không thành công');
+            $this->session->set_flashdata('act_fail','Nhập đầy đủ thông tin');
             redirect('admin/account/edit/'.$id);
         }
         $model=new Account_Model();

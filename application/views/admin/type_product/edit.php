@@ -8,36 +8,36 @@
             <div class="row-fluid">
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-                        <h5>Thêm mới</h5>
+                        <h5>Sửa</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url('admin/product/addaction');?>" name="information_product" id="information_product" novalidate="novalidate" enctype="multipart/form-data">
-                            <div class="control-group">
-                            </div>
+                        <form class="form-horizontal" method="post" enctype="multipart/form-data" enctype="multipart/form-data" action="<?php echo base_url('admin/product/editaction');?>" name="information_product" id="information_product" novalidate="novalidate">
                             <div class="control-group">
                                 <label class="control-label">Mã sản phẩm</label>
                                 <div class="controls">
-                                    <input type="text" name="code_product" id="code_product" autofocus="autofocus">
-                                    <input type="hidden" name="code_product_confirm" id="code_product_confirm">
+                                    <input type="text" name="code" id="code" value="<?php echo $item['code'];?>" readonly>
+                                    <input type="hidden" name="id" id="id" value="<?php echo $item['id'];?>">
+                                    <input type="hidden" name="img_cover_old" id="img_cover_old" value="<?php echo $item['img_cover'];?>">
+                                    <input type="hidden" name="img_list_old" id="img_list_old" value="<?php echo $item['img_list'];?>">
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Tên sản phẩm</label>
                                 <div class="controls">
-                                    <input type="text" name="name_product" id="name_product">
+                                    <input type="text" name="name" id="name" value="<?php echo $item['name'];?>" <?php echo $check?'readonly':'';?>>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Giá</label>
                                 <div class="controls">
-                                    <input type="text" name="price_show" id="price_show">
-                                    <input type="hidden" name="price" id="price">
+                                    <input type="text" name="price_show" id="price_show" value="<?php echo $item['price'];?>">
+                                    <input type="hidden" name="price" id="price" value="<?php echo $item['price'];?>">
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Giảm giá</label>
                                 <div class="controls">
-                                    <input type="text" name="discount" id="discount">%
+                                    <input type="text" name="discount" id="discount" value="<?php echo $item['discount'];?>">%
                                 </div>
                             </div>
                             <div class="control-group">
@@ -48,7 +48,7 @@
                                         if(!empty($product_type)){
                                             foreach ($product_type as $key=>$val){
                                                 ?>
-                                                <option value="<?php echo $val['id'];?>"><?php echo $val['name'];?></option>
+                                                <option value="<?php echo $val['id'];?>" <?php echo ($val['id']==$item['product_type_id'])?'selected':'';?>><?php echo $val['name'];?></option>
                                                 <?php
                                             }
                                         }
@@ -65,7 +65,7 @@
                                         if(!empty($brand)){
                                             foreach ($brand as $key=>$val){
                                                 ?>
-                                                <option value="<?php echo $val['id'];?>"><?php echo $val['name'];?></option>
+                                                <option value="<?php echo $val['id'];?>" <?php echo ($val['id']==$item['brand_id'])?'selected':'';?>><?php echo $val['name'];?></option>
                                                 <?php
                                             }
                                         }
@@ -74,6 +74,13 @@
                                     <button type="button" class="btn btn-info btn-small" data-toggle="modal" data-target="#addBrand">Thêm thương hiệu</button>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <label class="control-label">Thay đổi ảnh</label>
+                                <div class="controls">
+                                    <input type="checkbox" value="1" name="change_img" id="change_img">
+                                </div>
+                            </div>
+                            <div id="img-box">
                             <div class="control-group">
                                 <label class="control-label">Ảnh đại diện</label>
                                 <div class="controls">
@@ -87,26 +94,22 @@
                                     <button type="button" id="add_img">+</button>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label">Hiển thị trên website</label>
-                                <div class="controls">
-                                    <input type="checkbox" value="1" name="hide" id="hide">
-                                </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Mô tả</label>
                                 <div class="controls">
-                                    <textarea class="span8" rows="10" name="description" id="description"></textarea>
+                                    <textarea class="span8" rows="10" name="description" id="description"><?php echo $item['description'];?></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <input type="submit" value="Thêm mới" class="btn btn-success">
+                                <input type="submit" value="Sửa" class="btn btn-success">
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
         <div id="addProductType" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -119,7 +122,7 @@
                             <div class="control-group">
                                 <label class="control-label">Mã loại</label>
                                 <div class="controls">
-                                    <input type="text" name="code_product_type" id="code_product_type" autofocus>
+                                    <input type="text" name="code_product_type" id="code_product_type">
                                     <input type="hidden" name="code_product_type_confirm" id="code_product_type_confirm">
                                 </div>
                             </div>
@@ -132,7 +135,7 @@
                             <div class="control-group">
                                 <label class="control-label">Mô tả</label>
                                 <div class="controls">
-                                    <textarea name="description_type" id="description_type"></textarea>
+                                    <input type="text" name="description_type" id="description_type">
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -182,10 +185,8 @@
         </div>
     </div>
 <?php $this->load->view('admin/layouts/footer'); ?>
-
 <script>
     $(document).ready(function () {
-
         $("#add_product_type").validate({
             rules:{
                 code_product_type:{
@@ -285,7 +286,7 @@
 
         $('#add_img').click(function(){
             $(this).parent().append('<input type="file" name="img_list[]" id="img_list">');
-        })
+        });
 
         $("#information_product").validate({
             rules:{
@@ -298,19 +299,11 @@
                 },
                 description:{
                     required:true
-                },
-                price:{
-                    required:true,
-                    number:true
-                },
-                discount:{
-                    required:true,
-                    number:true
                 }
             },
             messages:{
                 code_product:{
-                    required:"Không được để trống",
+                    required:'Không được để trống',
                     equalTo:"Mã đã tồn tại"
                 },
                 name_product:{
@@ -318,14 +311,6 @@
                 },
                 description:{
                     required:"Không được để trống"
-                },
-                price:{
-                    required:"Không được để trống",
-                    number:"Giá trị nhập vào phải là số"
-                },
-                discount:{
-                    required:"Không được để trống",
-                    number:"Giá trị nhập vào phải là số"
                 }
             },
             errorClass: "help-inline",
@@ -363,6 +348,17 @@
 
         $('#price_show').change(function(){
             $('#price').val($(this).unmask());
+        })
+
+        $('#img-box').css('display','none');
+
+        $('#change_img').on('change',function(){
+            if(this.checked){
+                $('#img-box').css('display','block');
+            }
+            else{
+                $('#img-box').css('display','none');
+            }
         })
     });
 

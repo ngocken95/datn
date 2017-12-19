@@ -25,8 +25,6 @@
                 <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
             </ul>
         </li>
-        <li class=""><a title="" href="<?php echo base_url(); ?>admin/login/logout"><i class="icon icon-share-alt"></i>
-                <span class="text">Đăng xuất</span></a></li>
     </ul>
 </div>
 

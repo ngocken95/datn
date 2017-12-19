@@ -2,6 +2,7 @@
     <div id="footer" class="span12"> 2017 &copy; Đồ án tốt nghiệp
     </div>
 </div>
+<script src="<?php echo base_url(); ?>template/backend/js/excanvas.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.ui.custom.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/bootstrap.min.js"></script>
@@ -21,20 +22,21 @@
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.tables.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/price_format/jquery.priceformat.min.js"></script>
 
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/jquery.flot.min.js"></script>-->
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/jquery.flot.resize.min.js"></script>-->
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/jquery.peity.min.js"></script>-->
+<script src="<?php echo base_url(); ?>template/backend/js/jquery.flot.min.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/js/jquery.flot.resize.min.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/js/jquery.flot.time.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/js/jquery.peity.min.js"></script>
 <!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/fullcalendar.min.js"></script>-->
 
 
 
 <!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/matrix.dashboard.js"></script>-->
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.gritter.min.js"></script>
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/matrix.interface.js"></script>-->
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/matrix.chat.js"></script>-->
+<script src="<?php echo base_url(); ?>template/backend/js/matrix.interface.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/js/matrix.chat.js"></script>
 
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.wizard.js"></script>
-<script src="<?php echo base_url(); ?>template/backend/js/excanvas.min.js"></script>
+
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.popover.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/bootstrap-datepicker.js"></script>
 

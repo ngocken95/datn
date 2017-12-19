@@ -21,7 +21,7 @@ class Exportwh extends MY_Controller {
         $model=new Exportwh_Model();
         $code=$model->get_code()+1;
         $this->data['code_bill']='PX-'.$code;
-        $this->data['list_order']=$model->get_list_bill();
+        $this->data['list_order']=$model->get_list_order();
         $this->load->view('admin/exportwh/add',$this->data);
     }
 

@@ -42,8 +42,9 @@
                             </thead>
                             <tbody>
                             <?php
-                            $hidden=true;
                             if(!empty($list_order)){
+                                $j=0;
+                                $hidden=false;
                                 foreach ($list_order as $key=>$order){
                                     $code=explode('/',$key);
                                     $check=false;
@@ -75,14 +76,19 @@
                                                             foreach ($this->session->flashdata('check_wh')[$k] as $pro){
                                                                 if($product['product_id']==$pro['product_color_id']){
                                                                     if($pro['check']==1){
+                                                                        $j++;
                                                                         echo 'Còn hàng';
-                                                                        $hidden=false;
                                                                     }
                                                                     else{
                                                                         echo 'Hết hàng';
-                                                                        $hidden=true;
                                                                     }
                                                                 }
+                                                            }
+                                                            if($j<count($this->session->flashdata('check_wh')[$k])){
+                                                                $hidden=false;
+                                                            }
+                                                            else{
+                                                                $hidden=true;
                                                             }
                                                         }
                                                     }
@@ -100,7 +106,7 @@
                         <div class="form-actions">
                             <input type="submit" value="Kiểm tra kho" name="check_wh" class="btn btn-warning">
                             <?php
-                            if(!$hidden){
+                            if($hidden){
                             ?>
                             <input type="submit" value="Tạo hóa đơn" name="add" class="btn btn-success">
                             <?php

@@ -25,3 +25,19 @@ if ( ! function_exists('convert_vi_to_en'))
         return $str;
     }
 }
+
+if ( ! function_exists('convert_dmY_to_Ymd'))
+{
+    function convert_dmY_to_Ymd($dmY) {
+        $date=explode('/',$dmY);
+        return $date[2].'-'.$date[1].'-'.$date[0];
+    }
+}
+
+if ( ! function_exists('convert_Ymd_to_dmY'))
+{
+    function convert_Ymd_to_dmY($dmY) {
+        $date=explode('-',$dmY);
+        return $date[2].'/'.$date[1].'/'.$date[0];
+    }
+}

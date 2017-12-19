@@ -132,9 +132,6 @@
             <div class="row">
                 <?php
                 if (!empty($list_help)) {
-                    ?>
-                    <p><b>TỔNG ĐÀI VIÊN</b></p>
-                    <?php
                     foreach ($list_help as $account) {
                         $skype = explode('@', $account['email']);
                         ?>

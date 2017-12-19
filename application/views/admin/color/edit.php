@@ -18,7 +18,7 @@
                             <label class="control-label">Mã màu</label>
                             <div class="controls">
                                 <input type="text" name="code" id="code" value="<?php echo $item['code']; ?>" readonly>
-                                <input type="hidden" name="id" id="id" value="<?php echo $item['id']; ?>">
+                                <input type="hidden" name="md5" id="md5" value="<?php echo $item['md5']; ?>">
                             </div>
                         </div>
                         <div class="control-group">
