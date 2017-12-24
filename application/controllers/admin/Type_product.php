@@ -83,7 +83,7 @@ class Type_product extends MY_Controller {
 
     public function add(){
         $this->data['action']='add';
-        $this->load->view('admin/brand/add',$this->data);
+        $this->load->view('admin/type_product/add',$this->data);
     }
 
     public function check_code(){

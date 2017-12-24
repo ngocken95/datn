@@ -42,9 +42,9 @@
                             </thead>
                             <tbody>
                             <?php
+                            $hidden=false;
                             if(!empty($list_order)){
                                 $j=0;
-                                $hidden=false;
                                 foreach ($list_order as $key=>$order){
                                     $code=explode('/',$key);
                                     $check=false;

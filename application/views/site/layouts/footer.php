@@ -94,6 +94,15 @@
              class="img-responsive" title=""/>
     </div>
 </footer>
+<?php
+if($this->session->flashdata('alert')){
+    ?>
+    <script>
+        alert('<?php echo $this->session->flashdata('alert');?>');
+    </script>
+    <?php
+}
+?>
 <script type="text/javascript">
     $(function () {
         $(window).scroll(function () {

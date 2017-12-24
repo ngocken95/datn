@@ -16,8 +16,8 @@ class Order_Model extends CI_Model {
         }
     }
 
-    public function check_id($id){
-        $sql='SELECT * FROM customer_order WHERE id='.$id;
+    public function check_md5($md5){
+        $sql='SELECT * FROM customer_order WHERE md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return true;
@@ -27,8 +27,8 @@ class Order_Model extends CI_Model {
         }
     }
 
-    public function get_order_by_id($id){
-        $sql='SELECT * FROM customer_order WHERE id='.$id;
+    public function get_order_by_md5($md5){
+        $sql='SELECT * FROM customer_order WHERE md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->row_array();
@@ -55,22 +55,23 @@ WHERE detail_order.order_id=
         }
     }
 
-    public function update_user($id){
+    public function update_user($md5){
         $data=array(
             'account_id'=>$this->session->userdata('user')['id'],
             'status'=>'WH',
-            'time'=>getdate()[0]
+            'time'=>getdate()[0],
+            'check_new'=>0
         );
         $this->db->trans_start();
-        $add=$this->db->update('customer_order',$data,"id=".$id);
+        $add=$this->db->update('customer_order',$data,"md5='$md5'");
         $this->db->trans_complete();
         return $add;
     }
 
-    public function delete($id){
+    public function delete($md5){
         $data=array('is_show'=>0);
         $this->db->trans_start();
-        $add=$this->db->update('customer_order',$data,"id=".$id);
+        $add=$this->db->update('customer_order',$data,"id='$md5'");
         $this->db->trans_complete();
         return $add;
     }

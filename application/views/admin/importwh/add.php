@@ -96,14 +96,6 @@
             $(this).parent().parent().remove();
         });
 
-        $(document).on('change','input[type=number]',function(){
-            var value=$(this).val();
-            if(value<0){
-                alert('Không được nhập số âm');
-                $(this).val(0);
-            }
-        })
-
     });
 
 </script>

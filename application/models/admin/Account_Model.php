@@ -10,7 +10,7 @@ class Account_Model extends CI_Model {
         }
         $sql='SELECT * FROM account WHERE '.$cond.'
         UNION
-        SELECT * FROM account WHERE group_account_id=0 
+        SELECT * FROM account WHERE group_account_id=0 and is_show=1
         ORDER BY group_account_id ASC 
         ';
         $rs=$this->db->query($sql);

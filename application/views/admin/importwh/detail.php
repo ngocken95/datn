@@ -84,7 +84,7 @@
                                                 <td><?php echo $item['name'] . ' - ' . $item['color']; ?></td>
                                                 <td><?php echo $item['quantity']; ?></td>
                                                 <td><?php echo number_format($item['price']); ?></td>
-                                                <td><?php echo number_format($item['quantity'] * $item['price']); ?></td>
+                                                <td><?php echo number_format($item['quantity'] * $item['price']).' VNĐ'; ?></td>
                                             </tr>
                                             <?php
                                             $total+=$item['quantity'] * $item['price'];
@@ -100,13 +100,13 @@
                                         <td class="msg-invoice" width="75%"><h4>Thanh toán: </h4></td>
                                         <td class="right"><strong>Tổng cộng</strong> <br>
                                             <strong>Giảm giá</strong></td>
-                                        <td class="right"><strong><?php echo number_format($total);?> <br>
+                                        <td class="right"><strong><?php echo number_format($total).' VNĐ';?> <br>
                                              0</strong></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <div class="pull-right">
-                                    <h4><span>Thành tiền:</span> <?php echo number_format($total);?></h4>
+                                    <h4><span>Thành tiền:</span> <?php echo number_format($total).' VNĐ';?></h4>
                             </div>
                         </div>
                     </div>

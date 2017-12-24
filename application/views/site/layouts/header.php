@@ -133,7 +133,7 @@
                                 <form action="<?php echo base_url('search');?>" method="GET">
                                     <div class="input-group stylish-input-group">
                                         <input type="text" class="form-control" name="find"
-                                               placeholder="nhập tên sản phẩm...">
+                                               placeholder="nhập tên sản phẩm..." value="<?php echo $this->session->flashdata('data')['find'] ? $this->session->flashdata('data')['find'] : ''; ?>">
                                         <span class="input-group-addon">
                                             <button type="submit">
                                                 <span class="glyphicon glyphicon-search"></span>

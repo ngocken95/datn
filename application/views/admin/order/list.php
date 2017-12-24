@@ -26,10 +26,11 @@
                         <tbody>
                         <?php
                         if (!empty($items)) {
-                            foreach ($items as $key => $item) {
+                            $stt=1;
+                            foreach ($items as $item) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $key + 1; ?></td>
+                                    <td><?php echo $stt; ?></td>
                                     <td>
                                         <a href="<?php echo base_url('admin/order/detail/' . $item['id']); ?>"><?php echo $item['code']; ?></a>
                                     </td>
@@ -39,7 +40,7 @@
                                     <td><?php echo $item['cus_note']; ?></td>
                                     <td><?php if ($item['status'] == 'ORDER') {
                                             ?>
-                                            <a href="<?php echo base_url('admin/order/detail/'.$item['id']);?>">Duyệt</a>
+                                            <a href="<?php echo base_url('admin/order/detail/'.$item['md5']);?>">Duyệt</a>
                                             <?php
                                         }
                                         if($item['status']=='WH'){
@@ -53,12 +54,13 @@
                                     <td>
                                         <?php
                                         if ($item['status']!='WH' && $act['delete_act'] == 1) {
-                                            echo '<a href="'. base_url('admin/order/delete/' . $item['id']).'"><i class="icon icon-trash"></i></a>';
+                                            echo '<a href="'. base_url('admin/order/delete/' . $item['md5']).'"><i class="icon icon-trash"></i></a>';
                                         }
                                         ?>
                                     </td>
                                 </tr>
                                 <?php
+                                $stt++;
                             }
                         }
                         ?>
@@ -70,7 +72,7 @@
                         if(!empty($list_delete)){
                             foreach ($list_delete as $del){
                                 ?>
-                                <a href="<?php echo base_url('admin/order/detail/'.$del['id']);?>"><?php echo $del['code'];?></a>
+                                <a href="<?php echo base_url('admin/order/detail/'.$del['md5']);?>"><?php echo $del['code'];?></a>
                                 <?php
                             }
                         }

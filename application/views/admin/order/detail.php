@@ -125,7 +125,7 @@
                                 <?php
                                 if($item['is_show']==1){
                                 ?>
-                                <a href="<?php echo base_url('admin/order/checkorder/'.$item['id']);?>" class="btn btn-success">Duyệt đơn hàng</a>
+                                <a href="<?php echo base_url('admin/order/checkorder/'.$item['md5']);?>" class="btn btn-success">Duyệt đơn hàng</a>
                                 <?php
                                 }
                                 ?>

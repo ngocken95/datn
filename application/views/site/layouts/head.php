@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/style.css');?>" type="text/css"/>
     <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/font-awesome.min.css');?>" type="text/css">
     <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/magiczoomplus.css');?>" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/morris.css');?>" type="text/css">
 <!--    <link rel="stylesheet" href="--><?php //echo base_url('template/frontend/css/jquery.bxslider.css');?><!--" type="text/css">-->
 
     <script src="<?php echo base_url('template/frontend/js/jquery.min.js');?>"></script>
@@ -23,8 +24,10 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('template/frontend/css/owl.carousel.css');?>"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('template/frontend/css/owl.theme.css');?>"/>
     <script type="text/javascript" src="<?php echo base_url('template/frontend/js/owl.carousel.js');?>"></script>
+    <script src="<?php echo base_url('template/frontend/price_format/jquery.priceformat.min.js'); ?>"></script>
     <!--    <script src="http://uhchat.net/code.php?f=1e12f1"></script>-->
     <link href="<?php echo base_url('template/frontend/css/font-roboto.css');?>" type="text/css" rel="stylesheet">
+
     <style>
         .ribbon-wrapper {
             width: 75px;

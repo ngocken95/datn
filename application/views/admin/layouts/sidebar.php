@@ -99,7 +99,7 @@
                 ?>
             </ul>
         </li>
-        <li class="submenu <?php echo ($active['code'] == 'daily_report' || $active['code'] == 'month_report') ? 'active' : ''; ?>">
+        <li class="submenu <?php echo ($active['code'] == 'daily_report' || $active['code'] == 'month_report' || $active['code'] == 'product_sale'  || $active['code'] == 'product_best' || $active['code'] == 'import_report') ? 'active' : ''; ?>">
             <a href="#"><i
                         class="icon icon-truck"></i> <span>Báo cáo</span></a>
             <ul>
@@ -115,6 +115,24 @@
                         ?>
                         <li class="<?php echo ($active['code'] == 'month_report') ? 'active' : ''; ?>"><a
                                     href="<?php echo base_url('admin/month_report'); ?>">Báo cáo định kỳ</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'import_report' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'import_report') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/import_report'); ?>">Báo cáo tồn kho</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'import_report' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'product_best') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/product_best'); ?>">Báo cáo sản phẩm bán chạy</a></li>
+                        <?php
+                    }
+                    if ($act['code'] == 'import_report' && $act['view_act'] == 1) {
+                        ?>
+                        <li class="<?php echo ($active['code'] == 'product_sale') ? 'active' : ''; ?>"><a
+                                    href="<?php echo base_url('admin/product_sale'); ?>">Doanh thu sản phẩm</a></li>
                         <?php
                     }
                 }

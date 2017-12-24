@@ -20,6 +20,7 @@
                             <th>Ngày nhập</th>
                             <th>Tổng tiền</th>
                             <th>Người nhập</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -30,10 +31,25 @@
                                 ?>
                                 <tr>
                                     <td><?php echo $stt; ?></td>
-                                    <td><a href="<?php echo base_url('admin/importwh/detail/'.$item['id']);?>"><?php echo $item['code']; ?></a></td>
+                                    <td><a href="<?php echo base_url('admin/importwh/detail/'.$item['md5']);?>"><?php echo $item['code']; ?></a></td>
                                     <td><?php echo date('d/m/Y',$item['created']); ?></td>
-                                    <td><?php echo number_format($item['total']); ?></td>
+                                    <td><?php echo number_format($item['total']).' VNĐ'; ?></td>
                                     <td><?php echo $item['name']; ?></td>
+                                    <td>
+                                        <?php
+                                        if ($act['edit_act'] == 1) { ?>
+                                            <a href="<?php echo base_url('admin/importwh/edit/' . $item['md5']); ?>"
+                                               class="btn btn-link"><i class="icon icon-pencil"></i></a>
+                                            <?php
+                                        }
+                                        if ($act['delete_act'] == 1) {
+                                            ?>
+                                            <a href="<?php echo base_url('admin/importwh/delete/' . $item['md5']); ?>"
+                                               onclick="return confirm('Bạn có muốn xóa hóa đơn này?');" class="btn btn-link"><i class="icon icon-trash"></i></a>
+                                            <?php
+                                        }
+                                        ?>
+                                    </td>
                                 </tr>
                                 <?php
                                 $stt++;
@@ -42,6 +58,18 @@
                         ?>
                         </tbody>
                     </table>
+                    <div>
+                        <h5>Hóa đơn bị xóa:</h5>
+                        <?php
+                        if(!empty($list_delete)){
+                            foreach ($list_delete as $del){
+                                ?>
+                                <a href="<?php echo base_url('admin/importwh/detail/'.$del['md5']);?>"><?php echo $del['code'];?></a>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

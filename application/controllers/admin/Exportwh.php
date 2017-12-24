@@ -12,7 +12,9 @@ class Exportwh extends MY_Controller {
     
     public function index(){
         $model=new Exportwh_Model();
-        $this->data['items']=$model->get_list_bill();
+        $this->data['list_delete']=$model->get_list_del();
+        $find=$this->data['find'];
+        $this->data['items']=$model->get_list_bill($find);
         $this->load->view('admin/exportwh/list',$this->data);
     }
 
@@ -21,6 +23,7 @@ class Exportwh extends MY_Controller {
         $model=new Exportwh_Model();
         $code=$model->get_code()+1;
         $this->data['code_bill']='PX-'.$code;
+
         $this->data['list_order']=$model->get_list_order();
         $this->load->view('admin/exportwh/add',$this->data);
     }
@@ -37,9 +40,15 @@ class Exportwh extends MY_Controller {
             $d=DateTime::createFromFormat('d/m/Y',$created);
             $timestamp=$d->getTimestamp();
             $bill_id=$model->create_bill_export($code,$timestamp);
-            $model->add_detail_bill($bill_id,$list_order);
-            $this->session->set_flashdata('success','Tạo đơn hàng thành công');
-            redirect('admin/exportwh');
+            $rs=$model->add_detail_bill($bill_id,$list_order);
+            if($rs){
+                $this->session->set_flashdata('act_success','Tạo hóa đơn xuất thành công');
+                redirect('admin/exportwh');
+            }
+            else{
+                $this->session->set_flashdata('act_fail','Tạo hóa đơn xuất thành công');
+                redirect('admin/exportwh/add');
+            }
         }
         else{
             $list_order=isset($_POST['code_order'])?$_POST['code_order']:'';
@@ -53,13 +62,35 @@ class Exportwh extends MY_Controller {
     }
 
     public function detail(){
-        $id=$this->uri->segment(4);
+        $md5=$this->uri->segment(4);
         $model=new Exportwh_Model();
-        $check=$model->check_id($id);
+        $check=$model->check_md5($md5);
         if($check){
-            $this->data['bill']=$model->get_bill_by_id($id);
-            $this->data['items']=$model->get_detail_bill_by_id($id);
+            $this->data['bill']=$model->get_bill_by_md5($md5);
+            $this->data['items']=$model->get_detail_bill_by_md5($md5);
             $this->load->view('admin/exportwh/detail',$this->data);
+        }
+        else{
+            $this->data['heading']='Lỗi';
+            $this->data['message']='Không tìm thấy dữ liệu';
+            $this->load->view('errors/html/error_404',$this->data);
+        }
+    }
+
+    public function delete(){
+        $md5=$this->uri->segment(4);
+        $model=new Exportwh_Model();
+        $check_md5=$model->check_md5($md5);
+        if($check_md5){
+            $rs=$model->delete($md5);
+            if($rs){
+                $this->session->set_flashdata('act_success','Xóa hóa đơn xuất thành công');
+                redirect('admin/exportwh');
+            }
+            else{
+                $this->session->set_flashdata('act_fail','Có lỗi trong quá trình xử lý');
+                redirect('admin/exportwh');
+            }
         }
         else{
             $this->data['heading']='Lỗi';

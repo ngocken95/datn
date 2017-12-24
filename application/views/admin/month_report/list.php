@@ -141,7 +141,9 @@
             <div class="widget-content">
                 <div class="row-fluid">
                     <div class="span12">
-                        <div class="chart" id="chart_money"></div>
+                        <div style="width:75%;">
+                            <canvas id="doanhthu"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -151,7 +153,13 @@
                 <h5>Đơn hàng</h5>
             </div>
             <div class="widget-content">
-                <div class="chart" id="placeholder"></div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div style="width:75%;">
+                            <canvas id="order"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -162,6 +170,7 @@
                 </div>
                 <div class="widget-content">
                     <?php
+                    $order_chart=json_encode($order_chart);
                     $order_order = 0;
                     $wh_order = 0;
                     $done_order = 0;
@@ -222,202 +231,188 @@
         </div>
     </div>
 </div>
-
 <?php $this->load->view('admin/layouts/footer'); ?>
 <script>
     $(document).ready(function () {
         $("#from_date").datepicker();
         $("#to_date").datepicker();
     })
-</script>
 
-<script>
-    $(document).ready(function () {
-        // === Prepare the chart data ===/
-        var doanhthu = [], thucthu = [];
-        var from_date = '<?php echo $this->session->flashdata('from_date') ? $this->session->flashdata('from_date') : date('d/m/Y', getdate()[0]);?>';
-        var to_date = '<?php echo $this->session->flashdata('to_date') ? $this->session->flashdata('to_date') : date('d/m/Y', getdate()[0]);?>';
-        var dt = '<?php echo $doanhthu;?>';
-        var tt = '<?php echo $thucthu;?>';
+    var from_date = '<?php echo $this->session->flashdata('from_date') ? $this->session->flashdata('from_date') : date('d/m/Y', getdate()[0]);?>';
+    var to_date = '<?php echo $this->session->flashdata('to_date') ? $this->session->flashdata('to_date') : date('d/m/Y', getdate()[0]);?>';
+    var myDate1 = from_date.split("/");
+    var newDate1 = myDate1[1] + "/" + myDate1[0] + "/" + myDate1[2];
+    var d = new Date(newDate1);
+    var fromDate = d.getTime();
 
-        var myDate1 = from_date.split("/");
-        var newDate1 = myDate1[1] + "/" + myDate1[0] + "/" + myDate1[2];
-        var d = new Date(newDate1);
-        var fromDate = d.getTime();
+    var dt = '<?php echo $doanhthu;?>';
+    var tt = '<?php echo $thucthu;?>';
 
-        var myDate2 = to_date.split("/");
-        var newDate2 = myDate2[1] + "/" + myDate2[0] + "/" + myDate2[2];
-        d = new Date(newDate2);
-        var toDate = d.getTime();
-
-        var arrdt = JSON.parse(dt);
-        var arrtt = JSON.parse(tt);
-        var arrdate = [];
-        for (var i = fromDate; i <= toDate; i += 86400000) {
-            arrdate[arrdate.length] = i;
-        }
-        $.each(arrdt, function (index, value) {
-            doanhthu.push([index * 1000, value]);
+    var arrdt = JSON.parse(dt);
+    var arrtt = JSON.parse(tt);
+    var myDate2 = to_date.split("/");
+    var newDate2 = myDate2[1] + "/" + myDate2[0] + "/" + myDate2[2];
+    d = new Date(newDate2);
+    var toDate = d.getTime();
+    var arrstamp = [];
+    var arrdate = [];
+    var arrstampdefault = [];
+    for (var i = fromDate; i <= toDate; i += 86400000) {
+        arrdate[arrdate.length] = timeConverter(i);
+        arrstamp[arrstamp.length] = i+25200000;
+        arrstampdefault[arrstampdefault.length] = i;
+    }
+    function timeConverter(UNIX_timestamp) {
+        var a = new Date(UNIX_timestamp);
+        var months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var time = date + '/' + month + '/' + year;
+        return time;
+    }
+    var doanhthu=[];
+    var thucthu=[];
+    $.each(arrstamp,function(idx,val){
+        doanhthu[idx]=0;
+        thucthu[idx]=0;
+        $.each(arrdt,function(i,v){
+            if(val===(i*1000)){
+                doanhthu[idx]=v;
+            }
         });
-        $.each(arrtt, function (index, value) {
-            thucthu.push([index * 1000, value]);
-        });
+        $.each(arrtt,function(j,k){
+            if(val===(j*1000)){
+                thucthu[idx]=k;
+            }
+        })
+    });
 
-        // === Make chart === //
-        var chart_money = $.plot($("#chart_money"),
-            [{data: doanhthu, label: "Doanh thu", color: "#ee7951"}, {
-                data: thucthu,
+    var config = {
+        type: 'line',
+        data: {
+            labels: arrdate,
+            datasets: [{
+                label: "Doanh thu",
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: doanhthu,
+                fill: false,
+            }, {
                 label: "Thực thu",
-                color: "#4fb9f0"
-            }], {
-                series: {
-                    lines: {show: true},
-                    points: {show: true}
-                },
-                grid: {hoverable: true, clickable: true},
-                yaxis: {
-                    min: 0,
-                    max: 5000000,
-                    tickFormatter: function numberWithCommas(x, yaxis) {
-                        return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ".");
+                fill: false,
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data:thucthu
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Biều đồ doanh thu và thực thu'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Ngày'
                     }
-                },
-                xaxis: {
-                    mode: "time",
-                    minTickSize: [1, "day"],
-                    min: arrdate[0],
-                    max: arrdate[arrdate.length - 1] + 86400000,
-                    timeformat: "%d/%m/%Y"
-                }
-            });
-
-        // === Point hover in chart === //
-        var previousPoint = null;
-        $("#chart_money").bind("plothover", function (event, pos, item) {
-            if (item) {
-                if (previousPoint != item.dataIndex) {
-                    previousPoint = item.dataIndex;
-
-                    $('#tooltip').fadeOut(200, function () {
-                        $(this).remove();
-                    });
-                    var x = item.datapoint[0].toFixed(0) / 1000,
-                        y = item.datapoint[1].toFixed(0);
-                    var d = new Date(x * 1000);
-                    var date_hover = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
-                    var money = y.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ".");
-                    maruti.flot_tooltip(item.pageX, item.pageY, item.series.label + " của ngày " + date_hover + " là " + money);
-                }
-
-            } else {
-                $('#tooltip').fadeOut(200, function () {
-                    $(this).remove();
-                });
-                previousPoint = null;
-            }
-        });
-
-
-        //=============================================================================================================
-        var list_order = '<?php echo $order_chart;?>';
-        var lo = JSON.parse(list_order);
-        var done = [], wh = [], order = [];
-        for (var i = fromDate; i <= toDate; i += 86400000) {
-            var check_done = false;
-            var check_order = false;
-            var check_wh = false;
-            $.each(lo, function (index, value) {
-                $.each(value, function (idx, val) {
-                    if (index * 1000 === i) {
-                        if (val.status === 'ORDER') {
-                            order.push([i, val.qty]);
-                            check_order = true;
-                        }
-                        if (val.status === 'WH') {
-                            wh.push([i, val.qty]);
-                            check_wh = true;
-                        }
-                        if (val.status === 'DONE') {
-                            done.push([i, val.qty]);
-                            check_done = true;
-                        }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Số tiền'
                     }
-                })
-            })
-            if (!check_order) {
-                order.push([i, 0]);
+                }]
             }
-            if (!check_done) {
-                done.push([i, 0]);
-            }
-            if (!check_wh) {
-                wh.push([i, 0]);
-            }
-        }
-
-        var chart_order=$.plot("#placeholder", [{data: wh, label: "Đã duyệt", color: "#ee7951"},
-                {data: order, label: "Chưa xử lý", color: "#4fb9f0"},
-                {data: done, label: "Hoàn thành", color: "#abcabc"}],
-            {
-                series: {
-                    stack: true,
-                    bars: {
-                        show: true,
-                        barWidth: 0.5
-                    },
-                    points: {show: true}
-                },
-                grid: {hoverable: true, clickable: true},
-                yaxis: {
-                    min: 0,
-                    max: 5
-                },
-                xaxis: {
-                    mode: "time",
-                    minTickSize: [1, "day"],
-                    min: arrdate[0],
-                    max: arrdate[arrdate.length - 1] + 86400000,
-                    timeformat: "%d/%m/%Y"
-                }
-            });
-
-
-        var previousPoint = null;
-        $("#placeholder").bind("plothover", function (event, pos, item) {
-            if (item) {
-                if (previousPoint != item.dataIndex) {
-                    previousPoint = item.dataIndex;
-
-                    $('#tooltip').fadeOut(200, function () {
-                        $(this).remove();
-                    });
-                    var x = item.datapoint[0].toFixed(0) / 1000,
-                        y = item.datapoint[1].toFixed(0);
-                    var d = new Date(x * 1000);
-                    var date_hover = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
-                    maruti.flot_tooltip(item.pageX, item.pageY, item.series.label + " của ngày " + date_hover + " là " + y);
-                }
-
-            } else {
-                $('#tooltip').fadeOut(200, function () {
-                    $(this).remove();
-                });
-                previousPoint = null;
-            }
-        });
-    })
-    ;
-
-    maruti = {
-        // === Tooltip for flot charts === //
-        flot_tooltip: function (x, y, contents) {
-
-            $('<div id="tooltip">' + contents + '</div>').css({
-                top: y + 5,
-                left: x + 5
-            }).appendTo("body").fadeIn(200);
         }
     };
 
+    window.onload = function () {
+        var ctx = document.getElementById("doanhthu").getContext("2d");
+        window.myLine = new Chart(ctx, config);
+    };
+
+    //======================================================================================================
+    var order='<?php echo $order_chart;?>';
+    var order_order=[];
+    var order_done=[];
+    var order_wh=[];
+    var order_a = JSON.parse(order);
+    console.log(order_a);
+    console.log(arrstampdefault);
+    $.each(arrstampdefault,function(idx,val){
+        order_order[idx]=0;
+        order_done[idx]=0;
+        order_wh[idx]=0;
+        $.each(order_a,function(index,value){
+            if(val===(index*1000)){
+                $.each(value,function(i,v){
+                    if(v.status==='ORDER'){
+                        order_order[idx]=v.qty;
+                    }
+                    if(v.status==='DONE'){
+                        order_done[idx]=v.qty;
+                    }
+                    if(v.status==='WH'){
+                        order_wh[idx]=v.qty;
+                    }
+                })
+            }
+        })
+    });
+    console.log(order_wh);
+    var barChartData = {
+        labels: arrdate,
+        datasets: [{
+            label: 'Chưa xử lý',
+            backgroundColor: window.chartColors.red,
+            data: order_order
+        }, {
+            label: 'Đã duyệt',
+            backgroundColor: window.chartColors.blue,
+            data: order_wh
+        }, {
+            label: 'Đã xong',
+            backgroundColor: window.chartColors.green,
+            data: order_done
+        }]
+
+    };
+    var ctxx = document.getElementById("order").getContext("2d");
+    window.myBar = new Chart(ctxx, {
+        type: 'bar',
+        data: barChartData,
+        options: {
+            title:{
+                display:true,
+                text:"Biểu đồ đơn hàng"
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        }
+    });
 
 </script>

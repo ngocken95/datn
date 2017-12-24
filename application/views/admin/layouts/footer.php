@@ -22,20 +22,13 @@
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.tables.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/price_format/jquery.priceformat.min.js"></script>
 
-<script src="<?php echo base_url(); ?>template/backend/js/jquery.flot.min.js"></script>
-<script src="<?php echo base_url(); ?>template/backend/js/jquery.flot.resize.min.js"></script>
-<script src="<?php echo base_url(); ?>template/backend/js/jquery.flot.time.js"></script>
-<script src="<?php echo base_url(); ?>template/backend/js/jquery.peity.min.js"></script>
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/fullcalendar.min.js"></script>-->
-
-
-
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/matrix.dashboard.js"></script>-->
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.gritter.min.js"></script>
-<script src="<?php echo base_url(); ?>template/backend/js/matrix.interface.js"></script>
+<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/matrix.interface.js"></script>-->
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.chat.js"></script>
 
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.wizard.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/js/Chart.bundle.js"></script>
+<script src="<?php echo base_url(); ?>template/backend/js/utils.js"></script>
 
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.popover.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/bootstrap-datepicker.js"></script>
@@ -107,5 +100,30 @@ if ($this->session->flashdata('id_not_exist')) {
     <?php
 }
 ?>
+
+
+<script type="text/javascript">
+    init_reload();
+    function init_reload(){
+        setInterval( function() {
+//            window.location.reload();
+            $.ajax({
+                url: "<?php echo base_url('admin/homepage/check_order');?>",
+                success:function(response){
+                    var data=JSON.parse(response);
+                    console.log(data);
+                    if(data>0){
+                        $.gritter.add({
+                            title:	'Thông báo',
+                            text:	'<a href="<?php echo base_url('admin/order');?>">Có '+data+' đơn hàng mới</a>',
+                            image: 	'',
+                            sticky: false
+                        });
+                    }
+                }
+            });
+        },15000);
+    }
+</script>
 </body>
 </html>

@@ -92,7 +92,7 @@ WHERE is_show=1 and time BETWEEN '.$date_first.' and '.$date_last.'
                 }
             }
         }
-        return json_encode($list);
+        return $list;
     }
 }
             

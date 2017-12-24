@@ -120,7 +120,6 @@ class Product extends MY_Controller
         $product_type = isset($_POST['product_type']) ? $_POST['product_type'] : '';
         $brand = isset($_POST['brand']) ? $_POST['brand'] : '';
         $hide = isset($_POST['hide']) ? $_POST['hide'] : '';
-
         if (!empty($_FILES['img_cover']['name'])) {
             $config['upload_path'] = 'upload/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';

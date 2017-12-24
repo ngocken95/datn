@@ -21,4 +21,10 @@ class Homepage extends MY_Controller {
         echo 'Xóa dữ liệu thành công';
 
     }
+
+    public function check_order(){
+	    $model=new Homepage_Model();
+	    $rs=$model->check_order();
+	    echo json_encode($rs);
+    }
 }

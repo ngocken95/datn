@@ -39,7 +39,7 @@ class Cart_Model extends CI_Model {
     }
 
     public function get_code_order(){
-        $sql='SELECT MAX(REPLACE(code , \'DH-\', \'\')) as code FROM customer_order WHERE is_show=1';
+        $sql='SELECT MAX(REPLACE(code , \'DH-\', \'\')) as code FROM customer_order';
         $rs=$this->db->query($sql);
         if($rs->num_rows()==1){
             return $rs->row_array()['code'];
@@ -63,11 +63,13 @@ class Cart_Model extends CI_Model {
             'total'=>$total,
             'status'=>'ORDER',
             'cus_name_vi'=>convert_vi_to_en($name),
-            'time'=>getdate()[0]
+            'time'=>getdate()[0],
+            'check_new'=>1
         );
         $this->db->trans_start();
         $this->db->insert('customer_order',$data);
         $add=$this->db->insert_id();
+        $this->db->update('customer_order',array('md5'=>md5($add)),"id=$add");
         $this->db->trans_complete();
         return $add;
     }
