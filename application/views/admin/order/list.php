@@ -21,6 +21,7 @@
                             <th>Tổng hóa đơn</th>
                             <th>Ghi chú</th>
                             <th>Duyệt</th>
+                            <th>Xuất hóa đơn</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -32,7 +33,7 @@
                                 <tr>
                                     <td><?php echo $stt; ?></td>
                                     <td>
-                                        <a href="<?php echo base_url('admin/order/detail/' . $item['id']); ?>"><?php echo $item['code']; ?></a>
+                                        <a href="<?php echo base_url('admin/order/detail/' . $item['md5']); ?>"><?php echo $item['code']; ?></a>
                                     </td>
                                     <td><?php echo $item['cus_name']; ?></td>
                                     <td><?php echo 'Điện thoại: ' . $item['cus_phone'] . '<br>Email: ' . $item['cus_email'] . '<br>Nơi nhận hàng: ' . $item['cus_address']; ?></td>
@@ -40,7 +41,7 @@
                                     <td><?php echo $item['cus_note']; ?></td>
                                     <td><?php if ($item['status'] == 'ORDER') {
                                             ?>
-                                            <a href="<?php echo base_url('admin/order/detail/'.$item['md5']);?>">Duyệt</a>
+                                            <a href="<?php echo base_url('admin/order/detail/'.$item['md5']);?>"><i class="icon icon-wrench"></i></a>
                                             <?php
                                         }
                                         if($item['status']=='WH'){
@@ -50,6 +51,13 @@
                                             echo 'Đã xử lý xong';
                                         }
                                         ?>
+                                    </td>
+                                    <td>
+                                        <?php if($item['status']!='ORDER'){
+                                            ?>
+                                            <input type="hidden" value="<?php echo $item['md5'];?>"><button name="export" class="btn btn-link"><i class="icon icon-share-alt"></i></button>
+                                            <?php
+                                        }?>
                                     </td>
                                     <td>
                                         <?php
@@ -66,6 +74,7 @@
                         ?>
                         </tbody>
                     </table>
+
                     <div>
                         <h5>Đơn hàng bị xóa:</h5>
                         <?php
@@ -94,4 +103,18 @@ if($this->session->flashdata('check')){
     <?php
 }
 ?>
-
+<script>
+    $(document).ready(function(){
+        $('button[name=export]').click(function(){
+            var md5=$(this).prev().val();
+            $.ajax({
+                url: "<?php echo base_url('admin/order/export');?>",
+                type: "post",
+                data: {'md5_val':md5},
+                success:function(response){
+                    alert('Xuất hóa đơn thành công!');
+                }
+            })
+        })
+    })
+</script>

@@ -90,10 +90,15 @@
                             <div class="control-group">
                                 <label class="control-label">Ảnh</label>
                                 <div class="controls">
-                                    <input type="file" name="img_list[]" id="img_list">
-                                    <button type="button" id="add_img">+</button>
+                                    <input type="file" name="img_list[]" id="img_list" multiple="multiple">
                                 </div>
                             </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Hiển thị trên website</label>
+                                <div class="controls">
+                                    <input type="checkbox" value="1" name="hide" id="hide" <?php echo ($item['hide']==1)?'checked':'';?>>
+                                </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Mô tả</label>
@@ -281,11 +286,6 @@
                     }
                 });
             }
-        });
-
-
-        $('#add_img').click(function(){
-            $(this).parent().append('<input type="file" name="img_list[]" id="img_list">');
         });
 
         $("#information_product").validate({

@@ -59,15 +59,15 @@ class Order extends MY_Controller
 
     public function delete()
     {
-        $id = $this->uri->segment(4);
+        $md5 = $this->uri->segment(4);
         $model = new Order_Model();
-        $check = $model->check_id($id);
+        $check = $model->check_md5($md5);
         if (!$check) {
             $this->data['heading'] = 'Lỗi';
             $this->data['message'] = 'Không tìm thấy dữ liệu';
             $this->load->view('errors/html/error_404', $this->data);
         } else {
-            $rs = $model->delete($id);
+            $rs = $model->delete($md5);
             if ($rs) {
                 $this->session->set_flashdata('check', 'Xóa đơn hàng thành công');
                 redirect('admin/order');
@@ -75,6 +75,22 @@ class Order extends MY_Controller
                 $this->session->set_flashdata('check', 'Lỗi xóa đơn hàng thành công');
                 redirect('admin/order');
             }
+        }
+    }
+
+    public function export(){
+        $md5 = isset($_POST['md5_val'])?$_POST['md5_val']:'';
+        $model = new Order_Model();
+        $check = $model->check_md5($md5);
+        if (!$check) {
+            $this->data['heading'] = 'Lỗi';
+            $this->data['message'] = 'Không tìm thấy dữ liệu';
+            $this->load->view('errors/html/error_404', $this->data);
+        } else {
+            $this->data['item']=$model->get_order_by_md5($md5);
+            $this->data['detail']=$model->get_list_product($this->data['item']['id']);
+            $this->load->view('admin/order/export',$this->data);
+            echo json_encode($this->data['item']);
         }
     }
 }

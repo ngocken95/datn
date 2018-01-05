@@ -120,6 +120,7 @@ class Product extends MY_Controller
         $product_type = isset($_POST['product_type']) ? $_POST['product_type'] : '';
         $brand = isset($_POST['brand']) ? $_POST['brand'] : '';
         $hide = isset($_POST['hide']) ? $_POST['hide'] : '';
+        $img_list=isset($_POST['img_list'])?$_POST['img_list']:'a';
         if (!empty($_FILES['img_cover']['name'])) {
             $config['upload_path'] = 'upload/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -166,9 +167,9 @@ class Product extends MY_Controller
             $img_list=implode('/',$img_list_array);
         }
         $description=isset($_POST['description'])?$_POST['description']:'';
-        if($code=='' || $name=='' || $product_type=='' || $brand=='' || $cover=='' || $img_list=='' || $description=='' || $price=='' || $discount=='' || $hide==''){
+        if($code=='' || $name=='' || $product_type=='' || $brand=='' || $cover=='' || $img_list=='' || $description=='' || $price=='' || $discount==''){
             $this->session->set_flashdata('act_fail','Nhập đầy đủ thông tin');
-            redirect('admin/account/add');
+            redirect('admin/product/add');
         }
         $model=new Product_Model();
         $rs=$model->add_product($code,$name,$price,$discount,$product_type,$brand,$cover,$img_list,$description,$hide);
@@ -220,6 +221,7 @@ class Product extends MY_Controller
         $cover=isset($_POST['img_cover_old'])?$_POST['img_cover_old']:'';
         $img_list=isset($_POST['img_list_old'])?$_POST['img_list_old']:'';
         $description=isset($_POST['description'])?$_POST['description']:'';
+        $hide=isset($_POST['hide'])?$_POST['hide']:'';
         if($change_img==1){
             //xóa ảnh
             if(file_exists('upload/'.$cover)){
@@ -282,7 +284,7 @@ class Product extends MY_Controller
             redirect('admin/product/edit/' . $md5);
         }
         $model=new Product_Model();
-        $rs = $model->edit_product($md5, $code, $name, $product_type, $brand, $cover, $img_list,$description);
+        $rs = $model->edit_product($md5, $code, $name, $product_type, $brand, $cover, $img_list,$description,$hide);
         if ($rs) {
             $this->session->set_flashdata('act_success', 'Sửa sản phẩm thành công');
             redirect('admin/product');

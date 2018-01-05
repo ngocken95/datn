@@ -28,7 +28,7 @@ class Order_Model extends CI_Model {
     }
 
     public function get_order_by_md5($md5){
-        $sql='SELECT * FROM customer_order WHERE md5=\''.$md5.'\'';
+        $sql='SELECT customer_order.*,account.name as account_name FROM customer_order JOIN account ON account.id=customer_order.account_id WHERE customer_order.md5=\''.$md5.'\'';
         $rs=$this->db->query($sql);
         if($rs->num_rows()>0){
             return $rs->row_array();

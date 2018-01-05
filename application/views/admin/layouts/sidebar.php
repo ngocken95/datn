@@ -3,7 +3,7 @@
         <li class="<?php echo ($active['code'] == 'homepage') ? 'active' : ''; ?>"><a
                     href="<?php echo base_url('admin/homepage'); ?>"><i class="icon icon-home"></i>
                 <span>Bảng điều khiển</span></a></li>
-        <li class="submenu <?php echo ($active['code'] == 'product' || $active['code'] == 'module' || $active['code'] == 'account' || $active['code'] == 'color' || $active['code'] == 'access' || $active['code'] == 'log' || $active['code'] == 'type_product' || $active['code'] == 'brand') ? 'active' : ''; ?>">
+        <li class="submenu <?php echo ($active['code'] == 'product' || $active['code'] == 'module' || $active['code'] == 'account' || $active['code'] == 'color' || $active['code'] == 'access' || $active['code'] == 'log' || $active['code'] == 'type_product' || $active['code'] == 'brand') ? 'active open' : ''; ?>">
             <a href="#"><i
                         class="icon icon-info-sign"></i> <span>Hệ thống</span></a>
             <ul>
@@ -61,7 +61,7 @@
                 ?>
             </ul>
         </li>
-        <li class="submenu <?php echo ($active['code'] == 'order') ? 'active' : ''; ?>">
+        <li class="submenu <?php echo ($active['code'] == 'order') ? 'active open' : ''; ?>">
             <a href="#"><i
                         class="icon icon-truck"></i> <span>Cửa hàng</span></a>
             <ul>
@@ -77,7 +77,7 @@
                 ?>
             </ul>
         </li>
-        <li class="submenu <?php echo ( $active['code'] == 'importwh' || $active['code'] == 'exportwh') ? 'active' : ''; ?>">
+        <li class="submenu <?php echo ( $active['code'] == 'importwh' || $active['code'] == 'exportwh') ? 'active open' : ''; ?>">
             <a href="#"><i
                         class="icon icon-truck"></i> <span>Kho</span></a>
             <ul>
@@ -99,7 +99,7 @@
                 ?>
             </ul>
         </li>
-        <li class="submenu <?php echo ($active['code'] == 'daily_report' || $active['code'] == 'month_report' || $active['code'] == 'product_sale'  || $active['code'] == 'product_best' || $active['code'] == 'import_report') ? 'active' : ''; ?>">
+        <li class="submenu <?php echo ($active['code'] == 'daily_report' || $active['code'] == 'month_report' || $active['code'] == 'product_sale'  || $active['code'] == 'product_best' || $active['code'] == 'import_report') ? 'active open' : ''; ?>">
             <a href="#"><i
                         class="icon icon-truck"></i> <span>Báo cáo</span></a>
             <ul>

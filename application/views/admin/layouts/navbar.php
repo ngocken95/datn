@@ -5,10 +5,6 @@
                     class="icon icon-user"></i> <span
                     class="text"><?php echo $this->session->userdata('user')['name']; ?></span><b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
-                <li class="divider"></li>
                 <li><a href="<?php echo base_url(); ?>admin/login/logout"><i class="icon-key"></i> Đăng xuất</a></li>
             </ul>
         </li>

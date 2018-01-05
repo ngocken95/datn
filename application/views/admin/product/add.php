@@ -13,34 +13,6 @@
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url('admin/product/addaction');?>" name="information_product" id="information_product" novalidate="novalidate" enctype="multipart/form-data">
                             <div class="control-group">
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Mã sản phẩm</label>
-                                <div class="controls">
-                                    <input type="text" name="code_product" id="code_product" autofocus="autofocus">
-                                    <input type="hidden" name="code_product_confirm" id="code_product_confirm">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Tên sản phẩm</label>
-                                <div class="controls">
-                                    <input type="text" name="name_product" id="name_product">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Giá</label>
-                                <div class="controls">
-                                    <input type="text" name="price_show" id="price_show">
-                                    <input type="hidden" name="price" id="price">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Giảm giá</label>
-                                <div class="controls">
-                                    <input type="text" name="discount" id="discount">%
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label">Loại</label>
                                 <div class="controls">
                                     <select name="product_type" id="product_type" class="span3">
@@ -75,6 +47,32 @@
                                 </div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">Mã sản phẩm</label>
+                                <div class="controls">
+                                    <input type="text" name="code_product" id="code_product" autofocus="autofocus">
+                                    <input type="hidden" name="code_product_confirm" id="code_product_confirm">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Tên sản phẩm</label>
+                                <div class="controls">
+                                    <input type="text" name="name_product" id="name_product">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Giá</label>
+                                <div class="controls">
+                                    <input type="text" name="price_show" id="price_show">
+                                    <input type="hidden" name="price" id="price">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Giảm giá</label>
+                                <div class="controls">
+                                    <input type="text" name="discount" id="discount">%
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">Ảnh đại diện</label>
                                 <div class="controls">
                                     <input type="file" name="img_cover" id="img_cover">
@@ -83,8 +81,7 @@
                             <div class="control-group">
                                 <label class="control-label">Ảnh</label>
                                 <div class="controls">
-                                    <input type="file" name="img_list[]" id="img_list">
-                                    <button type="button" id="add_img">+</button>
+                                    <input type="file" name="img_list[]" id="img_list" multiple="multiple">
                                 </div>
                             </div>
                             <div class="control-group">
@@ -281,11 +278,6 @@
                 });
             }
         });
-
-
-        $('#add_img').click(function(){
-            $(this).parent().append('<input type="file" name="img_list[]" id="img_list">');
-        })
 
         $("#information_product").validate({
             rules:{

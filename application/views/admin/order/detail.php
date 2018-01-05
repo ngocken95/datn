@@ -78,7 +78,7 @@
                                     <thead>
                                     <tr>
                                         <th class="head0">#</th>
-                                        <th class="head1">Mã sản phẩm</th>
+                                        <th class="head1">Tên sản phẩm</th>
                                         <th class="head0 right">Số lượng</th>
                                         <th class="head1 right">Giá bán</th>
                                         <th class="head0 right">Thành tiền</th>

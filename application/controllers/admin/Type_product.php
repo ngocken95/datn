@@ -24,7 +24,7 @@ class Type_product extends MY_Controller {
         $check_md5=$model->check_md5($md5);
         if($check_md5){
             $this->data['item']=$model->get_brand_by_md5($md5);
-            $this->load->view('admin/brand/edit',$this->data);
+            $this->load->view('admin/type_product/edit',$this->data);
         }
         else{
             $this->data['heading'] = 'Lỗi';
@@ -44,11 +44,11 @@ class Type_product extends MY_Controller {
         $rs=$model->edit_brand($md5,$name);
         if($rs){
             $this->session->set_flashdata('act_success','Sửa thương hiệu thành công');
-            redirect('admin/brand');
+            redirect('admin/type_product');
         }
         else{
             $this->session->set_flashdata('act_fail','Lỗi trong quá trình xử lý');
-            redirect('admin/brand/edit/'.$md5);
+            redirect('admin/type_product/edit/'.$md5);
         }
     }
 
@@ -60,17 +60,17 @@ class Type_product extends MY_Controller {
             $check_product=$model->check_product($md5);
             if($check_product){
                 $this->session->set_flashdata('act_fail','Có sản phẩm của thương hiệu này');
-                redirect('admin/brand');
+                redirect('admin/type_product');
             }
             else{
                 $rs=$model->delete($md5);
                 if($rs){
                     $this->session->set_flashdata('act_success','Xóa thương hiệu thành công');
-                    redirect('admin/brand');
+                    redirect('admin/type_product');
                 }
                 else{
                     $this->session->set_flashdata('act_success','Lỗi trong quá trình xử lý');
-                    redirect('admin/brand');
+                    redirect('admin/type_product');
                 }
             }
         }
@@ -112,21 +112,21 @@ class Type_product extends MY_Controller {
             }
         } else {
             $this->session->set_flashdata('act_fail', 'Có lỗi trong quá trình upload ảnh');
-            redirect('admin/brand/add');
+            redirect('admin/type_product/add');
         }
         if($code=='' || $name=='' || $img==''){
             $this->session->set_flashdata('act_fail','Nhập đầy đủ thông tin');
-            redirect('admin/brand/add');
+            redirect('admin/type_product/add');
         }
         $model=new Type_product_Model();
         $rs=$model->add_brand($code,$name,$img);
         if($rs){
             $this->session->set_flashdata('act_success','Thêm thương hiệu thành công');
-            redirect('admin/brand');
+            redirect('admin/type_product');
         }
         else{
             $this->session->set_flashdata('act_fail','Có lỗi trong quá trình xử lý');
-            redirect('admin/brand/add');
+            redirect('admin/type_product/add');
         }
     }
 }

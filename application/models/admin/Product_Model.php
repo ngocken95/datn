@@ -200,7 +200,7 @@ class Product_Model extends CI_Model {
         }
     }
 
-    public function edit_product($md5, $code, $name, $product_type, $brand, $cover, $img_list,$description){
+    public function edit_product($md5, $code, $name, $product_type, $brand, $cover, $img_list,$description,$hide){
         $data=array(
             'code'=>$code,
             'name'=>$name,
@@ -210,6 +210,7 @@ class Product_Model extends CI_Model {
             'img_cover'=>$cover,
             'img_list'=>$img_list,
             'description'=>$description,
+            'hide'=>$hide,
             'created'=>getdate()[0],
             'is_show'=>1
         );
@@ -228,6 +229,7 @@ class Product_Model extends CI_Model {
 <tr><td>'.$product['img_cover'].'</td><td>'.$cover.'</td></tr>
 <tr><td>'.$product['img_list'].'</td><td>'.$img_list.'</td></tr>
 <tr><td>'.$product['description'].'</td><td>'.$description.'</td></tr>
+<tr><td>'.$product['hide'].'</td><td>'.$hide.'</td></tr>
 </tbody>
 </table>';
         $this->db->trans_start();

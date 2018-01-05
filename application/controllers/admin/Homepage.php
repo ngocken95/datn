@@ -18,7 +18,8 @@ class Homepage extends MY_Controller {
 	public function setup_data(){
         $model=new Homepage_Model();
         $model->setup_data();
-        echo 'Xóa dữ liệu thành công';
+        echo 'Xóa dữ liệu thành công.<br>';
+        echo '<a href="'.base_url('admin/homepage').'">Về trang chủ</a>';
 
     }
 

@@ -6,33 +6,23 @@
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.ui.custom.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/bootstrap.min.js"></script>
-
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.js"></script>
-
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.uniform.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/select2.min.js"></script>
-
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.validate.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.form_validation.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/ckeditor/ckeditor.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/ckeditor/adapters/jquery.js"></script>
-
-
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.tables.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/price_format/jquery.priceformat.min.js"></script>
-
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.gritter.min.js"></script>
-<!--<script src="--><?php //echo base_url(); ?><!--template/backend/js/matrix.interface.js"></script>-->
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.chat.js"></script>
-
 <script src="<?php echo base_url(); ?>template/backend/js/jquery.wizard.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/Chart.bundle.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/utils.js"></script>
-
 <script src="<?php echo base_url(); ?>template/backend/js/matrix.popover.js"></script>
 <script src="<?php echo base_url(); ?>template/backend/js/bootstrap-datepicker.js"></script>
-
 <script>
     $(document).ready(function(){
         $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
@@ -45,7 +35,7 @@ if ($this->session->flashdata('login_success')) {
     <script>
         $(document).ready(function () {
             $.gritter.add({
-                title:	'Thông báo',
+                title:	'alert',
                 text:	'<?php echo $this->session->flashdata('login_success');?>',
                 image: 	'',
                 sticky: false
@@ -60,7 +50,7 @@ if ($this->session->flashdata('act_success')) {
     <script>
         $(document).ready(function () {
             $.gritter.add({
-                title:	'Thông báo',
+                title:	'alert',
                 text:	'<?php echo $this->session->flashdata('act_success');?>',
                 image: 	'',
                 sticky: false
@@ -70,12 +60,12 @@ if ($this->session->flashdata('act_success')) {
     <?php
 }
 
-if ($this->session->flashdata('act_fail')) {
+if ($this->session->flashdata('fail')) {
     ?>
     <script>
         $(document).ready(function () {
             $.gritter.add({
-                title:	'Lỗi',
+                title:	'fail',
                 text:	'<?php echo $this->session->flashdata('act_fail');?>',
                 image: 	'',
                 sticky: false
@@ -90,7 +80,7 @@ if ($this->session->flashdata('id_not_exist')) {
     <script>
         $(document).ready(function () {
             $.gritter.add({
-                title:	'Lỗi',
+                title:	'fail',
                 text:	'<?php echo $this->session->flashdata('id_not_exist');?>',
                 image: 	'',
                 sticky: false
@@ -114,7 +104,7 @@ if ($this->session->flashdata('id_not_exist')) {
                     console.log(data);
                     if(data>0){
                         $.gritter.add({
-                            title:	'Thông báo',
+                            title:	'alert',
                             text:	'<a href="<?php echo base_url('admin/order');?>">Có '+data+' đơn hàng mới</a>',
                             image: 	'',
                             sticky: false

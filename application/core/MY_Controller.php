@@ -16,7 +16,7 @@ class MY_Controller extends CI_Controller
             case 'admin':{
                 //==========================CHECK VIEW=================================
                 if ($this->session->userdata('user')) {
-                    $sql = 'SELECT * 
+                        $sql = 'SELECT * 
                     FROM access  
                     JOIN module ON access.module_id=module.id
                     WHERE access.account_id=' . $this->session->userdata('user')['id'] . ' 
@@ -24,22 +24,22 @@ class MY_Controller extends CI_Controller
                     AND module.is_show=1
                     AND module.code=\'' . strtolower(get_class($this)) . '\'
                     ';
-                    $rs = $this->db->query($sql);
-                    $this->data['act'] = $rs->row_array();
-                    if (count($this->data['act']) > 0) {
-                        if ($this->data['act']['view_act'] != 1) {
-                            $this->session->set_flashdata('login_fail', 'Bạn không có quyền truy cập vào module này!');
-                            redirect('admin/login');
-                        }
-                        if($this->data['act']['add_act']!=1 && $this->uri->segment(3)=='add'){
-                            $this->session->set_flashdata('login_fail', 'Bạn không có quyền truy cập vào module này!');
-                            redirect('admin/login');
-                        }
-                        if($this->data['act']['edit_act']!=1 && $this->uri->segment(3)=='edit'){
-                            $this->session->set_flashdata('login_fail', 'Bạn không có quyền truy cập vào module này!');
-                            redirect('admin/login');
-                        }
-                    } else {
+                        $rs = $this->db->query($sql);
+                        $this->data['act'] = $rs->row_array();
+                        if (count($this->data['act']) > 0) {
+                            if ($this->data['act']['view_act'] != 1) {
+                                $this->session->set_flashdata('login_fail', 'Bạn không có quyền truy cập vào module này!');
+                                redirect('admin/login');
+                            }
+                            if($this->data['act']['add_act']!=1 && $this->uri->segment(3)=='add'){
+                                $this->session->set_flashdata('login_fail', 'Bạn không có quyền truy cập vào module này!');
+                                redirect('admin/login');
+                            }
+                            if($this->data['act']['edit_act']!=1 && $this->uri->segment(3)=='edit'){
+                                $this->session->set_flashdata('login_fail', 'Bạn không có quyền truy cập vào module này!');
+                                redirect('admin/login');
+                            }
+                        } else {
                         if (strtolower(get_class($this)) == 'login') {
 
                         } else {

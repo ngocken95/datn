@@ -4,17 +4,16 @@
 <head>
     <title>Đăng nhập</title><meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="<?php echo base_url();?>template/backend/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="<?php echo base_url();?>template/backend/css/bootstrap-responsive.min.css" />
-    <link rel="stylesheet" href="<?php echo base_url();?>template/backend/css/matrix-login.css" />
-    <link href="<?php echo base_url();?>template/backend/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="<?php echo base_url();?>template/backend/font-awesome/css/font-open-sans.css" rel='stylesheet' type='text/css'>
-
+    <link rel="stylesheet" href="<?php echo base_url('template/backend/css/bootstrap.min.css');?>" />
+    <link rel="stylesheet" href="<?php echo base_url('template/backend/css/bootstrap-responsive.min.css');?>" />
+    <link rel="stylesheet" href="<?php echo base_url('template/backend/css/matrix-login.css');?>" />
+    <link rel="stylesheet" href="<?php echo base_url('template/backend/font-awesome/css/font-awesome.css');?>"/>
+    <link rel='stylesheet' href="<?php echo base_url('template/backend/css/font-open-sans.css');?>" >
 </head>
 <body>
 <div id="loginbox">
-    <form id="loginform" class="form-vertical" action="<?php echo base_url();?>admin/login/checklogin" method="POST">
-        <div class="control-group normal_text"> <h3><img src="<?php echo base_url();?>template/backend/img/logo.png" alt="Logo" /></h3></div>
+    <form id="loginform" class="form-vertical" action="<?php echo base_url('admin/login/checklogin');?>" method="POST">
+        <div class="control-group normal_text"> <h3><img src="<?php echo base_url('template/backend/img/logo.png');?>" alt="Logo" /></h3></div>
         <div class="control-group">
             <div class="controls">
                 <div class="main_input_box">
@@ -51,8 +50,8 @@
     </form>
 </div>
 
-<script src="<?php echo base_url();?>template/backend/js/jquery.min.js"></script>
-<script src="<?php echo base_url();?>template/backend/js/matrix.login.js"></script>
+<script src="<?php echo base_url('template/backend/js/jquery.min.js');?>"></script>
+<script src="<?php echo base_url('template/backend/js/matrix.login.js');?>"></script>
 </body>
 
 </html>

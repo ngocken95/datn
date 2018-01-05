@@ -20,7 +20,7 @@ class Access extends MY_Controller
         $this->data['acc'] = $this->session->flashdata('id')?$this->session->flashdata('id'):$account;
         $find = isset($_GET['find']) ? $_GET['find'] : '';
         $this->data['list_account'] = $model->get_list_account();
-        $this->data['items'] = $model->get_access_by_account($find, $account);
+        $this->data['items'] = $model->get_access_by_account($find, $this->data['acc']);
         $this->load->view('admin/access/list', $this->data);
     }
 
@@ -37,7 +37,7 @@ class Access extends MY_Controller
         $delete = isset($_POST['delete']) ? $_POST['delete'] : '';
         $add = isset($_POST['add']) ? $_POST['add'] : '';
         $model->save($account, $view, $edit, $delete, $add);
-        $this->data['acc'] = $account;
+//        $this->data['acc'] = $account;
         $this->session->set_flashdata('id', $account);
         $this->session->set_flashdata('act_success', 'Lưu thành công');
         redirect('admin/access');

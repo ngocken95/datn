@@ -139,20 +139,6 @@
                             <div class="col-sm-6" style="vertical-align: middle">
                                 <h4><?php echo $account['name']; ?> </h4>
                             </div>
-                            <div class="col-sm-3">
-                                <script type="text/javascript"
-                                        src="https://secure.skypeassets.com/i/scom/js/skype-uri.js"></script>
-                                <div id="SkypeButton_Call_<?php echo $skype[0]; ?>_1">
-                                    <script type="text/javascript">
-                                        Skype.ui({
-                                            "name": "call",
-                                            "element": "SkypeButton_Call_<?php echo $skype[0];?>_1",
-                                            "participants": ["<?php echo $skype[0];?>"],
-                                            "imageSize": 8
-                                        });
-                                    </script>
-                                </div>
-                            </div>
                         </div>
                         <?php
                     }

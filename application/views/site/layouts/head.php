@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/style.css');?>" type="text/css"/>
     <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/font-awesome.min.css');?>" type="text/css">
     <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/magiczoomplus.css');?>" type="text/css">
-    <link rel="stylesheet" href="<?php echo base_url('template/frontend/css/morris.css');?>" type="text/css">
+<!--    <link rel="stylesheet" href="--><?php //echo base_url('template/frontend/css/morris.css');?><!--" type="text/css">-->
 <!--    <link rel="stylesheet" href="--><?php //echo base_url('template/frontend/css/jquery.bxslider.css');?><!--" type="text/css">-->
 
     <script src="<?php echo base_url('template/frontend/js/jquery.min.js');?>"></script>
