@@ -1,0 +1,22 @@
+07:50:37 Switches begin
+07:50:37 Switches end
+07:50:37 Starting v4.5.0.29
+07:50:37 FBUserToken: '309612026196737'
+07:50:37 FBLocale: 'vi_VN'
+07:50:37 FBAttackId: '0'
+07:50:37 User is Admin: NO
+07:50:37 Vista or Higher: YES
+07:50:37 IsWow64: YES
+07:50:37 GetWorkDir: C:\Users\ngock\AppData\Local\Temp\FBScanner_486446963
+07:50:37 Trying to start with Admin rights ...: 07:50:38 Switches begin
+07:50:39 Switches end
+07:50:39 Starting v4.5.0.29
+07:50:39 FBUserToken: '309612026196737'
+07:50:39 FBLocale: 'vi_VN'
+07:50:39 FBAttackId: '0'
+07:50:39 User is Admin: NO
+07:50:39 Vista or Higher: YES
+07:50:39 IsWow64: YES
+07:50:39 GetWorkDir: C:\Users\ngock\AppData\Local\Temp\FBScanner_765255487
+07:50:39 Trying to start with Admin rights ...: 07:50:40 Success
+07:50:52 Success
